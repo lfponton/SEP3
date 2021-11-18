@@ -2,7 +2,6 @@
 @using WebClient.Models
 @using WebClient
 @inject NavigationManager NavigationManager
-@inject IInfoService InfoService
 @using System.Net
 @using System.Net.Http.Json
 @using WebClient.Data
@@ -103,7 +102,7 @@ else
 
     private async void AddNewAddress()
     {
-        await InfoService.AddInfoOrderAsync(addNewAddressItem);
+  //      await InfoService.AddInfoOrderAsync(addNewAddressItem);
         NavigationManager.NavigateTo("/infoOrder");
     }
 
