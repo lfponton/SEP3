@@ -1,0 +1,49 @@
+﻿@page "/Login"
+@using WebClient.Data
+
+@using AuthenticationStateProvider = Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider
+
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card w-50">
+        <h4 class="card-header">Login</h4>
+        <div class="card-body">
+            <NotAuthorized >
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" type="text" placeholder="Email" @bind-value="email"/>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" type="Password" placeholder="Password" @bind-value="password"/>
+                </div>
+                <div style="color:red">@errorMessage</div>
+                <button class=" btn btn-primary mr-1" @onclick="PerformLogin">Login</button>
+                <NavLink href="/Register" class="btn btn-link">Register</NavLink>
+            </NotAuthorized>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string email;
+    private string password;
+    private string errorMessage;
+
+    public async Task PerformLogin() {
+        errorMessage = "";
+        try {
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateLogin(email, password);
+            email = "";
+            password = "";
+        
+        }
+        catch (Exception e) {
+            errorMessage = e.Message;
+        }
+    }
+}

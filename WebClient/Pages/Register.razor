@@ -1,0 +1,64 @@
+﻿@page "/Register"
+@using WebClient.Data
+
+@using AuthenticationStateProvider = Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<div class="d-flex justify-content-center align-self-center">
+    <div class="card w-50" >
+        <h4 class="card-header">Register</h4>
+        <div class="card-body">
+            <AuthorizeView>
+                <NotAuthorized>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input class="form-control" type="text" placeholder="FirstName" @bind-value="firstName"/>
+                    </div>
+                    <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input class="form-control" type="text" placeholder="Last Name" @bind-value="lastName"/>
+                                        </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input class="form-control" type="text" placeholder="Email" @bind-value="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="Password" placeholder="Password" @bind-value="Password"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="Password" placeholder="Confirmation password" @bind-value="ConfirmationPassword"/>
+                    </div>
+                    <div style="color:red">@ErrorMessage</div>
+                    <button @onclick="PerformRegistration" class=" btn btn-primary mr-1" href="/LoginPage">Register</button>
+                    <NavLink href="/LoginPage" class="btn btn-link">Login</NavLink>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</div>
+@code {
+    private string firstName;
+    private string lastName;
+    private string email;
+    private string Password;
+    private string ConfirmationPassword;
+    private string ErrorMessage;
+
+    public async Task PerformRegistration() {
+        ErrorMessage = "";
+        try {
+          await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateRegister(firstName,lastName,email, Password, ConfirmationPassword);
+            email = "";
+            Password = "";
+            NavigationManager.NavigateTo("/Login");
+        }
+        catch (Exception e) {
+            ErrorMessage = e.Message;
+        }
+    }
+
+}
