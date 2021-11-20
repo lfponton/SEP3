@@ -38,7 +38,7 @@ namespace WebClient
             services.AddSingleton<IMenuItemsService, MenuItemsWebService>();
             services.AddScoped<IOrderItemsService, OrderItemsService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddSingleton<IInfoService, InfoService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
