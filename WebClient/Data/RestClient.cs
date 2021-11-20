@@ -9,7 +9,7 @@ using Models;
 
 namespace WebClient {
     public class RestClient : IRestClient {
-        private string requestUrl = "https://localhost:5001";
+        private string requestUrl = "https://localhost:8080";
         
         //Get methods 
         public async Task<T> GetAsync<T>(string email, string password) {
