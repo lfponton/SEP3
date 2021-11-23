@@ -24,16 +24,17 @@ namespace WebClient.Data.Impl
             };
         }
         
-        public async Task CreateOrderItem(int quantity, int menuId, long orderId)
+        public async Task CreateOrderItem(int quantity, Menu menu, Order order)
         {
             var orderItem = new OrderItem()
             {  
-                OrderId = orderId,
+                Order = order ,
                 Quantity = quantity,
-                MenuId = menuId
+                Menu = menu
             };
             
             string orderItemAsJson = JsonSerializer.Serialize(orderItem, options);
+            Console.Write($"orderItemAsJson ------------------->{orderItemAsJson}");
             HttpContent content = new StringContent(orderItemAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(uri + "/orderItems", content);
             if (!response.IsSuccessStatusCode)

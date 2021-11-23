@@ -117,9 +117,9 @@ namespace DataServer.Migrations
 
             modelBuilder.Entity("DataServer.Models.MenuItem", b =>
                 {
-                    b.Property<int>("MenuItemId")
+                    b.Property<long>("MenuItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Description")
@@ -180,8 +180,11 @@ namespace DataServer.Migrations
                     b.Property<int?>("MenuId")
                         .HasColumnType("integer");
 
-                    b.Property<long>("OrderId")
+                    b.Property<long?>("OrderId")
                         .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -267,8 +270,8 @@ namespace DataServer.Migrations
 
             modelBuilder.Entity("MenuMenuItem", b =>
                 {
-                    b.Property<int>("MenuItemsMenuItemId")
-                        .HasColumnType("integer");
+                    b.Property<long>("MenuItemsMenuItemId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("MenusMenuId")
                         .HasColumnType("integer");
@@ -301,13 +304,13 @@ namespace DataServer.Migrations
                         .WithMany()
                         .HasForeignKey("MenuId");
 
-                    b.HasOne("DataServer.Models.Order", null)
+                    b.HasOne("DataServer.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Menu");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("DataServer.Models.TableBooking", b =>

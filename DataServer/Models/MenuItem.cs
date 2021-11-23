@@ -6,11 +6,13 @@ namespace DataServer.Models
 {
     public class MenuItem
     {
-        public int MenuItemId { get; set; }
+        public long MenuItemId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         [JsonIgnore]
         public IList<Menu> Menus { get; set; }
+
+    
     }
 }
