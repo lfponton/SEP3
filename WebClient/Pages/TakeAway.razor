@@ -47,7 +47,7 @@ else
                         <div style="margin-top:20px">Order: </div>
                         <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                         <br/>
-                        <RadzenButton Click=@(() => OnAddOrderItem(@menu.MenuId)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
+                        <RadzenButton Click=@(() => OnAddOrderItem(@menu)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
                     </div>
                 </div>
             </RadzenCard>
@@ -69,7 +69,7 @@ else
             <tr>
                 <td>@item.Quantity</td>
                 <td>
-                    @item.MenuId
+                    @item.Menu.Name
                 </td>
                 <td></td>
                 <td>
@@ -108,9 +108,9 @@ else
         quantity = value;
     }
 
-    private async Task OnAddOrderItem(int menuId)
+    private async Task OnAddOrderItem(Menu menu)
     {  
-         await OrderItemsService.CreateOrderItem(quantity, menuId, cacheOrder.OrderId);
+         await OrderItemsService.CreateOrderItem(quantity, menu, cacheOrder);
          orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
     }
 
