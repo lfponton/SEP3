@@ -32,6 +32,7 @@ public class OrderItemController
     @ResponseStatus(HttpStatus.CREATED)
     public OrderItem createOrderItem(@RequestBody OrderItem orderItem)
     {
+        System.out.println("OrderItemController--->"+orderItem.toString());
         return client.createOrderItem(orderItem);
     }
 

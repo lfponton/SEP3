@@ -21,7 +21,8 @@ public class MenuItem
     this.menus = menus;
   }
 
-  public MenuItem() {}
+  public MenuItem() {
+  }
 
   public int getMenuItemId()
   {

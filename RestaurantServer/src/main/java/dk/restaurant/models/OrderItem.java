@@ -1,26 +1,68 @@
 package dk.restaurant.models;
 
+import java.math.BigDecimal;
+
 public class OrderItem {
 
-    public long orderItemId;
-    public long orderId;
-    public long menuId;
-    public int quantity;
-  //  public double Price;
+    private long orderItemId;
+    private Order order;
+    private Menu menu;
+    private int quantity;
+    private BigDecimal price;
+
+  public OrderItem()
+  {
+      this.price = new BigDecimal(0);
+      //setPrice();
+  }
+
+    public OrderItem(Order order, Menu menu, int quantity) {
+      this.order = order;
+      this.menu = menu;
+      this.quantity = quantity;
+     // setPrice();
+    }
+
+//    private void setPrice()
+//  {
+//      this.price = .multiply(new BigDecimal(quantity));
+//  }
 //For testing
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public long getOrderItemId() {
         return orderItemId;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public long getMenuId() {
-        return menuId;
+    public Menu getMenuId() {
+        return menu;
     }
 
     public int getQuantity() {
         return quantity;
+    }
+
+    //testing
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderItemId=" + orderItemId +
+                ", orderId=" + order.toString() +
+                ", menuId=" + getMenuId() +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
     }
 }

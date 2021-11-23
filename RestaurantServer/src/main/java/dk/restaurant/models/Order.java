@@ -16,9 +16,22 @@ public class Order implements Serializable
   private Address deliveryAddress;
 
 
+  public Order() {
+    this.price = new BigDecimal(0);
+    setPrice();
+  }
 
+  public void setPrice()
+  {
+    if (orderItems != null)
+    {
+      for (OrderItem orderItem : orderItems)
+      {
+        price.add(orderItem.getPrice()) ;
+      }
+    }
 
-
+  }
  /* public Order(long orderId, String status, Customer customer, List<Menu> menus,
       double price, Date orderDate, Date deliveryTime)
   {

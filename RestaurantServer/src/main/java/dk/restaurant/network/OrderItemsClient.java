@@ -32,10 +32,12 @@ public class OrderItemsClient {
     }
 
     public synchronized OrderItem createOrderItem(OrderItem orderItem) throws IOException {
+        System.out.println("orderItemsClient-->" + orderItem.toString());
         out.println("createOrderItem");
         String send = gson.toJson(orderItem);
         out.println(send);
         String response = in.readLine();
+        System.out.println("orderItemsClient response" + orderItem.toString());
         return gson.fromJson(response, OrderItem.class);
     }
 
