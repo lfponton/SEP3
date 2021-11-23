@@ -1,25 +1,25 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Order;
-import dk.restaurant.network.Client;
+import dk.restaurant.network.IClient;
+import dk.restaurant.network.IOrdersClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
 public class OrderController
 {
-  private Client client;
+  private IOrdersClient client;
 
-  public OrderController()
+  public OrderController(IClient client)
   {
-    client = Client.getInstance();
+    this.client = client.getOrdersClient();
   }
 
   @GetMapping("/orders")
-  public List<Order> getOrders() throws IOException
+  public List<Order> getOrders()
   {
     return client.getOrders();
   }
