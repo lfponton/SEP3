@@ -19,9 +19,33 @@ namespace DataServer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("DataServer.Models.Address", b =>
+            modelBuilder.Entity("DataServer.Models.Customer", b =>
                 {
-                    b.Property<int>("AddressId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("DataServer.Models.DeliveryAddress", b =>
+                {
+                    b.Property<int>("DeliveryAddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -41,14 +65,14 @@ namespace DataServer.Migrations
                     b.Property<string>("StreetName")
                         .HasColumnType("text");
 
-                    b.HasKey("AddressId");
+                    b.HasKey("DeliveryAddressId");
 
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("DataServer.Models.Customer", b =>
+            modelBuilder.Entity("DataServer.Models.DeliveryDriver", b =>
                 {
-                    b.Property<long>("CustomerId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -65,16 +89,19 @@ namespace DataServer.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.HasKey("CustomerId");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
 
-                    b.ToTable("Customers");
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryDrivers");
                 });
 
-            modelBuilder.Entity("DataServer.Models.DeliveryDriver", b =>
+            modelBuilder.Entity("DataServer.Models.Employee", b =>
                 {
-                    b.Property<int>("DeliveryDriverId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Email")
@@ -89,17 +116,20 @@ namespace DataServer.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.HasKey("DeliveryDriverId");
+                    b.HasKey("Id");
 
-                    b.ToTable("DeliveryDrivers");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("DataServer.Models.Menu", b =>
                 {
-                    b.Property<int>("MenuId")
+                    b.Property<long>("MenuId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -122,9 +152,6 @@ namespace DataServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -146,13 +173,16 @@ namespace DataServer.Migrations
                     b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("DeliveryAddressAddressId")
+                    b.Property<int?>("DeliveryAddressId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DeliveryTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("OrderDate")
+                    b.Property<bool>("IsDelivery")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("OrderDateTime")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Price")
@@ -165,7 +195,7 @@ namespace DataServer.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("DeliveryAddressAddressId");
+                    b.HasIndex("DeliveryAddressId");
 
                     b.ToTable("Orders");
                 });
@@ -177,8 +207,8 @@ namespace DataServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("MenuId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("MenuId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("OrderId")
                         .HasColumnType("bigint");
@@ -196,30 +226,6 @@ namespace DataServer.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("DataServer.Models.StaffMember", b =>
-                {
-                    b.Property<int>("StaffMemberId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("text");
-
-                    b.HasKey("StaffMemberId");
-
-                    b.ToTable("StaffMembers");
                 });
 
             modelBuilder.Entity("DataServer.Models.Table", b =>
@@ -247,13 +253,16 @@ namespace DataServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("BookingDate")
+                    b.Property<DateTime>("BookingDateTime")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("NumberOfGuests")
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("People")
                         .HasColumnType("integer");
 
                     b.Property<int?>("TableId")
@@ -273,8 +282,8 @@ namespace DataServer.Migrations
                     b.Property<long>("MenuItemsMenuItemId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("MenusMenuId")
-                        .HasColumnType("integer");
+                    b.Property<long>("MenusMenuId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("MenuItemsMenuItemId", "MenusMenuId");
 
@@ -289,9 +298,9 @@ namespace DataServer.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("DataServer.Models.Address", "DeliveryAddress")
+                    b.HasOne("DataServer.Models.DeliveryAddress", "DeliveryAddress")
                         .WithMany()
-                        .HasForeignKey("DeliveryAddressAddressId");
+                        .HasForeignKey("DeliveryAddressId");
 
                     b.Navigation("Customer");
 
@@ -301,7 +310,7 @@ namespace DataServer.Migrations
             modelBuilder.Entity("DataServer.Models.OrderItem", b =>
                 {
                     b.HasOne("DataServer.Models.Menu", "Menu")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("MenuId");
 
                     b.HasOne("DataServer.Models.Order", "Order")
@@ -341,6 +350,11 @@ namespace DataServer.Migrations
                         .HasForeignKey("MenusMenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DataServer.Models.Menu", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("DataServer.Models.Order", b =>
