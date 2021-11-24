@@ -6,7 +6,7 @@
 @using System.Net.Http.Json
 @using WebClient.Data
 @inject IOrderItemsService OrderItemService
-
+@using MatBlazor 
 
 
 <PageTitle>OrderInformation</PageTitle>
@@ -50,12 +50,21 @@ else
 
     </table>
 
-    <h3>AddAdress</h3>
+    <MatRadioGroup @bind-Value="@Val1" TValue="string">
+        
+        <MatRadioButton Value="@("f")" @onclick="() => hideAddress= true "  TValue="string">Pick-up</MatRadioButton>
+        <MatRadioButton Value="@("m")" @onclick="() => hideAddress=false" TValue="string">Delivery</MatRadioButton>
+        
+        <br/>
+       
+    </MatRadioGroup>
     
-    <EditForm Model="@addNewDeliveryAddressItem" OnValidSubmit="@AddNewAddress">
+    <EditForm Model="@addNewDeliveryAddressItem" hidden="@hideAddress" OnValidSubmit="@AddNewAddress">
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         
+        <h3>Address Information:</h3>
+        <br/>
         
         <div class="form-group">Address Id: <br/>
             <InputNumber @bind-Value="addNewDeliveryAddressItem.DeliveryAddressId"/>
@@ -84,7 +93,7 @@ else
        
 
         <span class="text-nowrap">
-            <a target="_blank" class="font-weight-bold link-dark" href="https://www.paypal.com/dk/home">Place Order</a>
+            <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
         </span>
     </div>
 
@@ -99,6 +108,10 @@ else
     private OrderItem orderItem = new OrderItem();
     
     private DeliveryAddress DeliveryAddress = new DeliveryAddress();
+    
+   
+    protected string Val1;
+    bool hideAddress = false;
 
     private async void AddNewAddress()
     {

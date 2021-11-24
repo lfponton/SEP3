@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Models;
 
 namespace WebClient.Models
 {
     public class Order
     {
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public long OrderId { get; set; }
+        
+        [Required]
         public DateTime OrderDateTime { get; set; }
         public DateTime DeliveryTime { get; set; }
         public decimal Price { get; set; }
