@@ -52,28 +52,28 @@ else
 
     <h3>AddAdress</h3>
     
-    <EditForm Model="@addNewAddressItem" OnValidSubmit="@AddNewAddress">
+    <EditForm Model="@addNewDeliveryAddressItem" OnValidSubmit="@AddNewAddress">
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         
         
         <div class="form-group">Address Id: <br/>
-            <InputNumber @bind-Value="addNewAddressItem.AddressId"/>
+            <InputNumber @bind-Value="addNewDeliveryAddressItem.DeliveryAddressId"/>
         </div>
         <div class="form-group">City: <br/>
-                    <InputText @bind-Value="addNewAddressItem.City"/>
+                    <InputText @bind-Value="addNewDeliveryAddressItem.City"/>
                 </div>
         <div class="form-group">Street Name: <br/>
-            <InputText @bind-Value="addNewAddressItem.StreetName"/>
+            <InputText @bind-Value="addNewDeliveryAddressItem.StreetName"/>
         </div>
         <div class="form-group">Post Number: <br/>
-            <InputText @bind-Value="addNewAddressItem.PostNumber"/>
+            <InputText @bind-Value="addNewDeliveryAddressItem.PostNumber"/>
         </div>
         <div class="form-group">Address Number: <br/>
-            <InputText @bind-Value="addNewAddressItem.AddressNumber"/>
+            <InputText @bind-Value="addNewDeliveryAddressItem.AddressNumber"/>
         </div>
         <div class="form-group">Door: <br/>
-                            <InputText @bind-Value="addNewAddressItem.Door"/>
+                            <InputText @bind-Value="addNewDeliveryAddressItem.Door"/>
                         </div>
         
         <p class="actions"><button class="btn btn-outline-dark" type="submit">Save</button></p>
@@ -94,11 +94,11 @@ else
 @code {
 
     private IList<OrderItem> orderItems = new List<OrderItem>();
-    private Address addNewAddressItem = new Address();
-    private IList<Address> infoOrder = new List<Address>();
+    private DeliveryAddress addNewDeliveryAddressItem = new DeliveryAddress();
+    private IList<DeliveryAddress> infoOrder = new List<DeliveryAddress>();
     private OrderItem orderItem = new OrderItem();
     
-    private Address DeliveryAddress = new Address();
+    private DeliveryAddress DeliveryAddress = new DeliveryAddress();
 
     private async void AddNewAddress()
     {

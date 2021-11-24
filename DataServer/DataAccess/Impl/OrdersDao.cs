@@ -39,7 +39,7 @@ namespace DataServer.DataAccess.Impl
             toUpdate.Price = order.Price;
             toUpdate.Status = order.Status;
             toUpdate.DeliveryTime = order.DeliveryTime;
-            toUpdate.OrderDate = order.OrderDate;
+            toUpdate.OrderDateTime = order.OrderDateTime;
             toUpdate.DeliveryAddress = order.DeliveryAddress;
             context.Update(toUpdate);
             await context.SaveChangesAsync();

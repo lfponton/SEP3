@@ -1,8 +1,8 @@
 ﻿namespace DataServer.Models
 {
-    public class Address
+    public class DeliveryAddress
     {
-        public int AddressId { get; set; }
+        public int DeliveryAddressId { get; set; }
         public string City { get; set; }
         public string StreetName { get; set; }
         public string PostNumber { get; set; }

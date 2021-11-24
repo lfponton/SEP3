@@ -14,7 +14,7 @@ namespace WebClient.Models
         public Customer Customer { get; set; }
         public string Status { get; set; }
         
-        public Address DeliveryAddress{ get; set; }
+        public DeliveryAddress DeliveryAddress{ get; set; }
 
         public Order()
         {

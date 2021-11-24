@@ -11,24 +11,27 @@ public class Menu implements Serializable
   private String name;
   private String type;
   private BigDecimal price;
+  private String description;
   private List<MenuItem> menuItems;
+  private List<OrderItem> orderItems;
 
-
-
-
-  public Menu() {
-  this.price = new BigDecimal(0);
-  setPrice();
+  public Menu()
+  {
+    this.price = new BigDecimal(0);
+    setPrice();
   }
 
-/*  public Menu(int menuId, BigDecimal price, String name,String type, List<MenuItem> menuItems)
+  public Menu(int menuId, BigDecimal price, String name, String type,
+      String description, List<MenuItem> menuItems, List<OrderItem> orderItems)
   {
     this.menuId = menuId;
     this.menuItems = menuItems;
+    this.orderItems = orderItems;
+    this.description = description;
     this.price = price;
     this.name = name;
     this.type = type;
-  }*/
+  }
 
   private void setPrice()
   {
@@ -36,7 +39,7 @@ public class Menu implements Serializable
     {
       for (MenuItem menuItem : menuItems)
       {
-        price.add(menuItem.getPrice()) ;
+        price.add(menuItem.getPrice());
       }
     }
 
@@ -52,6 +55,25 @@ public class Menu implements Serializable
     this.menuItems = menuItems;
   }
 
+  public String getDescription()
+  {
+    return description;
+  }
+
+  public void setDescription(String description)
+  {
+    this.description = description;
+  }
+
+  public List<OrderItem> getOrderItems()
+  {
+    return orderItems;
+  }
+
+  public void setOrderItems(List<OrderItem> orderItems)
+  {
+    this.orderItems = orderItems;
+  }
 
   public BigDecimal getPrice()
   {
@@ -73,19 +95,23 @@ public class Menu implements Serializable
     this.menuId = menuId;
   }
 
-  public String getName() {
+  public String getName()
+  {
     return name;
   }
 
-  public String getType() {
+  public String getType()
+  {
     return type;
   }
 
-  public void setName(String name) {
+  public void setName(String name)
+  {
     this.name = name;
   }
 
-  public void setType(String type) {
+  public void setType(String type)
+  {
     this.type = type;
   }
 }

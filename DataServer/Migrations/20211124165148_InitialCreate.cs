@@ -12,7 +12,7 @@ namespace DataServer.Migrations
                 name: "Addresses",
                 columns: table => new
                 {
-                    AddressId = table.Column<int>(type: "integer", nullable: false)
+                    DeliveryAddressId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     City = table.Column<string>(type: "text", nullable: true),
                     StreetName = table.Column<string>(type: "text", nullable: true),
@@ -22,14 +22,14 @@ namespace DataServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
+                    table.PrimaryKey("PK_Addresses", x => x.DeliveryAddressId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: true),
                     FirstName = table.Column<string>(type: "text", nullable: true),
@@ -38,14 +38,31 @@ namespace DataServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "DeliveryDrivers",
                 columns: table => new
                 {
-                    DeliveryDriverId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryDrivers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: true),
                     FirstName = table.Column<string>(type: "text", nullable: true),
@@ -54,17 +71,16 @@ namespace DataServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeliveryDrivers", x => x.DeliveryDriverId);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MenuItems",
                 columns: table => new
                 {
-                    MenuItemId = table.Column<int>(type: "integer", nullable: false)
+                    MenuItemId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
@@ -76,31 +92,16 @@ namespace DataServer.Migrations
                 name: "Menus",
                 columns: table => new
                 {
-                    MenuId = table.Column<int>(type: "integer", nullable: false)
+                    MenuId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Type = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Menus", x => x.MenuId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StaffMembers",
-                columns: table => new
-                {
-                    StaffMemberId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StaffMembers", x => x.StaffMemberId);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,27 +124,28 @@ namespace DataServer.Migrations
                 {
                     OrderId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    OrderDateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     DeliveryTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    DeliveryAddressAddressId = table.Column<int>(type: "integer", nullable: true)
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    IsDelivery = table.Column<bool>(type: "boolean", nullable: false),
+                    DeliveryAddressId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Addresses_DeliveryAddressAddressId",
-                        column: x => x.DeliveryAddressAddressId,
+                        name: "FK_Orders_Addresses_DeliveryAddressId",
+                        column: x => x.DeliveryAddressId,
                         principalTable: "Addresses",
-                        principalColumn: "AddressId",
+                        principalColumn: "DeliveryAddressId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -151,8 +153,8 @@ namespace DataServer.Migrations
                 name: "MenuMenuItem",
                 columns: table => new
                 {
-                    MenuItemsMenuItemId = table.Column<int>(type: "integer", nullable: false),
-                    MenusMenuId = table.Column<int>(type: "integer", nullable: false)
+                    MenuItemsMenuItemId = table.Column<long>(type: "bigint", nullable: false),
+                    MenusMenuId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,10 +179,11 @@ namespace DataServer.Migrations
                 {
                     TableBookingId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    People = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     TableId = table.Column<int>(type: "integer", nullable: true),
                     CustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    BookingDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    NumberOfGuests = table.Column<int>(type: "integer", nullable: false)
+                    BookingDateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,7 +192,7 @@ namespace DataServer.Migrations
                         name: "FK_TableBookings_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TableBookings_Tables_TableId",
@@ -205,9 +208,10 @@ namespace DataServer.Migrations
                 {
                     OrderItemId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderId = table.Column<long>(type: "bigint", nullable: false),
-                    MenuId = table.Column<int>(type: "integer", nullable: true),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                    OrderId = table.Column<long>(type: "bigint", nullable: true),
+                    MenuId = table.Column<long>(type: "bigint", nullable: true),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,7 +227,7 @@ namespace DataServer.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -247,9 +251,9 @@ namespace DataServer.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DeliveryAddressAddressId",
+                name: "IX_Orders_DeliveryAddressId",
                 table: "Orders",
-                column: "DeliveryAddressAddressId");
+                column: "DeliveryAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TableBookings_CustomerId",
@@ -268,13 +272,13 @@ namespace DataServer.Migrations
                 name: "DeliveryDrivers");
 
             migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
                 name: "MenuMenuItem");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
-
-            migrationBuilder.DropTable(
-                name: "StaffMembers");
 
             migrationBuilder.DropTable(
                 name: "TableBookings");

@@ -30,7 +30,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task UpdateCustomerAsync(Customer customer)
         {
-            Customer toUpdate = await context.Customers.FirstAsync(c => c.CustomerId == customer.CustomerId);
+            Customer toUpdate = await context.Customers.FirstAsync(c => c.Id == customer.Id);
             toUpdate.Email = customer.Email;
             toUpdate.FirstName = customer.FirstName;
             toUpdate.LastName = customer.LastName;
@@ -41,7 +41,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task DeleteCustomer(long id)
         {
-            Customer toRemove = await context.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+            Customer toRemove = await context.Customers.FirstOrDefaultAsync(c => c.Id == id);
             if (toRemove != null)
             {
                 context.Customers.Remove(toRemove);

@@ -29,7 +29,7 @@ namespace DataServer
             
             // ONLY FOR TESTING
             // Checks if there has been a customer added with the id = 1
-            var testCustomer = await restaurantDbContext.Customers.FirstOrDefaultAsync(c => c.CustomerId == 1);
+            var testCustomer = await restaurantDbContext.Customers.FirstOrDefaultAsync(c => c.Id == 1);
             // If it hasn't, then it will add the data to the database
             if (testCustomer == null)
             {
@@ -38,7 +38,7 @@ namespace DataServer
                 var menuItem1 = restaurantDbContext.MenuItems.First(menuItem => menuItem.MenuItemId == 1);
                 var menuItem2 = restaurantDbContext.MenuItems.First(menuItem => menuItem.MenuItemId == 2);
                 await CreateMenus(daoFactory.MenuDao, menuItem1, menuItem2);
-                var customer = restaurantDbContext.Customers.First(c => c.CustomerId == 1);
+                var customer = restaurantDbContext.Customers.First(c => c.Id == 1);
                 var menu1 = restaurantDbContext.Menus.First(menu => menu.MenuId == 1);
                 var menu2 = restaurantDbContext.Menus.First(menu => menu.MenuId == 2);
                 await CreateOrder(daoFactory.OrdersDao, customer, menu1, menu2);
@@ -66,14 +66,12 @@ namespace DataServer
             var menuItem1 = new MenuItem
             {
                 Name = "Item1",
-                Description = "Yummy stuff",
                 Price = 50
             };
 
             var menuItem2 = new MenuItem
             {
                 Name = "Item2",
-                Description = "Healthy goods",
                 Price = 100
             };
 
@@ -87,6 +85,7 @@ namespace DataServer
             {
                 Name = "Yummy Menu",
                 Type = "Regular",
+                Description = "Yummy Stuff",
                 MenuItems = new List<MenuItem>()
                 {
                     menuItem1,
@@ -99,6 +98,7 @@ namespace DataServer
             {
                 Name = "Healthy Menu",
                 Type = "Regular",
+                Description = "Healthy Stuff",
                 MenuItems = new List<MenuItem>()
                 {
                     menuItem1,
@@ -114,7 +114,7 @@ namespace DataServer
         {
             var order = new Order
             {
-                OrderDate = DateTime.Now,
+                OrderDateTime = DateTime.Now,
                // CustomerId = customer.CustomerId,
                 DeliveryTime = DateTime.Now,
               /*  OrderItems = new List<OrderItem>()
@@ -141,7 +141,7 @@ namespace DataServer
         {
             var order = new Order
             {
-                OrderDate = DateTime.Now,
+                OrderDateTime = DateTime.Now,
                 DeliveryTime = DateTime.Now,
                // OrderItems = new List<OrderItem>(),
                 Price = 100,

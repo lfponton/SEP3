@@ -7,16 +7,17 @@ import java.util.*;
 public class Order implements Serializable
 {
   private long orderId;
-  private Date orderDate;
+  private Date orderDateTime;
   private Date deliveryTime;
   private BigDecimal price;
   private Customer customer;
-  private String status; // Not sure how to make the enums work with JSON and SQL
+  private String status;
   private List<OrderItem> orderItems;
-  private Address deliveryAddress;
+  private DeliveryAddress deliveryAddress;
+  private boolean isDelivery;
 
-
-  public Order() {
+  public Order()
+  {
     this.price = new BigDecimal(0);
     setPrice();
   }
@@ -27,22 +28,26 @@ public class Order implements Serializable
     {
       for (OrderItem orderItem : orderItems)
       {
-        price.add(orderItem.getPrice()) ;
+        price.add(orderItem.getPrice());
       }
     }
 
   }
- /* public Order(long orderId, String status, Customer customer, List<Menu> menus,
-      double price, Date orderDate, Date deliveryTime)
+
+  public Order(long orderId, String status, Customer customer,
+      List<OrderItem> orderItems, BigDecimal price, Date orderDateTime,
+      Date deliveryTime, DeliveryAddress deliveryAddress, boolean isDelivery)
   {
     this.orderId = orderId;
-    this.orderDate = orderDate;
+    this.orderDateTime = orderDateTime;
     this.deliveryTime = deliveryTime;
     this.status = status;
     this.customer = customer;
-    this.menus = new ArrayList<Menu>();
+    this.orderItems = orderItems;
     this.price = price;
-  }*/
+    this.deliveryAddress = deliveryAddress;
+    this.isDelivery = isDelivery;
+  }
 
   public long getOrderId()
   {
@@ -71,22 +76,17 @@ public class Order implements Serializable
 
   public void setCustomer(Customer customer)
   {
-    this.customer= customer;
+    this.customer = customer;
   }
 
- /* public List<OrderItem> getMenus()
+  public Date getOrderDateTime()
   {
-    return orderItems;
-  }*/
-
-  public Date getOrderDate()
-  {
-    return orderDate;
+    return orderDateTime;
   }
 
-  public void setOrderDate(Date orderDate)
+  public void setOrderDateTime(Date orderDateTime)
   {
-    this.orderDate = orderDate;
+    this.orderDateTime = orderDateTime;
   }
 
   public Date getDeliveryTime()
@@ -99,32 +99,49 @@ public class Order implements Serializable
     this.deliveryTime = deliveryTime;
   }
 
- /* public void setMenus(List<OrderItem> orderItems)
+  public List<OrderItem> getOrderItems()
+  {
+    return orderItems;
+  }
+
+  public void setOrderItems(List<OrderItem> orderItems)
   {
     this.orderItems = orderItems;
-  }*/
+  }
 
-  public String getStatus() {
+  public boolean getIsDelivery()
+  {
+    return isDelivery;
+  }
+
+  public void setDelivery(boolean delivery)
+  {
+    isDelivery = delivery;
+  }
+
+  public String getStatus()
+  {
     return this.status;
   }
 
-
-  public void setStatus(String status) {
+  public void setStatus(String status)
+  {
     this.status = status;
   }
 
-
-  public Address getDeliveryAddress() {
+  public DeliveryAddress getDeliveryAddress()
+  {
     return deliveryAddress;
   }
 
-  public void setDeliveryAddress(Address deliveryAddress) {
+  public void setDeliveryAddress(DeliveryAddress deliveryAddress)
+  {
     this.deliveryAddress = deliveryAddress;
   }
 
   @Override public String toString()
   {
-    return "Order{" + "order_id=" + orderId +
-        ", status=" + status + ", customer=" + ", price=" + price + '}';
+    return "Order{" + "order_id=" + orderId + ", status=" + status
+        + ", customer=" + ", price=" + price + '}';
   }
 }

@@ -1,18 +1,18 @@
 package dk.restaurant.models;
 
-public class Address
+public class DeliveryAddress
 {
-  private int addressId;
+  private int deliveryAddressId;
   private String city;
   private String streetName;
   private String postNumber;
   private String addressNumber;
   private String door;
 
-  public Address(int addressId, String city, String streetName,
+  public DeliveryAddress(int addressId, String city, String streetName,
       String postNumber, String addressNumber, String door)
   {
-    this.addressId = addressId;
+    this.deliveryAddressId = addressId;
     this.city = city;
     this.streetName = streetName;
     this.postNumber = postNumber;
@@ -20,16 +20,18 @@ public class Address
     this.door = door;
   }
 
-  public Address() {}
-
-  public int getAddressId()
+  public DeliveryAddress()
   {
-    return addressId;
   }
 
-  public void setAddressId(int addressId)
+  public int getDeliveryAddressId()
   {
-    this.addressId = addressId;
+    return deliveryAddressId;
+  }
+
+  public void setDeliveryAddressId(int deliveryAddressId)
+  {
+    this.deliveryAddressId = deliveryAddressId;
   }
 
   public String getCity()

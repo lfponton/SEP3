@@ -1,4 +1,4 @@
-﻿namespace DataServer.Models
+﻿namespace WebClient.Models
 {
     public class DeliveryDriver : Person
     {

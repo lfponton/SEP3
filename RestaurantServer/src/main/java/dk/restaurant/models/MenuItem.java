@@ -8,20 +8,20 @@ public class MenuItem
 {
   private int menuItemId;
   private String name;
-  private String description;
   private BigDecimal price;
   private List<Menu> menus;
 
-  public MenuItem(int menuItemId, String name, String description, BigDecimal price, List<Menu> menus)
+  public MenuItem(int menuItemId, String name, BigDecimal price,
+      List<Menu> menus)
   {
     this.menuItemId = menuItemId;
     this.name = name;
-    this.description = description;
     this.price = price;
     this.menus = menus;
   }
 
-  public MenuItem() {
+  public MenuItem()
+  {
   }
 
   public int getMenuItemId()
@@ -42,16 +42,6 @@ public class MenuItem
   public void setName(String name)
   {
     this.name = name;
-  }
-
-  public String getDescription()
-  {
-    return description;
-  }
-
-  public void setDescription(String description)
-  {
-    this.description = description;
   }
 
   public List<Menu> getMenus()

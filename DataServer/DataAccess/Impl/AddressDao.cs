@@ -12,9 +12,9 @@ namespace DataServer.DataAccess.Impl
         {
             this.context = context;
         }
-        public async Task CreateAddressAsync(Address address)
+        public async Task CreateAddressAsync(DeliveryAddress deliveryAddress)
         {
-            await context.Addresses.AddAsync(address);
+            await context.Addresses.AddAsync(deliveryAddress);
             await context.SaveChangesAsync();
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataServer.Models
+namespace WebClient.Models
 {
     public class TableBooking
     {

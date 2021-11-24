@@ -1,72 +1,17 @@
 package dk.restaurant.models;
 
-public class DeliveryDriver
+import java.io.Serializable;
+
+public class DeliveryDriver extends Person implements Serializable
 {
-  private int deliveryDriverId;
-  private String Email;
-  private String FirstName;
-  private String LastName;
-  private String Password;
-
   public DeliveryDriver(int deliveryDriverId, String email, String firstName,
-      String lastName, String password)
+      String lastName)
   {
-    this.deliveryDriverId = deliveryDriverId;
-    Email = email;
-    FirstName = firstName;
-    LastName = lastName;
-    Password = password;
+    super(deliveryDriverId, email, firstName, lastName);
   }
 
-  public DeliveryDriver() {}
-
-  public int getDeliveryDriverId()
+  public DeliveryDriver()
   {
-    return deliveryDriverId;
   }
 
-  public void setDeliveryDriverId(int deliveryDriverId)
-  {
-    this.deliveryDriverId = deliveryDriverId;
-  }
-
-  public String getEmail()
-  {
-    return Email;
-  }
-
-  public void setEmail(String email)
-  {
-    Email = email;
-  }
-
-  public String getFirstName()
-  {
-    return FirstName;
-  }
-
-  public void setFirstName(String firstName)
-  {
-    FirstName = firstName;
-  }
-
-  public String getLastName()
-  {
-    return LastName;
-  }
-
-  public void setLastName(String lastName)
-  {
-    LastName = lastName;
-  }
-
-  public String getPassword()
-  {
-    return Password;
-  }
-
-  public void setPassword(String password)
-  {
-    Password = password;
-  }
 }
