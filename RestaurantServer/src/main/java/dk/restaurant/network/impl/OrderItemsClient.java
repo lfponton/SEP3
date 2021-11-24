@@ -42,10 +42,13 @@ public class OrderItemsClient implements IOrderItemsClient
       String response = "";
 
       try {
-      out.println("createOrderItem");
+          out.println("Orders");
+          out.println("createOrderItem");
+          System.out.println("OrderItemClient->" + orderItem.toString());
         String send = gson.toJson(orderItem);
         out.println(send);
         response = in.readLine();
+          System.out.println("OrderItemControllerResponse->" + response);
       } catch (IOException e)
       {
         e.printStackTrace();
@@ -56,8 +59,10 @@ public class OrderItemsClient implements IOrderItemsClient
   @Override public synchronized List<OrderItem> getOrderItems(long orderId){
        List<OrderItem> orderItems = new ArrayList<>();
        try {
+           out.println("Orders");
         out.println("getOrderItems");
         String send = gson.toJson(orderId);
+           System.out.println("OrderId in OrderItemsClient getOrderItems()");
         out.println(send);
         String response = in.readLine();
          System.out.println(response);

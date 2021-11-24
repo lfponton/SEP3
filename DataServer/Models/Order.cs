@@ -12,12 +12,16 @@ namespace DataServer.Models
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryTime { get; set; }
         public decimal Price { get; set; }
+        [JsonIgnore]
         public IList<OrderItem> OrderItems { get; set; }
         public Customer Customer { get; set; }
         public string Status { get; set; }
         
         public Address DeliveryAddress { get; set; }
-        
+        public Order()
+        {
+            OrderItems = new List<OrderItem>();
+        }
         
         // TESTING
         public override string ToString()

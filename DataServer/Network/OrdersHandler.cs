@@ -67,13 +67,13 @@ namespace DataServer.Network
         {
             OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
             await daoFactory.OrderItemsDao.CreateOrderItemAsync(orderItem);
-            return JsonSerializer.Serialize(orderItem, options);
+            return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
         }
 
         private async Task<string> GetOrderItems(string args)
         {
             int orderId = Int32.Parse(args);
-            return JsonSerializer.Serialize(await daoFactory.OrderItemsDao.GetOrderItemsAsync(orderId), options);
+            return JsonSerializer.Serialize(await daoFactory.OrderItemsDao.GetOrderItemsAsync(orderId), optionsWithoutConverter);
         }
 
         private async Task<string> DeleteOrderItem(string args)

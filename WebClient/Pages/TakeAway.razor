@@ -69,7 +69,8 @@ else
             <tr>
                 <td>@item.Quantity</td>
                 <td>
-                    @item.Menu.Name
+                    @*@item.Menu.Name*@
+                    @item.OrderItemId
                 </td>
                 <td></td>
                 <td>
@@ -111,7 +112,7 @@ else
     private async Task OnAddOrderItem(Menu menu)
     {  
          await OrderItemsService.CreateOrderItem(quantity, menu, cacheOrder);
-         orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
+        orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
     }
 
     private async Task DeleteOrderItem(long orderItemId)

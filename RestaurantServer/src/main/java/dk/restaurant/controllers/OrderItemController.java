@@ -23,6 +23,7 @@ public class OrderItemController
     @ResponseBody
     public List<OrderItem> getOrdersItems(@PathVariable("id") long orderId)
     {
+
         return client.getOrderItems(orderId);
     }
 
@@ -30,6 +31,7 @@ public class OrderItemController
     @ResponseStatus(HttpStatus.CREATED)
     public OrderItem createOrderItem(@RequestBody OrderItem orderItem)
     {
+        System.out.println("OrderItemController->" + orderItem.toString());
         return client.createOrderItem(orderItem);
     }
 

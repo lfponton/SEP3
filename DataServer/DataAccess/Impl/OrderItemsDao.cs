@@ -19,21 +19,24 @@ namespace DataServer.DataAccess.Impl
         
         public async Task<OrderItem>CreateOrderItemAsync(OrderItem orderItem)
         {
-            /*OrderItem toAdd = new OrderItem()
-            {
-              Order = context.Orders.Where(o=>o.Equals(orderItem.Order)),
-              Quantity = orderItem.Quantity,
-              Price = orderItem.Price,
-              Menu = context.Menus.Where(m=>m.Equals(orderItem.Menu))
-            };
-            await context.OrderItems.AddAsync(orderItem);
-           await context.SaveChangesAsync();
-            return orderItem;*/
-            return null;
+            Order toUpdate = await context.Orders
+                .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
+            toUpdate.OrderItems.Add(orderItem); 
+            context.Orders.Update(toUpdate);
+            await context.SaveChangesAsync();
+            Console.WriteLine(toUpdate.OrderItems.First().OrderItemId);
+            return orderItem;
         }
 
         public async Task<List<OrderItem>> GetOrderItemsAsync(int orderId)
         {
+            List<OrderItem> orderItems = await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
+           // orderItems.ForEach(Console.WriteLine());
+           foreach (var oi in orderItems)
+           {
+               Console.WriteLine(oi.OrderItemId);
+
+           }
             return await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
         }
 
