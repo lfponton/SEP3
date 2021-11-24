@@ -26,7 +26,7 @@ namespace WebClient.Data.Impl
         {
             var newOrder = new Order()
             {
-                OrderDate = DateTime.Now,
+                OrderDateTime = DateTime.Now,
             };
             string orderAsJson = JsonSerializer.Serialize(newOrder, options);
             HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
