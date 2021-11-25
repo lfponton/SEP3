@@ -13,6 +13,7 @@ namespace DataServer.DataAccess.Impl
         private IMenusRepository menusRepository;
         private IMenuItemsRepository menuItemsRepository;
         private IOrderItemsRepository orderItemsRepository;
+        private IMenuItemsSelectionsRepository menuItemsSelectionsRepository;
 
         public UnitOfWork(RestaurantDbContext context)
         {
@@ -72,6 +73,19 @@ namespace DataServer.DataAccess.Impl
 
             return orderItemsRepository;
         } }
+
+        public IMenuItemsSelectionsRepository MenuItemsSelectionsRepository
+        {
+            get
+            {
+                if (menuItemsSelectionsRepository == null)
+                {
+                    menuItemsSelectionsRepository = new MenuItemsSelectionsRepository(context);
+                }
+
+                return menuItemsSelectionsRepository;
+            }
+        }
 
         public async Task Save()
         {

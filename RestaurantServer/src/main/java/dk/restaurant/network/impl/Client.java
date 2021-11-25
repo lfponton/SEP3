@@ -28,4 +28,9 @@ public class Client implements IClient
     return new OrderItemsClient();
   }
 
+  @Override public IMenuItemsSelectionsClient getMenuItemsSelectionsClient()
+  {
+    return new MenuItemsSelectionsClient();
+  }
+
 }

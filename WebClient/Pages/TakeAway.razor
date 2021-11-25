@@ -3,6 +3,7 @@
 @using WebClient.Data
 @inject IMenusPersistence MenusPersistence;
 @inject IMenuItemsService MenuItemsWebService;
+@inject IMenuItemsSelectionsService MenuItemsSelectionsService
 @inject IOrderItemsService OrderItemsService;
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
@@ -32,9 +33,9 @@ else
                         <b>@menu.Name</b>
                         <div style="margin-top:20px">Description:</div>
                         <b>
-                            @foreach (var menuItem in menu.MenuItems)
+                            @foreach (var menuItem in menu.MenusItemsSelections)
                             {
-                                @menuItem.Name;
+                                @menuItem.MenuItem.Name;
                             }
                         </b>
                         <br/>
@@ -100,7 +101,7 @@ else
         menus = await MenusPersistence.GetMenus();
         foreach (var m in menus)
         {
-            m.MenuItems = await MenuItemsWebService.GetMenuItems(m.MenuId);
+            m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
         }
     }
     
