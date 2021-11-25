@@ -1,6 +1,4 @@
-﻿using System;
-using DataServer.Models;
-using DataServer.Models;
+﻿using DataServer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.Persistence

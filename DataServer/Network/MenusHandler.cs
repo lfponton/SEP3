@@ -38,7 +38,6 @@ namespace DataServer.Network
             {
                 case "getMenus":
                     return await GetMenus();
-                    break;
                 default:
                     return "";
             }

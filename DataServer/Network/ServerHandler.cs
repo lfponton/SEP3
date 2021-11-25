@@ -2,14 +2,8 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using DataServer.DataAccess;
-using DataServer.Models;
-using DataServer.DataAccess;
-using DataServer.Network;
 
 namespace DataServer.Network
 {
@@ -62,6 +56,7 @@ namespace DataServer.Network
                 catch (IOException e)
                 {
                     clientConnected = false;
+                    Console.WriteLine($"IOException: {e}" );
                 }
             } while (clientConnected);
             client.Close();
