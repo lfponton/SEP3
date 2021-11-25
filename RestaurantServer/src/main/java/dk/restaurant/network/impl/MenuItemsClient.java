@@ -41,7 +41,6 @@ public class MenuItemsClient implements IMenuItemsClient
 
   @Override public synchronized List<MenuItem> getMenuItems(int menuId){
     out.println("MenuItems");
-    System.out.println("Getting MenuItems");
     List<MenuItem> menuItems = new ArrayList<>();
     try {
     out.println("getMenuItems");

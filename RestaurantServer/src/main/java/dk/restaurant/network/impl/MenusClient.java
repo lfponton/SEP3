@@ -43,8 +43,6 @@ public class MenusClient implements IMenusClient
 
   @Override public synchronized List<Menu> getMenus()
   {
-
-    System.out.println("Getting Menus");
     out.println("Menus");
     List<Menu> menus = new ArrayList<>();
     try
@@ -58,11 +56,11 @@ public class MenusClient implements IMenusClient
     }
     catch (IOException e)
     {
-      e.printStackTrace();}
+      e.printStackTrace();
+    }
 
-      return menus;
+    return menus;
   }
-
 
   @Override public synchronized void createMenu(Menu menu)
   {

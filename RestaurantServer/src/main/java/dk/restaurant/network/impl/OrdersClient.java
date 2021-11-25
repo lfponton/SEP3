@@ -45,9 +45,7 @@ public class OrdersClient implements IOrdersClient
     try
     {
       out.println("Orders");
-      System.out.println("Sending Orders to DataServer");
       out.println("getOrders");
-      System.out.println("Getting Orders from DataServer");
       out.println("");
       String response = in.readLine();
       orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>()
@@ -67,13 +65,10 @@ public class OrdersClient implements IOrdersClient
     try
     {
       out.println("Orders");
-      System.out.println("Sending Orders to DataServer");
-      System.out.println("Creating Order");
       out.println("createOrder");
       String send = gson.toJson(order);
       out.println(send);
       response = in.readLine();
-      System.out.println(response);
     }
     catch (Exception e)
     {

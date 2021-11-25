@@ -23,7 +23,6 @@ public class MenuController {
     @GetMapping("/menus")
     public List<Menu> getMenus() throws IOException
     {
-        System.out.println("Getting Menus Controller");
         return client.getMenus();
     }
 }

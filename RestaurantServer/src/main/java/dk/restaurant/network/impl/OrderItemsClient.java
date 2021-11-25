@@ -23,60 +23,68 @@ public class OrderItemsClient implements IOrderItemsClient
   private BufferedReader in;
   private Gson gson;
 
+  public OrderItemsClient()
+  {
+    try
+    {
+      socket = new Socket(HOST, PORT);
 
-    public OrderItemsClient() {
-      try
+      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      out = new PrintWriter(socket.getOutputStream(), true);
+      gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  @Override public synchronized OrderItem createOrderItem(OrderItem orderItem)
+  {
+    String response = "";
+
+    try
+    {
+      out.println("Orders");
+      out.println("createOrderItem");
+      String send = gson.toJson(orderItem);
+      out.println(send);
+      response = in.readLine();
+      System.out.println("OrderItemControllerResponse->" + response);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, OrderItem.class);
+  }
+
+  @Override public synchronized List<OrderItem> getOrderItems(long orderId)
+  {
+    List<OrderItem> orderItems = new ArrayList<>();
+    try
+    {
+      out.println("Orders");
+      out.println("getOrderItems");
+      String send = gson.toJson(orderId);
+      out.println(send);
+      String response = in.readLine();
+      System.out.println(response);
+      orderItems = gson.fromJson(response, new TypeToken<ArrayList<OrderItem>>()
       {
-        socket = new Socket(HOST, PORT);
-
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-      } catch (IOException e)
-      {
-        e.printStackTrace();
-      }
+      }.getType());
     }
-
-  @Override public synchronized OrderItem createOrderItem(OrderItem orderItem) {
-      String response = "";
-
-      try {
-          out.println("Orders");
-          out.println("createOrderItem");
-          System.out.println("OrderItemClient->" + orderItem.toString());
-        String send = gson.toJson(orderItem);
-        out.println(send);
-        response = in.readLine();
-          System.out.println("OrderItemControllerResponse->" + response);
-      } catch (IOException e)
-      {
-        e.printStackTrace();
-      }
-        return gson.fromJson(response, OrderItem.class);
+    catch (IOException e)
+    {
+      e.printStackTrace();
     }
+    return orderItems;
+  }
 
-  @Override public synchronized List<OrderItem> getOrderItems(long orderId){
-       List<OrderItem> orderItems = new ArrayList<>();
-       try {
-           out.println("Orders");
-        out.println("getOrderItems");
-        String send = gson.toJson(orderId);
-           System.out.println("OrderId in OrderItemsClient getOrderItems()");
-        out.println(send);
-        String response = in.readLine();
-         System.out.println(response);
-        orderItems = gson.fromJson(response, new TypeToken<ArrayList<OrderItem>>() {}.getType());
-         } catch (IOException e)
-       {
-         e.printStackTrace();
-       }
-        return orderItems;
-    }
-
-  @Override public synchronized void deleteOrderItem(long orderItemId){
-        out.println("deleteOrderItem");
-        String send = gson.toJson(orderItemId);
-        out.println(send);
-    }
+  @Override public synchronized void deleteOrderItem(long orderItemId)
+  {
+    out.println("deleteOrderItem");
+    String send = gson.toJson(orderItemId);
+    out.println(send);
+  }
 }
