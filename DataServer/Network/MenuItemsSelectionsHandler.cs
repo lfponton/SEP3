@@ -44,7 +44,11 @@ namespace DataServer.Network
         private async Task<string> GetMenuItemsSelections(string args)
         {
             int menuId = Int32.Parse(args);
-            return  JsonSerializer.Serialize(await unitOfWork.MenuItemsSelectionsRepository.GetMenuItemsSelections(menuId), options);
+            string response =
+                JsonSerializer.Serialize(await unitOfWork.MenuItemsSelectionsRepository.GetMenuItemsSelections(menuId),
+                    options);
+            Console.WriteLine(response);
+            return  response;
         }
     }
 }

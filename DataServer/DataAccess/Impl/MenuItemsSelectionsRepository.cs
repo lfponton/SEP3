@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataServer.Models;
 using DataServer.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
@@ -16,7 +18,8 @@ namespace DataServer.DataAccess.Impl
         
         public Task<List<MenuItemsSelection>> GetMenuItemsSelections(long menuId)
         {
-            throw new System.NotImplementedException();
+            return context.MenuItemsSelections.Where(selection => selection.MenuId == menuId)
+                .Include(selection => selection.MenuItem).ToListAsync();
         }
     }
 }

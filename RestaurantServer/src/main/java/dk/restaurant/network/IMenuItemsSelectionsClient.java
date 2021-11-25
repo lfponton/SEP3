@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IMenuItemsSelectionsClient
 {
-  public List<MenuItemsSelection> getMenuItemsSelections(long menuId);
+  List<MenuItemsSelection> getMenuItemsSelections(long menuId);
 }
