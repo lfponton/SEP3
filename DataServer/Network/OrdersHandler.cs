@@ -55,7 +55,7 @@ namespace DataServer.Network
 
         private async Task<string> GetOrders()
         {
-            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.ReadOrdersAsync(), options);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.ReadOrdersAsync(), optionsWithoutConverter);
         }
 
         private async Task<string> CreateOrder(string args)

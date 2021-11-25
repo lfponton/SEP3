@@ -49,7 +49,32 @@ public class OrderItem {
         return menu;
     }
 
-    public int getQuantity() {
+  public void setOrderItemId(long orderItemId)
+  {
+    this.orderItemId = orderItemId;
+  }
+
+  public void setOrder(Order order)
+  {
+    this.order = order;
+  }
+
+  public Menu getMenu()
+  {
+    return menu;
+  }
+
+  public void setMenu(Menu menu)
+  {
+    this.menu = menu;
+  }
+
+  public void setQuantity(int quantity)
+  {
+    this.quantity = quantity;
+  }
+
+  public int getQuantity() {
         return quantity;
     }
 
