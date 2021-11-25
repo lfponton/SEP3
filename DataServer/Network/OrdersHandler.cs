@@ -2,19 +2,21 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess;
+using DataServer.DataAccess.Impl;
 using DataServer.Models;
+using DataServer.Persistence;
 
 namespace DataServer.Network
 {
     public class OrdersHandler : IRequestHandler
     {
-        private IDaoFactory daoFactory;
+        private IUnitOfWork unitOfWork;
         private JsonSerializerOptions options;
         private JsonSerializerOptions optionsWithoutConverter;
 
-        public OrdersHandler(IDaoFactory daoFactory)
+        public OrdersHandler()
         {
-            this.daoFactory = daoFactory;
+            unitOfWork = new UnitOfWork(new RestaurantDbContext());
 
             options = new JsonSerializerOptions
             {
@@ -53,33 +55,35 @@ namespace DataServer.Network
 
         private async Task<string> GetOrders()
         {
-            return JsonSerializer.Serialize(await daoFactory.OrdersDao.ReadOrdersAsync(), options);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.ReadOrdersAsync(), options);
         }
 
         private async Task<string> CreateOrder(string args)
         {
             Order order = JsonSerializer.Deserialize<Order>(args, options);
-            await daoFactory.OrdersDao.CreateOrderAsync(order);
+            await unitOfWork.OrdersRepository.CreateOrderAsync(order);
+            await unitOfWork.Save();
             return JsonSerializer.Serialize(order, optionsWithoutConverter);
         }
 
         private async Task<string> CreateOrderItem(string args)
         {
             OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
-            await daoFactory.OrderItemsDao.CreateOrderItemAsync(orderItem);
+            await unitOfWork.OrderItemsRepository.CreateOrderItemAsync(orderItem);
+            await unitOfWork.Save();
             return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
         }
 
         private async Task<string> GetOrderItems(string args)
         {
             int orderId = Int32.Parse(args);
-            return JsonSerializer.Serialize(await daoFactory.OrderItemsDao.GetOrderItemsAsync(orderId), optionsWithoutConverter);
+            return JsonSerializer.Serialize(await unitOfWork.OrderItemsRepository.GetOrderItemsAsync(orderId), optionsWithoutConverter);
         }
 
         private async Task<string> DeleteOrderItem(string args)
         {
             int orderItemId = Int32.Parse(args);
-            await daoFactory.OrderItemsDao.DeleteOrderItemAsync(orderItemId);
+            await unitOfWork.OrderItemsRepository.DeleteOrderItemAsync(orderItemId);
             return args; // needs to return the deleted object
         }
     }

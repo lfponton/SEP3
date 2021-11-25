@@ -7,17 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class OrdersDao : IOrdersDao
+    public class OrdersRepository : IOrdersRepository
     {
         private RestaurantDbContext context;
-        public OrdersDao(RestaurantDbContext context)
+        public OrdersRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
         public async Task<Order> CreateOrderAsync(Order order)
         {
             await context.Orders.AddAsync(order);
-            await context.SaveChangesAsync();
             return order;
         }
 

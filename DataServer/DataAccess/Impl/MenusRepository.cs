@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class MenuDao : IMenuDao
+    public class MenusRepository : IMenusRepository
     {
         private RestaurantDbContext context;
 
-        public MenuDao(RestaurantDbContext context)
+        public MenusRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
@@ -18,7 +18,6 @@ namespace DataServer.DataAccess.Impl
         public async Task CreateMenuAsync(Menu menu)
         {
             await context.Menus.AddAsync(menu);
-            await context.SaveChangesAsync();
         }
 
         public async Task<List<Menu>> GetMenusAsync()

@@ -3,7 +3,7 @@ using DataServer.Models;
 
 namespace DataServer.DataAccess
 {
-    public interface ICustomerDao
+    public interface IAccountsRepository
     {
         Task CreateCustomerAsync(Customer customer);
         Task<Customer> ReadCustomerAsync(string email);

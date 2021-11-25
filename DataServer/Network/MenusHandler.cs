@@ -1,19 +1,19 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using DataServer.DataAccess;
+using DataServer.DataAccess.Impl;
+using DataServer.Persistence;
 
 namespace DataServer.Network
 {
     public class MenusHandler : IRequestHandler
     {
-        private IDaoFactory daoFactory;
-
+        private IUnitOfWork unitOfWork;
         private JsonSerializerOptions options;
         private JsonSerializerOptions optionsWithoutConverter;
 
-        public MenusHandler(IDaoFactory daoFactory)
+        public MenusHandler()
         {
-            this.daoFactory = daoFactory;
+            unitOfWork = new UnitOfWork(new RestaurantDbContext());
 
             options = new JsonSerializerOptions
             {
@@ -41,7 +41,7 @@ namespace DataServer.Network
 
         private async Task<string> GetMenus()
         {
-           return JsonSerializer.Serialize(await daoFactory.MenuDao.GetMenusAsync(), options);
+           return JsonSerializer.Serialize(await unitOfWork.MenusRepository.GetMenusAsync(), options);
         }
     }
 }

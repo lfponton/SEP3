@@ -10,17 +10,15 @@ namespace DataServer.Network
     public class ServerHandler
     {
         private TcpClient client;
-        private IDaoFactory daoFactory;
-        
+
         private StreamWriter writer;
         private StreamReader reader;
 
         private bool clientConnected;
         
-        public ServerHandler(TcpClient client, IDaoFactory daoFactory)
+        public ServerHandler(TcpClient client)
         {
             this.client = client;
-            this.daoFactory = daoFactory;
 
             NetworkStream stream = client.GetStream();
             writer = new StreamWriter(stream, Encoding.ASCII){AutoFlush = true};
@@ -67,11 +65,11 @@ namespace DataServer.Network
             switch (requestType)
             {
                 case "Orders":
-                    return new OrdersHandler(daoFactory);
+                    return new OrdersHandler();
                 case "Menus":
-                    return new MenusHandler(daoFactory);
+                    return new MenusHandler();
                 case "MenuItems":
-                    return new MenuItemsHandler(daoFactory);
+                    return new MenuItemsHandler();
                 default:
                     return null;
             }

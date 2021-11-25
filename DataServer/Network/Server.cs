@@ -11,11 +11,9 @@ namespace DataServer.Network
         private IPAddress address;
         private int port;
         private TcpListener server;
-        private IDaoFactory daoFactory;
 
-        public Server(IPAddress address, int port, IDaoFactory daoFactory)
+        public Server(IPAddress address, int port)
         {
-            this.daoFactory = daoFactory;
             this.address = address;
             this.port = port;
         }
@@ -32,7 +30,7 @@ namespace DataServer.Network
                     TcpClient client = server.AcceptTcpClient();
 
                     //here we could start a different handler depending on the client connected
-                    ServerHandler handler = new ServerHandler(client, daoFactory);
+                    ServerHandler handler = new ServerHandler(client);
                     Thread thread = new Thread(h => handler.Start());
                     thread.Start();
 

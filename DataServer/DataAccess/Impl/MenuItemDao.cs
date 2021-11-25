@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class MenuItemDao : IMenuItemDao
+    public class MenuItemsRepository : IMenuItemsRepository
     {
         private RestaurantDbContext context;
 
-        public MenuItemDao(RestaurantDbContext context)
+        public MenuItemsRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
@@ -19,7 +19,6 @@ namespace DataServer.DataAccess.Impl
         public async Task CreateMenuItemAsync(MenuItem menuItem)
         {
             await context.MenuItems.AddAsync(menuItem);
-            await context.SaveChangesAsync();
         }
 
         public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)

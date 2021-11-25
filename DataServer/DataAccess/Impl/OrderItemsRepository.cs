@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class OrderItemsDao : IOrderItemDao
+    public class OrderItemsRepository : IOrderItemsRepository
     {
         private RestaurantDbContext context;
-        public OrderItemsDao(RestaurantDbContext context)
+        public OrderItemsRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
@@ -23,8 +23,6 @@ namespace DataServer.DataAccess.Impl
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
             toUpdate.OrderItems.Add(orderItem); 
             context.Orders.Update(toUpdate);
-            await context.SaveChangesAsync();
-            Console.WriteLine(toUpdate.OrderItems.First().OrderItemId);
             return orderItem;
         }
 

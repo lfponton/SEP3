@@ -4,7 +4,7 @@ using DataServer.Models;
 
 namespace DataServer.DataAccess
 {
-    public interface IOrdersDao
+    public interface IOrdersRepository
     {
         Task<Order> CreateOrderAsync(Order order);
         Task<IList<Order>> ReadOrdersAsync();
