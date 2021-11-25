@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DataServer.Models
 {
@@ -10,7 +11,7 @@ namespace DataServer.Models
         public decimal Price { get; set; }
         public string Description { get; set; }
         public IList<MenuItem> MenuItems { get; set; } 
-        
+        [JsonIgnore]
         public IList<OrderItem> OrderItems { get; set; }
 
 

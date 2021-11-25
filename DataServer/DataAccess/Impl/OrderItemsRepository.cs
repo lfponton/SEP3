@@ -21,8 +21,19 @@ namespace DataServer.DataAccess.Impl
         {
             Order toUpdate = await context.Orders
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
-            toUpdate.OrderItems.Add(orderItem); 
+            toUpdate.OrderItems.Add(orderItem);
             context.Orders.Update(toUpdate);
+            OrderItem itemToUpdate = await context.OrderItems
+                .LastOrDefaultAsync();
+            itemToUpdate.Menu = orderItem.Menu;
+            context.OrderItems.Update(itemToUpdate);
+
+            /*
+            Menu menuToUpdate = await context.Menus.FirstAsync(m => m.MenuId == orderItem.Menu.MenuId);
+            menuToUpdate.OrderItems.Add(orderItem);
+            context.Menus.Update(menuToUpdate);
+*/
+
             return orderItem;
         }
 
