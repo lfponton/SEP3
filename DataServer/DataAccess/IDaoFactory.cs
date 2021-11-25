@@ -1,5 +1,4 @@
-﻿using DataServer.DataAccess.Impl;
-
+﻿
 namespace DataServer.DataAccess
 {
     public interface IDaoFactory
