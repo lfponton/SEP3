@@ -150,24 +150,26 @@ namespace DataServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MenuMenuItem",
+                name: "MenuItemsSelections",
                 columns: table => new
                 {
-                    MenuItemsMenuItemId = table.Column<long>(type: "bigint", nullable: false),
-                    MenusMenuId = table.Column<long>(type: "bigint", nullable: false)
+                    MenuId = table.Column<long>(type: "bigint", nullable: false),
+                    MenuItemId = table.Column<long>(type: "bigint", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MenuMenuItem", x => new { x.MenuItemsMenuItemId, x.MenusMenuId });
+                    table.PrimaryKey("PK_MenuItemsSelections", x => new { x.MenuId, x.MenuItemId });
                     table.ForeignKey(
-                        name: "FK_MenuMenuItem_MenuItems_MenuItemsMenuItemId",
-                        column: x => x.MenuItemsMenuItemId,
+                        name: "FK_MenuItemsSelections_MenuItems_MenuItemId",
+                        column: x => x.MenuItemId,
                         principalTable: "MenuItems",
                         principalColumn: "MenuItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MenuMenuItem_Menus_MenusMenuId",
-                        column: x => x.MenusMenuId,
+                        name: "FK_MenuItemsSelections_Menus_MenuId",
+                        column: x => x.MenuId,
                         principalTable: "Menus",
                         principalColumn: "MenuId",
                         onDelete: ReferentialAction.Cascade);
@@ -231,9 +233,9 @@ namespace DataServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuMenuItem_MenusMenuId",
-                table: "MenuMenuItem",
-                column: "MenusMenuId");
+                name: "IX_MenuItemsSelections_MenuItemId",
+                table: "MenuItemsSelections",
+                column: "MenuItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_MenuId",
@@ -275,7 +277,7 @@ namespace DataServer.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "MenuMenuItem");
+                name: "MenuItemsSelections");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");

@@ -15,17 +15,21 @@ namespace DataServer.Persistence
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<TableBooking> TableBookings { get; set; }
+        public DbSet<MenuItemsSelection> MenuItemsSelections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Change this to the path in your system
             optionsBuilder
                 .UseNpgsql(
-                    "Host=abul.db.elephantsql.com;Port=5432;Database=cyyvgalu;Username=cyyvgalu;Password=nR2t-m4dhrPOaqh9ph-9_3jI0g-SzdVF;Pooling=false;Timeout=300;CommandTimeout=300;;"
+                    "Host=hattie.db.elephantsql.com;Port=5432;Database=eggldwtf;Username=eggldwtf;Password=h9HM9GeaFhsqEHfcpeVHOdyzJ8NIZsXv;Pooling=false;Timeout=300;CommandTimeout=300;;"
                 );
 
         }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MenuItemsSelection>().HasKey(selection => new { selection.MenuId, selection.MenuItemId });
+        }
     }
 }

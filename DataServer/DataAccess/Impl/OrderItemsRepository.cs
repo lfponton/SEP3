@@ -19,12 +19,13 @@ namespace DataServer.DataAccess.Impl
         
         public async Task<OrderItem>CreateOrderItemAsync(OrderItem orderItem)
         {
+            /*
             Order toUpdate = await context.Orders
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
             toUpdate.OrderItems.Add(orderItem);
             context.Orders.Update(toUpdate);
-            OrderItem itemToUpdate = await context.OrderItems
-                .LastOrDefaultAsync();
+            OrderItem itemToUpdate = await context.OrderItems.OrderByDescending(orderItem => orderItem.OrderItemId)
+                .FirstOrDefaultAsync();
             itemToUpdate.Menu = orderItem.Menu;
             context.OrderItems.Update(itemToUpdate);
 
@@ -33,6 +34,7 @@ namespace DataServer.DataAccess.Impl
             menuToUpdate.OrderItems.Add(orderItem);
             context.Menus.Update(menuToUpdate);
 */
+            await context.AddAsync(orderItem);
 
             return orderItem;
         }

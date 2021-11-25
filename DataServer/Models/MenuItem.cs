@@ -10,8 +10,13 @@ namespace DataServer.Models
         public string Name { get; set; }
         public decimal Price { get; set; }
         [JsonIgnore]
-        public IList<Menu> Menus { get; set; }
 
-    
+        public IList<MenuItemsSelection> MenuItemsSelections
+        {
+            get;
+            set;
+        }
+
+
     }
 }

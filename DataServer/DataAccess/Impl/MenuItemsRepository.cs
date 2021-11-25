@@ -23,7 +23,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
         {
-            return await context.MenuItems.Where(item => item.Menus.Any(menu => menu.MenuId == menuId)).ToListAsync();
+            return null; // await context.MenuItems.Where(item => item.Menus.Any(menu => menu.MenuId == menuId)).ToListAsync();
         }
     }
 }
