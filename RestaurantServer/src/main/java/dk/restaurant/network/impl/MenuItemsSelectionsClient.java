@@ -28,7 +28,6 @@ public class MenuItemsSelectionsClient implements IMenuItemsSelectionsClient
     try
     {
       socket = new Socket(HOST, PORT);
-      System.out.println("MenuItemsSelections Connected");
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
       gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();

@@ -31,7 +31,6 @@ public class OrderItemsClient implements IOrderItemsClient
     try
     {
       socket = new Socket(HOST, PORT);
-      System.out.println("OrderItems Connected");
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
       gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
