@@ -33,9 +33,9 @@ else
                         <b>@menu.Name</b>
                         <div style="margin-top:20px">Description:</div>
                         <b>
-                            @foreach (var menuItem in menu.MenusItemsSelections)
+                            @foreach (var selection in menu.MenusItemsSelections)
                             {
-                                @menuItem.MenuItem.Name;
+                                @selection.MenuItem.Name;
                             }
                         </b>
                         <br/>
