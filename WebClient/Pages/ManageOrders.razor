@@ -1,0 +1,33 @@
+﻿@page "/ManageOrders"
+@inject NavigationManager NavigationManager
+<div class="d-flex justify-content-center align-items-center">
+<h3>Manage Orders</h3>
+  </div>
+<div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ViewPendingOrders">Pending Orders</button>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ViewConfirmedOrders">Confirmed Orders</button>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ViewCompletedOrders">Completed Orders</button>
+    </div>
+
+@code {
+
+    private void ViewPendingOrders()
+    {
+        NavigationManager.NavigateTo("/PendingOrders");
+    }
+
+    private void ViewConfirmedOrders()
+    {
+        NavigationManager.NavigateTo("/ConfirmedOrders");
+    }
+    
+    private void ViewCompletedOrders()
+    {
+        NavigationManager.NavigateTo("/CompletedOrders");
+    }
+
+}
