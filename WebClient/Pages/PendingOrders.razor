@@ -1,0 +1,103 @@
+﻿@page "/PendingOrders"
+@inject NavigationManager NavigationManager
+@using WebClient.Models
+<div class="d-flex justify-content-center align-items-center" >
+    <h3 style="margin-bottom: 5%">PendingOrders</h3>
+</div>
+@if (pendingOrders == null)
+{
+    <p>
+        <em>Filter to show todos</em>
+    </p>
+}
+else if (!pendingOrders.Any())
+{
+    <p>
+        <em>No todo items exist for the current filter selection</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in pendingOrders)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                <td>@item.Customer.FirstName</td>
+                <td>@item.OrderDateTime</td>
+                <td>@item.Status</td>
+                <td>
+                    <button @onclick="@(() => ViewOrder(item.OrderId))">
+                        <i class="oi oi-eye" style="color:#1b6ec2"/>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Order> pendingOrders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pendingOrders = Seed();
+    }
+
+    private void ViewOrder(long orderId)
+    {
+        NavigationManager.NavigateTo($"ViewOrder/{orderId}");
+    }
+
+    private IList<Order> Seed()
+    {
+        List<Order> orders = new List<Order>
+        {
+            new Order()
+            {
+                OrderId = 1,
+                OrderDateTime = new DateTime(2021,11,26,11,15,30),
+                Customer = new Customer
+                {
+                    FirstName = "Luis"
+                },
+                Status = "Pending",
+                IsDelivery = true,
+                Price = 500,
+                OrderItems = new List<OrderItem>
+                {
+                    new OrderItem
+                    {
+                        Menu = new Menu
+                        {
+                            Name = "Menu1",
+                            MenusItemsSelections = new List<MenuItemsSelection>
+                            {
+                                new MenuItemsSelection
+                                {
+                                    MenuItem = new MenuItem
+                                    {
+                                        Name = "MenuItem1"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        return orders;
+    }
+
+}
