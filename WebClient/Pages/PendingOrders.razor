@@ -1,7 +1,7 @@
 ﻿@page "/PendingOrders"
 @inject NavigationManager NavigationManager
 @using WebClient.Models
-<div class="d-flex justify-content-center align-items-center" >
+<div class="text-center">
     <h3 style="margin-bottom: 5%">PendingOrders</h3>
 </div>
 @if (pendingOrders == null)
@@ -46,18 +46,27 @@ else
         </tbody>
     </table>
 }
+<div class="text-center">
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+</div>
 
 @code {
     private IList<Order> pendingOrders;
 
     protected override async Task OnInitializedAsync()
     {
+    //TODO Get from DB and check if status is pending
         pendingOrders = Seed();
     }
 
     private void ViewOrder(long orderId)
     {
         NavigationManager.NavigateTo($"ViewOrder/{orderId}");
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("ManageOrders");
     }
 
     private IList<Order> Seed()
@@ -67,7 +76,7 @@ else
             new Order()
             {
                 OrderId = 1,
-                OrderDateTime = new DateTime(2021,11,26,11,15,30),
+                OrderDateTime = new DateTime(2021, 11, 26, 11, 15, 30),
                 Customer = new Customer
                 {
                     FirstName = "Luis"
