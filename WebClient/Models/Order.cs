@@ -17,6 +17,7 @@ namespace WebClient.Models
         public IList<OrderItem> OrderItems { get; set; } 
         public Customer Customer { get; set; }
         public string Status { get; set; }
+        public bool IsDelivery { get; set; }
         
         public DeliveryAddress DeliveryAddress{ get; set; }
 
