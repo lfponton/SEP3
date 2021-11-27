@@ -12,7 +12,7 @@ public class Menu implements Serializable
   private String type;
   private BigDecimal price;
   private String description;
-  private List<MenuItem> menuItems;
+  private List<MenuItemsSelection> menuItemsSelections;
   private List<OrderItem> orderItems;
 
   public Menu()
@@ -22,10 +22,10 @@ public class Menu implements Serializable
   }
 
   public Menu(int menuId, BigDecimal price, String name, String type,
-      String description, List<MenuItem> menuItems, List<OrderItem> orderItems)
+      String description, List<MenuItemsSelection> menuItemsSelections, List<OrderItem> orderItems)
   {
     this.menuId = menuId;
-    this.menuItems = menuItems;
+    this.menuItemsSelections = menuItemsSelections;
     this.orderItems = orderItems;
     this.description = description;
     this.price = price;
@@ -35,24 +35,24 @@ public class Menu implements Serializable
 
   private void setPrice()
   {
-    if (menuItems != null)
+    if (menuItemsSelections != null)
     {
-      for (MenuItem menuItem : menuItems)
+      for (MenuItemsSelection menuItemsSelection : menuItemsSelections)
       {
-        price.add(menuItem.getPrice());
+        price.add(menuItemsSelection.getPrice());
       }
     }
 
   }
 
-  public List<MenuItem> getMenuItems()
+  public List<MenuItemsSelection> getMenuItemsSelections()
   {
-    return menuItems;
+    return menuItemsSelections;
   }
 
-  public void setMenuItems(List<MenuItem> menuItems)
+  public void setMenuItemsSelections(List<MenuItemsSelection> menuItemsSelections)
   {
-    this.menuItems = menuItems;
+    this.menuItemsSelections = menuItemsSelections;
   }
 
   public String getDescription()
