@@ -24,6 +24,12 @@ public class OrderController
     return client.getOrders();
   }
 
+  @GetMapping("/orders/{orderId}")
+  public Order getOrder(@PathVariable long orderId)
+  {
+    return client.getOrder(orderId);
+  }
+
   @PostMapping("/orders")
   @ResponseStatus(HttpStatus.CREATED)
   public Order createOrder(@RequestBody Order order)

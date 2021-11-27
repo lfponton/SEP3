@@ -33,7 +33,7 @@ public class OrdersClient implements IOrdersClient
       socket = new Socket(HOST, PORT);
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
-      gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+      gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     }
     catch (IOException e)
     {
@@ -69,8 +69,28 @@ public class OrdersClient implements IOrdersClient
       out.println("Orders");
       out.println("createOrder");
       String send = gson.toJson(order);
+      System.out.println("Order to DS " + send);
       out.println(send);
       response = in.readLine();
+      System.out.println("Order from DS " + response);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, Order.class);
+  }
+
+  @Override public Order getOrder(long orderId)
+  {
+    String response = "";
+    try
+    {
+      out.println("Orders");
+      out.println("getOrder");
+      out.println(orderId);
+      response = in.readLine();
+      System.out.println(response);
     }
     catch (Exception e)
     {
