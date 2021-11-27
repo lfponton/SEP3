@@ -79,6 +79,7 @@ namespace DataServer.Network
             OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
             await unitOfWork.OrderItemsRepository.CreateOrderItemAsync(orderItem);
             await unitOfWork.Save();
+            Console.WriteLine(JsonSerializer.Serialize(orderItem, optionsWithoutConverter));
             return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
         }
 

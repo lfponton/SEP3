@@ -84,8 +84,6 @@ public class OrderItem {
     public String toString() {
         return "OrderItem{" +
                 "orderItemId=" + orderItemId +
-                ", orderId=" + order.toString() +
-                ", menuId=" + getMenuId() +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';

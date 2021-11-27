@@ -19,6 +19,9 @@ namespace DataServer.DataAccess.Impl
         
         public async Task<OrderItem>CreateOrderItemAsync(OrderItem orderItem)
         {
+            Menu menu = await context.Menus.FirstOrDefaultAsync(m => m.MenuId == orderItem.Menu.MenuId);
+            orderItem.Menu = menu;
+            
             /*
             Order toUpdate = await context.Orders
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
