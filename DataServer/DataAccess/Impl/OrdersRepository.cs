@@ -16,9 +16,12 @@ namespace DataServer.DataAccess.Impl
         }
         public async Task<Order> CreateOrderAsync(Order order)
         {
-            Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
-            order.Customer = customer;
-            
+            if (order.Customer != null)
+            {
+                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
+                order.Customer = customer;
+            }
+
             Console.WriteLine(order.ToString());
             await context.Orders.AddAsync(order);
             return order;

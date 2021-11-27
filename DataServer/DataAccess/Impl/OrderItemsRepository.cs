@@ -19,9 +19,6 @@ namespace DataServer.DataAccess.Impl
         
         public async Task<OrderItem>CreateOrderItemAsync(OrderItem orderItem)
         {
-            Menu menu = await context.Menus.FirstOrDefaultAsync(m => m.MenuId == orderItem.Menu.MenuId);
-            orderItem.Menu = menu;
-            
             /*
             Order toUpdate = await context.Orders
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
@@ -37,7 +34,9 @@ namespace DataServer.DataAccess.Impl
             menuToUpdate.OrderItems.Add(orderItem);
             context.Menus.Update(menuToUpdate);
 */
-            await context.AddAsync(orderItem);
+            
+            Console.WriteLine(orderItem.ToString());
+            await context.OrderItems.AddAsync(orderItem);
 
             return orderItem;
         }
@@ -45,18 +44,13 @@ namespace DataServer.DataAccess.Impl
         public async Task<List<OrderItem>> GetOrderItemsAsync(int orderId)
         {
             List<OrderItem> orderItems = await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
-           // orderItems.ForEach(Console.WriteLine());
-           foreach (var oi in orderItems)
-           {
-               Console.WriteLine(oi.OrderItemId);
-
-           }
             return await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
         }
 
         public async Task DeleteOrderItemAsync(long orderItemId)
         {
-            OrderItem toRemove = await context.OrderItems.FirstOrDefaultAsync(o => o.OrderItemId == orderItemId);
+            // Needs to be fixed
+            OrderItem toRemove = await context.OrderItems.FirstOrDefaultAsync(o => o.OrderId == orderItemId);
             if (toRemove != null)
             {
                 context.OrderItems.Remove(toRemove);
