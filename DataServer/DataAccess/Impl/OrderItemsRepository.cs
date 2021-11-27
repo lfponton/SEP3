@@ -19,22 +19,23 @@ namespace DataServer.DataAccess.Impl
         
         public async Task<OrderItem>CreateOrderItemAsync(OrderItem orderItem)
         {
-            /*
+            
             Order toUpdate = await context.Orders
                 .FirstAsync(o => o.OrderId == orderItem.Order.OrderId);
             toUpdate.OrderItems.Add(orderItem);
             context.Orders.Update(toUpdate);
-            OrderItem itemToUpdate = await context.OrderItems.OrderByDescending(orderItem => orderItem.OrderItemId)
+            
+            /*OrderItem itemToUpdate = await context.OrderItems.OrderByDescending(orderItem => orderItem.OrderItemId)
                 .FirstOrDefaultAsync();
             itemToUpdate.Menu = orderItem.Menu;
-            context.OrderItems.Update(itemToUpdate);
+            context.OrderItems.Update(itemToUpdate);*/
 
-            /*
-            Menu menuToUpdate = await context.Menus.FirstAsync(m => m.MenuId == orderItem.Menu.MenuId);
-            menuToUpdate.OrderItems.Add(orderItem);
-            context.Menus.Update(menuToUpdate);
-*/
-            await context.AddAsync(orderItem);
+            
+            MenuItemsSelection menuToUpdate = await context.MenuItemsSelections.FirstAsync(m => m.MenuId == orderItem.Menu.MenuId);
+            //menuToUpdate.OrderItem.Add(orderItem);
+          //  context.Menus.Update(menuToUpdate);
+
+            //await context.AddAsync(orderItem);
 
             return orderItem;
         }
