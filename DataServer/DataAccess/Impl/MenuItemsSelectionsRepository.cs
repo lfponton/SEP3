@@ -25,7 +25,6 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<MenuItemsSelection> CreateMenuItemsSelectionAsync(MenuItemsSelection menuItemsSelection)
         {
-            Console.WriteLine(menuItemsSelection.ToString());
             await context.MenuItemsSelections.AddAsync(menuItemsSelection);
             return menuItemsSelection;
         }

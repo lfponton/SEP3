@@ -31,7 +31,6 @@ public class MenuItemsSelectionsController
   @ResponseStatus(HttpStatus.CREATED)
   public MenuItemsSelection createMenuItemsSelection(@RequestBody MenuItemsSelection menuItemsSelection)
   {
-    System.out.println("MenuItemsSelectionController->" + menuItemsSelection.toString());
     return client.createMenuItemsSelection(menuItemsSelection);
   }
 }

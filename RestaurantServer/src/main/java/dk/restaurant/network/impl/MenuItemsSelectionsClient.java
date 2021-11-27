@@ -65,7 +65,6 @@ public class MenuItemsSelectionsClient implements IMenuItemsSelectionsClient
       String send = gson.toJson(menuItemsSelection);
       out.println(send);
       response = in.readLine();
-      System.out.println("Response from DS:" + response);
     }
     catch (IOException e)
     {
