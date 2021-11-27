@@ -71,11 +71,11 @@ else
                 <td>@item.Quantity</td>
                 <td>
                     @*@item.Menu.Name*@
-                    @item.OrderItemId
+                    @*had to change this because orderItems don't have ids any more*@
                 </td>
                 <td></td>
                 <td>
-                    <button @onclick="@(() => DeleteOrderItem(@item.OrderItemId))">
+                    <button @onclick="@(() => DeleteOrderItem(1))"> <!-- Delete here should have an orderItem object as an argument. Not an id.-->
                         <i class="oi oi-trash" style="color:red"/>
                     </button>
                 </td>

@@ -37,11 +37,10 @@ else
         @foreach (var forecast in orderItems)
         {
             <tr>
-                <td>@forecast.OrderItemId</td>
                 <td>@forecast.Order.OrderId</td>
                 <td>@forecast.Menu.Name</td>
                 <td>@forecast.Quantity</td>
-               
+
             </tr>
         }
         <h4>Total to pay</h4>
