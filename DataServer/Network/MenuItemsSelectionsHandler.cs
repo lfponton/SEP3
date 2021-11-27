@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess.Impl;
+using DataServer.Models;
 using DataServer.Persistence;
 
 namespace DataServer.Network
@@ -27,7 +28,6 @@ namespace DataServer.Network
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            
         }
 
         public async Task<string> ProcessClientRequestType(string requestType, string args)
@@ -36,9 +36,21 @@ namespace DataServer.Network
             {
                 case "getMenuItemsSelections":
                     return await GetMenuItemsSelections(args);
+                case "createMenuItemsSelection":
+                    return await CreateMenuItemsSelection(args);
                 default:
                     return "";
             }
+        }
+
+        private async Task<string> CreateMenuItemsSelection(string args)
+        {
+            MenuItemsSelection menuItemsSelection = JsonSerializer.Deserialize<MenuItemsSelection>(args, options);
+            string jsonMenuItemsSelection = JsonSerializer.Serialize(
+                await unitOfWork.MenuItemsSelectionsRepository.CreateMenuItemsSelectionAsync(menuItemsSelection),
+                options);
+            await unitOfWork.Save();
+            return jsonMenuItemsSelection;
         }
 
         private async Task<string> GetMenuItemsSelections(string args)
@@ -48,7 +60,7 @@ namespace DataServer.Network
                 JsonSerializer.Serialize(await unitOfWork.MenuItemsSelectionsRepository.GetMenuItemsSelections(menuId),
                     options);
             Console.WriteLine(response);
-            return  response;
+            return response;
         }
     }
 }

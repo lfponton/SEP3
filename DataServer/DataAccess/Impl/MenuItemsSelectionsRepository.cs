@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataServer.Models;
@@ -16,10 +17,17 @@ namespace DataServer.DataAccess.Impl
             this.context = context;
         }
         
-        public Task<List<MenuItemsSelection>> GetMenuItemsSelections(long menuId)
+        public async Task<List<MenuItemsSelection>> GetMenuItemsSelections(long menuId)
         {
-            return context.MenuItemsSelections.Where(selection => selection.MenuId == menuId)
+            return await context.MenuItemsSelections.Where(selection => selection.MenuId == menuId)
                 .Include(selection => selection.MenuItem).ToListAsync();
+        }
+
+        public async Task<MenuItemsSelection> CreateMenuItemsSelectionAsync(MenuItemsSelection menuItemsSelection)
+        {
+            Console.WriteLine(menuItemsSelection.ToString());
+            await context.MenuItemsSelections.AddAsync(menuItemsSelection);
+            return menuItemsSelection;
         }
     }
 }

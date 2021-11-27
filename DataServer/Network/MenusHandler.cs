@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess.Impl;
+using DataServer.Models;
 using DataServer.Persistence;
 
 namespace DataServer.Network
@@ -34,9 +35,19 @@ namespace DataServer.Network
             {
                 case "getMenus":
                     return await GetMenus();
+                case "createMenu":
+                    return await CreateMenu(args);
                 default:
                     return "";
             }
+        }
+
+        private async Task<string> CreateMenu(string args)
+        {
+            Menu menu = JsonSerializer.Deserialize<Menu>(args, options);
+            string jsonMenu = JsonSerializer.Serialize(await unitOfWork.MenusRepository.CreateMenuAsync(menu), options);
+            await unitOfWork.Save();
+            return jsonMenu;
         }
 
         private async Task<string> GetMenus()

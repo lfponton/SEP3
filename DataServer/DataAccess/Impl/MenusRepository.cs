@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataServer.Models;
 using DataServer.Persistence;
@@ -15,9 +16,10 @@ namespace DataServer.DataAccess.Impl
             this.context = context;
         }
 
-        public async Task CreateMenuAsync(Menu menu)
+        public async Task<Menu> CreateMenuAsync(Menu menu)
         {
             await context.Menus.AddAsync(menu);
+            return menu;
         }
 
         public async Task<List<Menu>> GetMenusAsync()
