@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DataServer.Models
 {
-    public class MenuItem
+    public class MenuItemsSelection
     {
-        public long MenuItemId { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
+        public long MenuId { get; set; }
         [JsonIgnore]
-
-        public IList<MenuItemsSelection> MenuItemsSelections
-        {
-            get;
-            set;
-        }
+        public Menu Menu { get; set; }
+        public long MenuItemId { get; set; }
+        [JsonIgnore]
+        public MenuItem MenuItem { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
         // TESTING
         public override string ToString()
         {
@@ -26,7 +22,5 @@ namespace DataServer.Models
             });
         }
         
-
-
     }
 }

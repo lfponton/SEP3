@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DataServer.Models
 {
@@ -9,17 +11,26 @@ namespace DataServer.Models
         public string Type { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public IList<MenuItem> MenuItems { get; set; } 
-        
+        [JsonIgnore]
+        public IList<MenuItemsSelection> MenuItemsSelections { get; set; } 
+        [JsonIgnore]
         public IList<OrderItem> OrderItems { get; set; }
 
 
         public Menu()
         {
-            MenuItems = new List<MenuItem>();
+            MenuItemsSelections = new List<MenuItemsSelection>();
             OrderItems = new List<OrderItem>();
         }
 
+        // TESTING
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+        }
         
     }
 }

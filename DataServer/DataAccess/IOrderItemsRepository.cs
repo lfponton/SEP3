@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataServer.Models;
-using DataServer.Models;
 
 namespace DataServer.DataAccess
 {
-    public interface IOrderItemDao
+    public interface IOrderItemsRepository
     {
         Task<OrderItem> CreateOrderItemAsync(OrderItem orderItem);
 

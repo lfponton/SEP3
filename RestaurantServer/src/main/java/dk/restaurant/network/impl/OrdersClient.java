@@ -1,7 +1,6 @@
 package dk.restaurant.network.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import dk.restaurant.models.Order;
 import dk.restaurant.network.IOrdersClient;
@@ -10,7 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +31,9 @@ public class OrdersClient implements IOrdersClient
     try
     {
       socket = new Socket(HOST, PORT);
-
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
-      gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+      gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
     }
     catch (IOException e)
     {
@@ -45,9 +47,7 @@ public class OrdersClient implements IOrdersClient
     try
     {
       out.println("Orders");
-      System.out.println("Sending Orders to DataServer");
       out.println("getOrders");
-      System.out.println("Getting Orders from DataServer");
       out.println("");
       String response = in.readLine();
       orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>()
@@ -67,11 +67,28 @@ public class OrdersClient implements IOrdersClient
     try
     {
       out.println("Orders");
-      System.out.println("Sending Orders to DataServer");
-      System.out.println("Creating Order");
       out.println("createOrder");
       String send = gson.toJson(order);
+      System.out.println("Order to DS " + send);
       out.println(send);
+      response = in.readLine();
+      System.out.println("Order from DS " + response);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, Order.class);
+  }
+
+  @Override public Order getOrder(long orderId)
+  {
+    String response = "";
+    try
+    {
+      out.println("Orders");
+      out.println("getOrder");
+      out.println(orderId);
       response = in.readLine();
       System.out.println(response);
     }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class MenuItemDao : IMenuItemDao
+    public class MenuItemsRepository : IMenuItemsRepository
     {
         private RestaurantDbContext context;
 
-        public MenuItemDao(RestaurantDbContext context)
+        public MenuItemsRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
@@ -19,12 +19,19 @@ namespace DataServer.DataAccess.Impl
         public async Task CreateMenuItemAsync(MenuItem menuItem)
         {
             await context.MenuItems.AddAsync(menuItem);
-            await context.SaveChangesAsync();
         }
 
         public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
         {
-            return await context.MenuItems.Where(item => item.Menus.Any(menu => menu.MenuId == menuId)).ToListAsync();
+            List<MenuItemsSelection> selection = await context.MenuItemsSelections
+                .Where(selection => selection.MenuId == menuId).Include(selection => selection.MenuItem).ToListAsync(); 
+            List<MenuItem> menuItems = new List<MenuItem>();
+            foreach (var s in selection)
+            {
+                menuItems.Add(s.MenuItem);
+            }
+            
+            return menuItems;
         }
     }
 }

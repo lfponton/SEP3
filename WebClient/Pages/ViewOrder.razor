@@ -1,0 +1,158 @@
+﻿@page "/ViewOrder/{Id:int}"
+@inject NavigationManager NavigationManager
+@using WebClient.Models
+<div class="text-center">
+    <!-- We could use cards here to display info -->
+    <h3 style="margin-bottom: 5%">Order @Id</h3>
+    <p>Order Type: @orderType </p>
+    <p>Customer Name: @order.Customer.FirstName</p>
+    <p>Date and Time of Order: @order.OrderDateTime</p>
+    <p>Status: @order.Status</p>
+    <p>Menus</p>
+    @foreach (var orderItem in order.OrderItems)
+    {
+        <p>Menu Name: @orderItem.Menu.Name</p>
+        <p>Quantity: @orderItem.Quantity</p>
+        <p>MenuItems:</p>
+        foreach (var selection in orderItem.Menu.MenusItemsSelections)
+        {
+            <p>MenuItem Name: @selection.MenuItem.Name</p>
+            <p>Quantity: @selection.Quantity</p>
+        }
+    }
+    <!-- Needs input validation -->
+    <p>Delivery Time</p>
+    <RadzenDatePicker TValue="DateTime?" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" Change=@(args => OnChange(args))>
+    </RadzenDatePicker>
+
+    <div>
+        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ConfirmOrder">Confirm</button>
+        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="CancelOrder">Cancel</button>
+        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Order order;
+    private string orderType;
+
+    protected override async Task OnInitializedAsync()
+    {
+        order = Seed();
+        orderType = order.IsDelivery ? "Delivery" : "Pick Up";
+    }
+
+    void OnChange(DateTime? value)
+    {
+        if (value != null)
+        {
+            order.DeliveryTime = (DateTime) value;
+        }
+    }
+
+    private void ConfirmOrder()
+    {
+        // TODO save in DB
+        NavigationManager.NavigateTo("PendingOrders");
+    }
+
+    private void CancelOrder()
+    {
+        //TODO set order status to Cancelled
+        NavigationManager.NavigateTo("PendingOrders");
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("PendingOrders");
+    }
+
+    private Order Seed()
+    {
+        Order orderSeed = new Order()
+        {
+            OrderId = 1,
+            OrderDateTime = new DateTime(2021, 11, 26, 11, 15, 30),
+            Customer = new Customer
+            {
+                FirstName = "Luis",
+                LastName = "Fernandez",
+                Email = "email@mail.com"
+            },
+            Status = "Pending",
+            IsDelivery = true,
+            Price = 500,
+            OrderItems = new List<OrderItem>
+            {
+                new OrderItem
+                {
+                    Quantity = 2,
+                    Menu = new Menu
+                    {
+                        Name = "Healthy Menu",
+                        Type = "Vegetarian",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
+                                      "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
+                                      "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                        MenusItemsSelections = new List<MenuItemsSelection>
+                        {
+                            new MenuItemsSelection
+                            {
+                                Quantity = 3,
+                                MenuItem = new MenuItem
+                                {
+                                    Name = "MenuItem1"
+                                }
+                            },
+                            new MenuItemsSelection
+                            {
+                                Quantity = 1,
+                                MenuItem = new MenuItem
+                                {
+                                    Name = "MenuItem2"
+                                }
+                            }
+                        }
+                    }
+                },
+                new OrderItem
+                {
+                    Quantity = 1,
+                    Menu = new Menu
+                    {
+                        Name = "Yummy Menu",
+                        Type = "Regular",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
+                                      "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
+                                      "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+                        MenusItemsSelections = new List<MenuItemsSelection>
+                        {
+                            new MenuItemsSelection
+                            {
+                                Quantity = 2,
+                                MenuItem = new MenuItem
+                                {
+                                    Name = "MenuItem3"
+                                }
+                            },
+                            new MenuItemsSelection
+                            {
+                                Quantity = 4,
+                                MenuItem = new MenuItem
+                                {
+                                    Name = "MenuItem4"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+            ;
+        return orderSeed;
+    }
+}

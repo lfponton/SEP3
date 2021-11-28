@@ -7,17 +7,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class OrdersDao : IOrdersDao
+    public class OrdersRepository : IOrdersRepository
     {
         private RestaurantDbContext context;
-        public OrdersDao(RestaurantDbContext context)
+        public OrdersRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
         public async Task<Order> CreateOrderAsync(Order order)
         {
+            if (order.Customer != null)
+            {
+                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
+                order.Customer = customer;
+            }
+
+            Console.WriteLine(order.ToString());
             await context.Orders.AddAsync(order);
-            await context.SaveChangesAsync();
             return order;
         }
 
@@ -54,6 +60,11 @@ namespace DataServer.DataAccess.Impl
                 context.Orders.Remove(toRemove);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public Task<Order> GetOrder(long orderId)
+        {
+            return context.Orders.FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
     }
 }

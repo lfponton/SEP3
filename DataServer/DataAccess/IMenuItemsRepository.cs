@@ -4,7 +4,7 @@ using DataServer.Models;
 
 namespace DataServer.DataAccess
 {
-    public interface IMenuItemDao
+    public interface IMenuItemsRepository
     {
         Task CreateMenuItemAsync(MenuItem menuItem);
 

@@ -2,31 +2,23 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using DataServer.DataAccess;
-using DataServer.Models;
-using DataServer.DataAccess;
-using DataServer.Network;
 
 namespace DataServer.Network
 {
     public class ServerHandler
     {
         private TcpClient client;
-        private IDaoFactory daoFactory;
-        
+
         private StreamWriter writer;
         private StreamReader reader;
 
         private bool clientConnected;
         
-        public ServerHandler(TcpClient client, IDaoFactory daoFactory)
+        public ServerHandler(TcpClient client)
         {
             this.client = client;
-            this.daoFactory = daoFactory;
 
             NetworkStream stream = client.GetStream();
             writer = new StreamWriter(stream, Encoding.ASCII){AutoFlush = true};
@@ -62,6 +54,7 @@ namespace DataServer.Network
                 catch (IOException e)
                 {
                     clientConnected = false;
+                    Console.WriteLine($"IOException: {e}" );
                 }
             } while (clientConnected);
             client.Close();
@@ -72,11 +65,13 @@ namespace DataServer.Network
             switch (requestType)
             {
                 case "Orders":
-                    return new OrdersHandler(daoFactory);
+                    return new OrdersHandler();
                 case "Menus":
-                    return new MenusHandler(daoFactory);
+                    return new MenusHandler();
                 case "MenuItems":
-                    return new MenuItemsHandler(daoFactory);
+                    return new MenuItemsHandler();
+                case "MenuItemsSelections":
+                    return new MenuItemsSelectionsHandler();
                 default:
                     return null;
             }

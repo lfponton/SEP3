@@ -36,6 +36,7 @@ namespace WebClient
             services.AddScoped<ContextMenuService>();
             services.AddSingleton<IMenusPersistence, MenusPersistence>();
             services.AddSingleton<IMenuItemsService, MenuItemsWebService>();
+            services.AddSingleton<IMenuItemsSelectionsService, MenuItemsSelectionsWebService>();
             services.AddScoped<IOrderItemsService, OrderItemsService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

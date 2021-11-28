@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dk.restaurant.models.Menu;
-import dk.restaurant.network.IMenusClient;
+import dk.restaurant.models.MenuItem;
+import dk.restaurant.models.MenuItemsSelection;
+import dk.restaurant.network.IMenuItemsSelectionsClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +16,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenusClient implements IMenusClient
+public class MenuItemsSelectionsClient implements IMenuItemsSelectionsClient
 {
-
   final String HOST = "localhost";
   final int PORT = 2001;
   private Socket socket;
@@ -24,7 +25,7 @@ public class MenusClient implements IMenusClient
   private BufferedReader in;
   private Gson gson;
 
-  public MenusClient()
+  public MenuItemsSelectionsClient()
   {
     try
     {
@@ -32,43 +33,36 @@ public class MenusClient implements IMenusClient
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
       gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-    }
-    catch (IOException e)
+    } catch (IOException e)
     {
       e.printStackTrace();
     }
 
   }
-
-  @Override public synchronized List<Menu> getMenus()
+  @Override public List<MenuItemsSelection> getMenuItemsSelections(long menuId)
   {
-    out.println("Menus");
-    List<Menu> menus = new ArrayList<>();
-    try
-    {
-      out.println("getMenus");
-      out.println("");
+    out.println("MenuItemsSelections");
+    List<MenuItemsSelection> menuItemsSelection = new ArrayList<>();
+    try {
+      out.println("getMenuItemsSelections");
+      out.println(menuId);
       String response = in.readLine();
-      menus = gson.fromJson(response, new TypeToken<ArrayList<Menu>>()
-      {
-      }.getType());
-    }
-    catch (IOException e)
+      menuItemsSelection = gson.fromJson(response, new TypeToken<ArrayList<MenuItemsSelection>>() {}.getType());
+    } catch (IOException e)
     {
       e.printStackTrace();
     }
-
-    return menus;
+    return menuItemsSelection;
   }
 
-  @Override public synchronized Menu createMenu(Menu menu)
+  @Override public synchronized MenuItemsSelection createMenuItemsSelection(MenuItemsSelection menuItemsSelection)
   {
-    out.println("Menus");
+    out.println("MenuItemsSelections");
     String response = "";
     try
     {
-      out.println("createMenu");
-      String send = gson.toJson(menu);
+      out.println("createMenuItemsSelection");
+      String send = gson.toJson(menuItemsSelection);
       out.println(send);
       response = in.readLine();
     }
@@ -76,6 +70,6 @@ public class MenusClient implements IMenusClient
     {
       e.printStackTrace();
     }
-    return gson.fromJson(response, Menu.class);
+    return gson.fromJson(response, MenuItemsSelection.class);
   }
 }

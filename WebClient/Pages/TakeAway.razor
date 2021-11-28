@@ -3,6 +3,7 @@
 @using WebClient.Data
 @inject IMenusPersistence MenusPersistence;
 @inject IMenuItemsService MenuItemsWebService;
+@inject IMenuItemsSelectionsService MenuItemsSelectionsService
 @inject IOrderItemsService OrderItemsService;
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
@@ -32,9 +33,9 @@ else
                         <b>@menu.Name</b>
                         <div style="margin-top:20px">Description:</div>
                         <b>
-                            @foreach (var menuItem in menu.MenuItems)
+                            @foreach (var selection in menu.MenusItemsSelections)
                             {
-                                @menuItem.Name;
+                                @selection.MenuItem.Name;
                             }
                         </b>
                         <br/>
@@ -47,7 +48,7 @@ else
                         <div style="margin-top:20px">Order: </div>
                         <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                         <br/>
-                        <RadzenButton Click=@(() => OnAddOrderItem(@menu)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
+                        <RadzenButton Click=@(() => OnAddOrderItem(@menu.MenuId)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
                     </div>
                 </div>
             </RadzenCard>
@@ -70,11 +71,11 @@ else
                 <td>@item.Quantity</td>
                 <td>
                     @*@item.Menu.Name*@
-                    @item.OrderItemId
+                    @*had to change this because orderItems don't have ids any more*@
                 </td>
                 <td></td>
                 <td>
-                    <button @onclick="@(() => DeleteOrderItem(@item.OrderItemId))">
+                    <button @onclick="@(() => DeleteOrderItem(1))"> <!-- Delete here should have an orderItem object as an argument. Not an id.-->
                         <i class="oi oi-trash" style="color:red"/>
                     </button>
                 </td>
@@ -100,7 +101,7 @@ else
         menus = await MenusPersistence.GetMenus();
         foreach (var m in menus)
         {
-            m.MenuItems = await MenuItemsWebService.GetMenuItems(m.MenuId);
+            m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
         }
     }
     
@@ -109,8 +110,9 @@ else
         quantity = value;
     }
 
-    private async Task OnAddOrderItem(Menu menu)
-    {  
+    private async Task OnAddOrderItem(long menuId)
+    {
+        Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
          await OrderItemsService.CreateOrderItem(quantity, menu, cacheOrder);
         orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
     }
@@ -123,15 +125,7 @@ else
         
     }
 
-    private Menu GetMenuById(int menuId)
-    {
-        return menus.FirstOrDefault(m => m.MenuId == menuId);
-    }
-//TODO function
-    private async Task<IList<MenuItem>> GetMenuItems(int menuId)
-    {
-        return await MenuItemsWebService.GetMenuItems(menuId);
-    }
+  
 
     private void Next()
     { 

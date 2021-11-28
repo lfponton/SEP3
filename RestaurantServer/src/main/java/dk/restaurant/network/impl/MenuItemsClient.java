@@ -28,7 +28,6 @@ public class MenuItemsClient implements IMenuItemsClient
     try
     {
       socket = new Socket(HOST, PORT);
-
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
       gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
@@ -41,7 +40,6 @@ public class MenuItemsClient implements IMenuItemsClient
 
   @Override public synchronized List<MenuItem> getMenuItems(int menuId){
     out.println("MenuItems");
-    System.out.println("Getting MenuItems");
     List<MenuItem> menuItems = new ArrayList<>();
     try {
     out.println("getMenuItems");

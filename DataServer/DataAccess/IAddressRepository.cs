@@ -3,7 +3,7 @@ using DataServer.Models;
 
 namespace DataServer.DataAccess
 {
-    public interface IAddressDao
+    public interface IAddressRepository
     {
         Task CreateAddressAsync(DeliveryAddress deliveryAddress);
     }

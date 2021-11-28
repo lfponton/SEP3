@@ -7,18 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataServer.DataAccess.Impl
 {
-    public class CustomerDao : ICustomerDao
+    public class AccountsRepository : IAccountsRepository
     {
         private RestaurantDbContext context;
 
-        public CustomerDao(RestaurantDbContext context)
+        public AccountsRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
         public async Task CreateCustomerAsync(Customer customer)
         {
             await context.AddAsync(customer);
-            await context.SaveChangesAsync();
         }
 
         public async Task<Customer> ReadCustomerAsync(string email)
@@ -36,7 +35,6 @@ namespace DataServer.DataAccess.Impl
             toUpdate.LastName = customer.LastName;
             toUpdate.Password = customer.Password;
             context.Update(toUpdate);
-            await context.SaveChangesAsync();
         }
 
         public async Task DeleteCustomer(long id)
@@ -45,7 +43,6 @@ namespace DataServer.DataAccess.Impl
             if (toRemove != null)
             {
                 context.Customers.Remove(toRemove);
-                await context.SaveChangesAsync();
             }
         }
     }

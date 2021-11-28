@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 
 public class OrderItem {
 
-    private long orderItemId;
+    private long orderId;
     private Order order;
+    private long menuId;
     private Menu menu;
     private int quantity;
     private BigDecimal price;
@@ -37,8 +38,8 @@ public class OrderItem {
         this.price = price;
     }
 
-    public long getOrderItemId() {
-        return orderItemId;
+    public long getOrderId() {
+        return orderId;
     }
 
     public Order getOrder() {
@@ -49,7 +50,37 @@ public class OrderItem {
         return menu;
     }
 
-    public int getQuantity() {
+  public void setMenuId(long menuId)
+  {
+    this.menuId = menuId;
+  }
+
+  public void setOrderId(long orderId)
+  {
+    this.orderId = orderId;
+  }
+
+  public void setOrder(Order order)
+  {
+    this.order = order;
+  }
+
+  public Menu getMenu()
+  {
+    return menu;
+  }
+
+  public void setMenu(Menu menu)
+  {
+    this.menu = menu;
+  }
+
+  public void setQuantity(int quantity)
+  {
+    this.quantity = quantity;
+  }
+
+  public int getQuantity() {
         return quantity;
     }
 
@@ -58,9 +89,6 @@ public class OrderItem {
     @Override
     public String toString() {
         return "OrderItem{" +
-                "orderItemId=" + orderItemId +
-                ", orderId=" + order.toString() +
-                ", menuId=" + getMenuId() +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';

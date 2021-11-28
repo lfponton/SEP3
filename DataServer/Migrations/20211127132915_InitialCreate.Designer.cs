@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataServer.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20211124165148_InitialCreate")]
+    [Migration("20211127132915_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,6 +165,27 @@ namespace DataServer.Migrations
                     b.ToTable("MenuItems");
                 });
 
+            modelBuilder.Entity("DataServer.Models.MenuItemsSelection", b =>
+                {
+                    b.Property<long>("MenuId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MenuItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("MenuId", "MenuItemId");
+
+                    b.HasIndex("MenuItemId");
+
+                    b.ToTable("MenuItemsSelections");
+                });
+
             modelBuilder.Entity("DataServer.Models.Order", b =>
                 {
                     b.Property<long>("OrderId")
@@ -204,15 +225,10 @@ namespace DataServer.Migrations
 
             modelBuilder.Entity("DataServer.Models.OrderItem", b =>
                 {
-                    b.Property<long>("OrderItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long?>("MenuId")
+                    b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("OrderId")
+                    b.Property<long>("MenuId")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Price")
@@ -221,11 +237,9 @@ namespace DataServer.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderItemId");
+                    b.HasKey("OrderId", "MenuId");
 
                     b.HasIndex("MenuId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
                 });
@@ -279,19 +293,23 @@ namespace DataServer.Migrations
                     b.ToTable("TableBookings");
                 });
 
-            modelBuilder.Entity("MenuMenuItem", b =>
+            modelBuilder.Entity("DataServer.Models.MenuItemsSelection", b =>
                 {
-                    b.Property<long>("MenuItemsMenuItemId")
-                        .HasColumnType("bigint");
+                    b.HasOne("DataServer.Models.Menu", "Menu")
+                        .WithMany("MenuItemsSelections")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<long>("MenusMenuId")
-                        .HasColumnType("bigint");
+                    b.HasOne("DataServer.Models.MenuItem", "MenuItem")
+                        .WithMany("MenuItemsSelections")
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("MenuItemsMenuItemId", "MenusMenuId");
+                    b.Navigation("Menu");
 
-                    b.HasIndex("MenusMenuId");
-
-                    b.ToTable("MenuMenuItem");
+                    b.Navigation("MenuItem");
                 });
 
             modelBuilder.Entity("DataServer.Models.Order", b =>
@@ -313,11 +331,15 @@ namespace DataServer.Migrations
                 {
                     b.HasOne("DataServer.Models.Menu", "Menu")
                         .WithMany("OrderItems")
-                        .HasForeignKey("MenuId");
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataServer.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Menu");
 
@@ -339,24 +361,16 @@ namespace DataServer.Migrations
                     b.Navigation("Table");
                 });
 
-            modelBuilder.Entity("MenuMenuItem", b =>
-                {
-                    b.HasOne("DataServer.Models.MenuItem", null)
-                        .WithMany()
-                        .HasForeignKey("MenuItemsMenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataServer.Models.Menu", null)
-                        .WithMany()
-                        .HasForeignKey("MenusMenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataServer.Models.Menu", b =>
                 {
+                    b.Navigation("MenuItemsSelections");
+
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("DataServer.Models.MenuItem", b =>
+                {
+                    b.Navigation("MenuItemsSelections");
                 });
 
             modelBuilder.Entity("DataServer.Models.Order", b =>

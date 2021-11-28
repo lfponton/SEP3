@@ -1,23 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
-using DataServer.DataAccess;
+using DataServer.DataAccess.Impl;
+using DataServer.Models;
+using DataServer.Persistence;
 
 namespace DataServer.Network
 {
     public class MenusHandler : IRequestHandler
     {
-        private IDaoFactory daoFactory;
-
+        private IUnitOfWork unitOfWork;
         private JsonSerializerOptions options;
         private JsonSerializerOptions optionsWithoutConverter;
 
-        public MenusHandler(IDaoFactory daoFactory)
+        public MenusHandler()
         {
-            this.daoFactory = daoFactory;
+            unitOfWork = new UnitOfWork(new RestaurantDbContext());
 
             options = new JsonSerializerOptions
             {
@@ -38,15 +35,24 @@ namespace DataServer.Network
             {
                 case "getMenus":
                     return await GetMenus();
-                    break;
+                case "createMenu":
+                    return await CreateMenu(args);
                 default:
                     return "";
             }
         }
 
+        private async Task<string> CreateMenu(string args)
+        {
+            Menu menu = JsonSerializer.Deserialize<Menu>(args, options);
+            string jsonMenu = JsonSerializer.Serialize(await unitOfWork.MenusRepository.CreateMenuAsync(menu), options);
+            await unitOfWork.Save();
+            return jsonMenu;
+        }
+
         private async Task<string> GetMenus()
         {
-           return JsonSerializer.Serialize(await daoFactory.MenuDao.GetMenusAsync(), options);
+           return JsonSerializer.Serialize(await unitOfWork.MenusRepository.GetMenusAsync(), options);
         }
     }
 }
