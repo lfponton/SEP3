@@ -80,7 +80,7 @@
 
     private async Task GetBookingsByDate()
     {
-       tableBookings =   tableBookingService.GetBookings(inputDateTime, people);
+       tableBookings =  await tableBookingService.GetBookings(inputDateTime);
     }
 
     private async Task CreateTableBooking(EditContext arg)
