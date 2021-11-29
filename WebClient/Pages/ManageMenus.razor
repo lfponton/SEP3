@@ -1,5 +1,6 @@
 ﻿@page "/ManageMenus"
 @inject NavigationManager NavigationManager
+
 <div class="text-center">
 <div class="text-center">
     <h3>Manage Menus</h3>
@@ -16,7 +17,6 @@
 </div>
 
 @code {
-
     private void ViewPendingMenus()
     {
         NavigationManager.NavigateTo("/PendingMenus");
@@ -26,6 +26,8 @@
     {
         NavigationManager.NavigateTo("/ConfirmedMenus");
     }
+
+   
 
     private void ViewCompletedMenus()
     {
