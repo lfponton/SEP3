@@ -1,6 +1,34 @@
 ﻿@page "/ManageMenus"
-<h3>ManageMenus</h3>
+@inject NavigationManager NavigationManager
+<div class="text-center">
+<div class="text-center">
+    <h3>Manage Menus</h3>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewPendingMenus">ViewPendingMenus</div>
+</div>
+<div class="text-center">
+    <h3>Manage Menus</h3>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewConfirmedMenus">ViewConfirmedMenus</div>
+</div>
+<div class="text-center">
+    <h3>Manage Menus</h3>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewCompletedMenus">ViewCompletedMenus</div>
+</div>
+</div>
 
 @code {
+
+    private void ViewPendingMenus()
+    {
+        NavigationManager.NavigateTo("/PendingMenus");
+    }
+
+    private void ViewConfirmedMenus()
+    {
+        NavigationManager.NavigateTo("/ConfirmedMenus");
+    }
+    private void ViewCompletedMenus()
+    {
+        NavigationManager.NavigateTo("/CompletedMenus");
+    }
     
 }
