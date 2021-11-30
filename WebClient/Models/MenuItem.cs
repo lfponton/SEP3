@@ -15,5 +15,6 @@ namespace WebClient.Models
         public decimal Price { get; set; }
         
         public IList<MenuItemsSelection> MenusItemsSelections { get; set; }
+        
     }
 }

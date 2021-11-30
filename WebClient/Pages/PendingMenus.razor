@@ -1,0 +1,112 @@
+﻿@page "/PendingMenus"
+@inject NavigationManager NavigationManager
+@using WebClient.Models
+@using Microsoft.AspNetCore.Mvc.Diagnostics
+@using System.Collections
+
+<h3>PendingMenus</h3>
+<div class="text-center">
+    <h3 style="margin-bottom:5%">PendingMenus</h3>
+</div>
+@if (typeof(PendingMenus) == null)
+{
+    <p>
+    <em>Filter to show todos</em>
+    </p>
+}
+else if (!PendingMenus.Any())
+{
+    <p>
+    <em>No menus exists for now</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Menus Id</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in pendingMenus)
+        {
+            <tr>
+                <td>items.MenuId</td>
+                <td>items.Name</td>
+                <td>items.Quantity</td>
+                <td>items.Price</td>
+                <td>items.Status</td>
+                <td>
+                    <button @onclick="@(() => ViewMenu(item.MenuId))">
+                        <i class="oi oi-eye" style="color:#1b6ec2"/>
+                    </button>
+                </td>
+            </tr>
+        }
+         </tbody>
+    </table>
+}
+@code {
+    private IList<Menu> pendingMenus;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pendingMenus= Seed();
+    }
+
+    private void ViewMenu(long MenuId)
+    {
+        NavigationManager.NavigateTo($"ViewMenus/{MenuId}");
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("ManageMenus");
+    }
+
+    private IList<Menu> Seed()
+    {
+        List<Menu> menus = new List<Menu>()
+        {
+            new Menu()
+            {
+                MenuId = 1,
+                Name = "Healthy Menu",
+                Quantity = 1,
+                Price = 160,
+                MenuItems = new List<MenuItem>
+                {
+                    new MenuItem()
+                    {
+                        Name = "Healthy Menu",
+                        MenusItemsSelections = new List<MenuItemsSelection>()
+                        {
+                            new MenuItemsSelection
+                            {
+                                MenuItem = new MenuItem
+                                {
+                                    Name = "MenuItem1"
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        };
+        return menus;
+    }
+
+
+    private static bool Any()
+    {
+        throw new NotImplementedException();
+    }
+
+}
