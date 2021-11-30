@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataServer.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20211125144623_InitialCreate")]
+    [Migration("20211127132915_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,15 +225,10 @@ namespace DataServer.Migrations
 
             modelBuilder.Entity("DataServer.Models.OrderItem", b =>
                 {
-                    b.Property<long>("OrderItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long?>("MenuId")
+                    b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("OrderId")
+                    b.Property<long>("MenuId")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Price")
@@ -242,11 +237,9 @@ namespace DataServer.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderItemId");
+                    b.HasKey("OrderId", "MenuId");
 
                     b.HasIndex("MenuId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
                 });
@@ -338,11 +331,15 @@ namespace DataServer.Migrations
                 {
                     b.HasOne("DataServer.Models.Menu", "Menu")
                         .WithMany("OrderItems")
-                        .HasForeignKey("MenuId");
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataServer.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Menu");
 

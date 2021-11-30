@@ -34,6 +34,8 @@ namespace DataServer.Network
         {
             switch (requestType)
             {
+                case "getOrder":
+                    return await GetOrder(args);
                 case "getOrders":
                     return await GetOrders();
 
@@ -51,6 +53,12 @@ namespace DataServer.Network
                 default:
                     return "";
             }
+        }
+
+        private async Task<string> GetOrder(string args)
+        {
+            long orderId = Int64.Parse(args);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetOrder(orderId), optionsWithoutConverter);
         }
 
         private async Task<string> GetOrders()
@@ -71,6 +79,7 @@ namespace DataServer.Network
             OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
             await unitOfWork.OrderItemsRepository.CreateOrderItemAsync(orderItem);
             await unitOfWork.Save();
+            Console.WriteLine(JsonSerializer.Serialize(orderItem, optionsWithoutConverter));
             return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
         }
 

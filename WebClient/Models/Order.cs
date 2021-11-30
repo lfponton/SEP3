@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Models;
 
 namespace WebClient.Models
 {
     public class Order
     {
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
-        public long OrderId { get; set; }
+        [Range(1, maximum:5, ErrorMessage = "Please enter a value between 1 and 5")]
+       public long OrderId { get; set; }
         
-        [Required]
+       
         public DateTime OrderDateTime { get; set; }
+        
         public DateTime DeliveryTime { get; set; }
         public decimal Price { get; set; }
         public IList<OrderItem> OrderItems { get; set; } 
         public Customer Customer { get; set; }
         public string Status { get; set; }
+        public bool IsDelivery { get; set; }
         
         public DeliveryAddress DeliveryAddress{ get; set; }
 
@@ -24,5 +27,7 @@ namespace WebClient.Models
         {
             OrderItems = new List<OrderItem>();
         }
+        
+
     }
 }

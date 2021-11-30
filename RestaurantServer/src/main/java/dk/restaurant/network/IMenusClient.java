@@ -7,5 +7,5 @@ import java.util.List;
 public interface IMenusClient
 {
   List<Menu> getMenus();
-  void createMenu(Menu menu);
+  Menu createMenu(Menu menu);
 }

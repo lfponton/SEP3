@@ -16,6 +16,13 @@ namespace DataServer.DataAccess.Impl
         }
         public async Task<Order> CreateOrderAsync(Order order)
         {
+            if (order.Customer != null)
+            {
+                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
+                order.Customer = customer;
+            }
+
+            Console.WriteLine(order.ToString());
             await context.Orders.AddAsync(order);
             return order;
         }
@@ -53,6 +60,11 @@ namespace DataServer.DataAccess.Impl
                 context.Orders.Remove(toRemove);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public Task<Order> GetOrder(long orderId)
+        {
+            return context.Orders.FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
     }
 }

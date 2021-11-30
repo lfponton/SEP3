@@ -9,17 +9,18 @@ namespace WebClient.Models
         public int MenuId { get; set; }
         [Required]
         public string Name { get; set; }
+        public int Quantity { get; set; }
         public string Type { get; set; }
         
         public decimal Price { get; set; }
         public string Description { get; set; }
         public IList<MenuItemsSelection> MenusItemsSelections { get; set; }
-        public IList<OrderItem> OrderItems { get; set; }
+        public IList<MenuItem> MenuItems { get; set; }
 
         public Menu()
         {
             MenusItemsSelections = new List<MenuItemsSelection>();
-            OrderItems = new List<OrderItem>();
+            MenuItems = new List<MenuItem>();
         }
         
         //For Testing

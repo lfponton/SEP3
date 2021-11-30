@@ -7,5 +7,7 @@ namespace DataServer.DataAccess
     public interface IMenuItemsSelectionsRepository
     {
         Task<List<MenuItemsSelection>> GetMenuItemsSelections(long menuId);
+        
+        Task<MenuItemsSelection> CreateMenuItemsSelectionAsync(MenuItemsSelection menuItemsSelection);
     }
 }

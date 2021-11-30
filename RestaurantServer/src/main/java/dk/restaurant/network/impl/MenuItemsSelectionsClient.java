@@ -3,6 +3,8 @@ package dk.restaurant.network.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import dk.restaurant.models.Menu;
+import dk.restaurant.models.MenuItem;
 import dk.restaurant.models.MenuItemsSelection;
 import dk.restaurant.network.IMenuItemsSelectionsClient;
 
@@ -51,5 +53,23 @@ public class MenuItemsSelectionsClient implements IMenuItemsSelectionsClient
       e.printStackTrace();
     }
     return menuItemsSelection;
+  }
+
+  @Override public synchronized MenuItemsSelection createMenuItemsSelection(MenuItemsSelection menuItemsSelection)
+  {
+    out.println("MenuItemsSelections");
+    String response = "";
+    try
+    {
+      out.println("createMenuItemsSelection");
+      String send = gson.toJson(menuItemsSelection);
+      out.println(send);
+      response = in.readLine();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, MenuItemsSelection.class);
   }
 }

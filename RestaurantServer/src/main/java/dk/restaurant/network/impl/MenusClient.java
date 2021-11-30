@@ -61,7 +61,7 @@ public class MenusClient implements IMenusClient
     return menus;
   }
 
-  @Override public synchronized void createMenu(Menu menu)
+  @Override public synchronized Menu createMenu(Menu menu)
   {
     out.println("Menus");
     String response = "";
@@ -76,6 +76,6 @@ public class MenusClient implements IMenusClient
     {
       e.printStackTrace();
     }
-    // return gson.fromJson(response, Menu.class);
+    return gson.fromJson(response, Menu.class);
   }
 }

@@ -8,4 +8,5 @@ public interface IOrdersClient
 {
   List<Order> getOrders();
   Order createOrder(Order order);
+  Order getOrder(long orderId);
 }

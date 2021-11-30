@@ -1,6 +1,31 @@
 ﻿@page "/ManageMenus"
-<h3>ManageMenus</h3>
+@inject NavigationManager NavigationManager
+
+<div class="text-center">
+<div class="text-center">
+    <h3>Manage Menus</h3>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewMenus">ViewMenus</div>
+</div>
+<div class="text-center">
+    <h3>Manage Menus</h3>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewMenuItems">ViewMenuItems</div>
+</div>
+
+</div>
 
 @code {
+    private void ViewMenus()
+    {
+        NavigationManager.NavigateTo("/ViewMenus");
+    }
+
+    private void ViewMenuItems()
+    {
+        NavigationManager.NavigateTo("/ViewMenuItems");
+    }
+
+   
+
+   
     
 }

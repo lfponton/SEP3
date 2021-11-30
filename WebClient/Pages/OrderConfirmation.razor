@@ -1,6 +1,24 @@
 ﻿@page "/OrderConfirmation"
+@using Microsoft.AspNetCore.Components
+@using MatBlazor
+@using WebClient.Data
+
+@inject IOrderItemsService OrderItemService
+
+
+
+
 <h3>OrderConfirmation</h3>
 
+
+
+<h3 class="mat-subtitle1" style="border-bottom-width: 300px; border-inline-end-width: 30px">The order is processing</h3>
+<MatProgressBar Indeterminate="true"></MatProgressBar>
+
+
+
+
 @code {
-    
+        
+
 }
