@@ -4,34 +4,28 @@
 <div class="text-center">
 <div class="text-center">
     <h3>Manage Menus</h3>
-    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewPendingMenus">ViewPendingMenus</div>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewMenus">ViewMenus</div>
 </div>
 <div class="text-center">
     <h3>Manage Menus</h3>
-    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewConfirmedMenus">ViewConfirmedMenus</div>
+    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewMenuItems">ViewMenuItems</div>
 </div>
-<div class="text-center">
-    <h3>Manage Menus</h3>
-    <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="ViewCompletedMenus">ViewCompletedMenus</div>
-</div>
+
 </div>
 
 @code {
-    private void ViewPendingMenus()
+    private void ViewMenus()
     {
-        NavigationManager.NavigateTo("/PendingMenus");
+        NavigationManager.NavigateTo("/ViewMenus");
     }
 
-    private void ViewConfirmedMenus()
+    private void ViewMenuItems()
     {
-        NavigationManager.NavigateTo("/ConfirmedMenus");
+        NavigationManager.NavigateTo("/ViewMenuItems");
     }
 
    
 
-    private void ViewCompletedMenus()
-    {
-        NavigationManager.NavigateTo("/CompletedMenus");
-    }
+   
     
 }
