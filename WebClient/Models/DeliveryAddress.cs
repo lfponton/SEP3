@@ -5,19 +5,19 @@ namespace WebClient.Models
 {
     public class DeliveryAddress
     {
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
+        
         public int DeliveryAddressId { get; set; }
 
         [Required, MaxLength(30)] 
         public string City { get; set; }
-        [Required]
+        [Required, MaxLength(30)]
         public string StreetName { get; set; }
         
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public string PostNumber { get; set; }
-        [Required]
+        [Required, MaxLength(10)]
         public string AddressNumber { get; set; }
-        [Required]
+        [Required, MaxLength(10)]
         public string Door { get; set; }
         
 

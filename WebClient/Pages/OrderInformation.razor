@@ -30,6 +30,7 @@ else
             <th>Order Id</th>
             <th>Menu Id</th>
             <th>Quantity</th>
+            <th>Price</th>
            
         </tr>
         </thead>
@@ -40,6 +41,7 @@ else
                 <td>@forecast.Order.OrderId</td>
                 <td>@forecast.Menu.Name</td>
                 <td>@forecast.Quantity</td>
+                <td>@forecast.Price</td>
 
             </tr>
         }
@@ -62,29 +64,38 @@ else
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         
-        <h3>Address Information:</h3>
-        <br/>
+       
         
-        <div class="form-group">Address Id: <br/>
-            <InputNumber @bind-Value="addNewDeliveryAddressItem.DeliveryAddressId"/>
-        </div>
-        <div class="form-group">City: <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.City"/>
-                </div>
-        <div class="form-group">Street Name: <br/>
-            <InputText @bind-Value="addNewDeliveryAddressItem.StreetName"/>
-        </div>
-        <div class="form-group">Post Number: <br/>
-            <InputText @bind-Value="addNewDeliveryAddressItem.PostNumber"/>
-        </div>
-        <div class="form-group">Address Number: <br/>
-            <InputText @bind-Value="addNewDeliveryAddressItem.AddressNumber"/>
-        </div>
-        <div class="form-group">Door: <br/>
-                            <InputText @bind-Value="addNewDeliveryAddressItem.Door"/>
-                        </div>
+        <div class="d-flex justify-content-center align-self-center">
+        <div class="card w-50" style="border-bottom-width: 1px;
+                                          margin-bottom: 10px;" >
+            <h4 class="card-header">Address Information</h4>
+            <br/>
         
-        <p class="actions"><button class="btn btn-outline-dark" type="submit">Save</button></p>
+            <div class="form-group">
+                 <label>City:</label> <br/>
+                <InputText @bind-Value="addNewDeliveryAddressItem.City"/>
+            </div>
+            <div class="form-group">
+                 <label>Street Name:</label> <br/>
+                <InputText @bind-Value="addNewDeliveryAddressItem.StreetName"/>
+            </div>
+            <div class="form-group">
+                 <label>Post Number</label> <br/>
+                <InputText @bind-Value="addNewDeliveryAddressItem.PostNumber"/>
+            </div>
+            <div class="form-group">
+                 <label>Address Number</label> <br/>
+                <InputText @bind-Value="addNewDeliveryAddressItem.AddressNumber"/>
+            </div>
+            <div class="form-group">
+                 <label>Door</label> <br/>
+                <InputText @bind-Value="addNewDeliveryAddressItem.Door"/>
+            </div>
+        
+            <p class="actions"><button class="btn btn-outline-dark" type="submit">Save</button></p>
+        </div>
+         </div>
     </EditForm>
 
     <div class="alert">
@@ -95,6 +106,8 @@ else
             <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
         </span>
     </div>
+    
+    
 
 
 
@@ -105,6 +118,7 @@ else
     private DeliveryAddress addNewDeliveryAddressItem = new DeliveryAddress();
     private IList<DeliveryAddress> infoOrder = new List<DeliveryAddress>();
     private OrderItem orderItem = new OrderItem();
+    
     
     private DeliveryAddress DeliveryAddress = new DeliveryAddress();
     
