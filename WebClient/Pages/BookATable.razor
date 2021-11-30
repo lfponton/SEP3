@@ -35,8 +35,8 @@
         <EditForm Model="@newTableBooking" OnValidSubmit="CreateTableBooking">
             <!-- Displaying available times-->
             <div class="container py-7">
-                  @if ((newTableBooking.BookingDateTime != null) && newTableBooking.People != 0)
-                  {
+                  @*@if ((newTableBooking.BookingDateTime != null) && newTableBooking.People != 0)
+                  {*@
                       <h2 class="text-uppercase text-letter-spacing-xs my-0 text-primary font-weight-bold">
 
                           <b>Available times</b>
@@ -51,13 +51,13 @@
                                   @foreach (var tableBooking in tableBookings.Where(tableBooking => !tableBooking.Table.IsBooked))
                                   {
                                       <li class="list-timeline-item p-0 pb-3 pb-lg-4 d-flex flex-wrap flex-column">
-                                          <p class="my-0 text-dark flex-fw text-sm text-uppercase"><span class="text-inverse op-8">@tableBooking.BookingDateTime.Hour</span>Available </p>
+                                          <p class="my-0 text-dark flex-fw text-sm text-uppercase"><span class="text-inverse op-8">@tableBooking.BookingDateTime.Hour</span>     Available </p>
                                       </li>
                                   }
                               </ul>
                           </div>
                       </div>
-                  }
+                  @* } *@
             </div>
             <!-- Leaving comments and submit-->
             
@@ -74,7 +74,7 @@
   private TableBooking newTableBooking = new TableBooking();
   private List<TableBooking> tableBookings = new List<TableBooking>();
   private List<Table> tables = new List<Table>();
-    private DateTime inputDateTime = new DateTime();
+    private DateTime inputDateTime = DateTime.Today;
     private int people;
 
 

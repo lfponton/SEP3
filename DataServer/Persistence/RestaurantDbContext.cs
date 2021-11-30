@@ -22,7 +22,8 @@ namespace DataServer.Persistence
             // Change this to the path in your system
             optionsBuilder
                 .UseNpgsql(
-                    "Host=hattie.db.elephantsql.com;Port=5432;Database=eggldwtf;Username=eggldwtf;Password=h9HM9GeaFhsqEHfcpeVHOdyzJ8NIZsXv;Pooling=false;Timeout=300;CommandTimeout=300;;"
+                    
+                   "Host=abul.db.elephantsql.com;Port=5432;Database=grkhhafd;Username=grkhhafd;Password=EP1QkE5cKtGtGTn9lI4A9vMMJDqNz3uB;Pooling=false;Timeout=300;CommandTimeout=300;;"
                 );
 
         }

@@ -92,7 +92,7 @@ namespace DataServer.DataAccess.Impl
         {
             get
             {
-                if (ordersRepository == null)
+                if (tableBookingsRepository == null)
                 {
                     tableBookingsRepository = new TableBookingsRepository(context);
                 }

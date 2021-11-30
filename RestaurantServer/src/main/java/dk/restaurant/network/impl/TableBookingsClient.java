@@ -49,14 +49,13 @@ public class TableBookingsClient implements ITableBookingsClient {
             out.println(send);
             String response = in.readLine();
             System.out.println("Client response" + response);
-            bookings = gson.fromJson(response, new TypeToken<ArrayList<TableBooking>>()
-            {
-            }.getType());
+            bookings = gson.fromJson(response, new TypeToken<ArrayList<TableBooking>>() {}.getType());
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+        System.out.println(bookings.size());
         return bookings;
     }
 }

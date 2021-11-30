@@ -50,9 +50,7 @@ public class OrdersClient implements IOrdersClient
       out.println("getOrders");
       out.println("");
       String response = in.readLine();
-      orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>()
-      {
-      }.getType());
+      orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>() {}.getType());
     }
     catch (IOException e)
     {
