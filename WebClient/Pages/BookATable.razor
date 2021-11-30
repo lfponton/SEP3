@@ -15,11 +15,11 @@
             </div>
         </div>
 
-        <EditForm Model="@inputDateTime" OnValidSubmit="GetBookingsByDate">
+        <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings">
             <div class="form-row">
 
                 <div class="col-lg-4 col-md-6 form-group">
-                    <InputDate TValue="DateTime" @bind-Value="inputDateTime"  name="date" class="form-control" id="date" placeholder="Date"/>
+                    <InputDate type="date" @bind-Value="inputDateTime"  name="date" class="form-control" id="date" placeholder="Date" />
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <input type="number" class="form-control" name="people" id="people" placeholder="No. of people">
@@ -74,11 +74,11 @@
   private TableBooking newTableBooking = new TableBooking();
   private List<TableBooking> tableBookings = new List<TableBooking>();
   private List<Table> tables = new List<Table>();
-    private DateTime inputDateTime;
+    private DateTime inputDateTime = new DateTime();
     private int people;
 
 
-    private async Task GetBookingsByDate()
+    private async Task GetBookings()
     {
        tableBookings =  await tableBookingService.GetBookings(inputDateTime);
     }

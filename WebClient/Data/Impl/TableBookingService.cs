@@ -24,7 +24,8 @@ namespace WebClient.Data.Impl
 
         public async Task<List<TableBooking>> GetBookings(DateTime bookingDateTime)
         {
-            HttpResponseMessage response = await client.GetAsync($"{uri}/tableBookings/{bookingDateTime}");
+            Console.Write(bookingDateTime);
+            HttpResponseMessage response = await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime.ToString()}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();

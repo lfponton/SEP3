@@ -5,6 +5,7 @@ import dk.restaurant.network.IClient;
 import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TableBookingService implements ITableBookingService {
     }
 
     @Override
-    public List<TableBooking> getTableBookings(Date bookingDate, int people) {
+    public List<TableBooking> getTableBookings(String bookingDate) {
         return client.getTableBookings(bookingDate);
     }
 }

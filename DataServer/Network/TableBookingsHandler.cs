@@ -1,6 +1,8 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess.Impl;
+using DataServer.Models;
 using DataServer.Persistence;
 
 namespace DataServer.Network
@@ -41,7 +43,11 @@ namespace DataServer.Network
 
         private async Task<string> GetTableBookings(string args)
         {
-            return JsonSerializer.Serialize(await unitOfWork.TableBookingsRepository.GetTableBookingsAsync(), optionsWithoutConverter);
+            Console.WriteLine($"bookings handler {args}");
+            DateTime dateTime = new DateTime();
+               dateTime = JsonSerializer.Deserialize<DateTime>(args, options);
+            Console.WriteLine($"{dateTime}");
+            return JsonSerializer.Serialize(await unitOfWork.TableBookingsRepository.GetTableBookingsAsync(dateTime.Date), optionsWithoutConverter);
         }
     }
 }

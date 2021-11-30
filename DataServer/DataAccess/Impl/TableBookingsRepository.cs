@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataServer.Models;
 using DataServer.Persistence;
@@ -14,9 +16,10 @@ namespace DataServer.DataAccess.Impl
         {
             this.context = context;
         }
-        public async  Task<IList<TableBooking>> GetTableBookingsAsync()
+        public async  Task<IList<TableBooking>> GetTableBookingsAsync(DateTime bookingDateTime)
         {
-            return await context.TableBookings.Include(tb => tb.Table).ToListAsync();
+            Console.WriteLine($" bookings repository{bookingDateTime}");
+            return await context.TableBookings.Include(tb => tb.Table).Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
         }
     }
 }

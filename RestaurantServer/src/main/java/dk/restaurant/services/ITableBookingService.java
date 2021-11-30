@@ -6,5 +6,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface ITableBookingService {
-    List<TableBooking> getTableBookings(Date bookingDate, int people);
+    List<TableBooking> getTableBookings(String bookingDate);
 }
