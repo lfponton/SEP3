@@ -9,7 +9,6 @@
     <p>Menu Name:@Name</p>
     <p>Menu Quantity:@Quantity</p>
     <p>Menu Price:@Price</p>
-    <p>Menu Status:@Menu.Status</p>
     <p>Menus</p>
     
 </div>
@@ -31,27 +30,28 @@
 
     private void CancelMenu()
     {
-        NavigationManager.NavigateTo("Pending Menus");
+        NavigationManager.NavigateTo("View Menus");
     }
 
     private void RemoveMenu()
     {
-        NavigationManager.NavigateTo("Pending Menus");
+        NavigationManager.NavigateTo("View Menus");
     }
 
-    private void ConfirmMenu()
+    private void AddMenus()
     {
-        NavigationManager.NavigateTo("Pending Menus");
+        NavigationManager.NavigateTo("View Menus");
     }
+    
 
     private void Back()
     {
-        NavigationManager.NavigateTo("Pending Menus");
+        NavigationManager.NavigateTo("View Menus");
     }
 
     private Menu Seed()
     {
-        
+        return menu;
     }
 
 
