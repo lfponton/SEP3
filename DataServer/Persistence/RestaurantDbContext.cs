@@ -30,6 +30,8 @@ namespace DataServer.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MenuItemsSelection>().HasKey(selection => new { selection.MenuId, selection.MenuItemId });
+            modelBuilder.Entity<OrderItem>().HasKey(item => new { item.OrderId, item.MenuId });
         }
+        
     }
 }

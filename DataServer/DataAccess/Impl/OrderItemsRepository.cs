@@ -44,12 +44,6 @@ namespace DataServer.DataAccess.Impl
         public async Task<List<OrderItem>> GetOrderItemsAsync(int orderId)
         {
             List<OrderItem> orderItems = await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
-           // orderItems.ForEach(Console.WriteLine());
-           foreach (var oi in orderItems)
-           {
-               Console.WriteLine(oi.OrderItemId);
-
-           }
             return await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
         }
 
