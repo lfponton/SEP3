@@ -33,4 +33,9 @@ public class Client implements IClient
     return new MenuItemsSelectionsClient();
   }
 
+  @Override
+  public ITableBookingsClient getTableBookingsClient() {
+    return new TableBookingsClient();
+  }
+
 }

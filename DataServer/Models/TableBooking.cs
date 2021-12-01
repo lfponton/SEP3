@@ -10,5 +10,7 @@ namespace DataServer.Models
         public Table Table { get; set; }
         public Customer Customer { get; set; }
         public DateTime BookingDateTime { get; set; }
+
+       
     }
 }

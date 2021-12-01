@@ -7,4 +7,5 @@ public interface IClient
   IMenuItemsClient getMenuItemsClient();
   IOrderItemsClient getOrderItemsClient();
   IMenuItemsSelectionsClient getMenuItemsSelectionsClient();
+  ITableBookingsClient getTableBookingsClient();
 }
