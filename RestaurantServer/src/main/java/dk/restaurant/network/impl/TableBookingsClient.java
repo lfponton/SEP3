@@ -68,7 +68,29 @@ public class TableBookingsClient implements ITableBookingsClient {
             String send = gson.toJson(tableBooking);
             out.println(send);
             String response = in.readLine();
-            System.out.println("Client response" + response);
+            booking = gson.fromJson(response, TableBooking.class);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return booking;
+    }
+
+    @Override
+    public synchronized TableBooking createTableBooking(TableBooking tableBooking) {
+        TableBooking booking = new TableBooking();
+        try
+        {
+            System.out.println("hello from client");
+
+            out.println("Bookings");
+            out.println("createTableBooking");
+            String send = gson.toJson(tableBooking);
+            System.out.println("client " + send);
+            out.println(send);
+            String response = in.readLine();
+            System.out.println("response" + response);
             booking = gson.fromJson(response, TableBooking.class);
         }
         catch (IOException e)

@@ -25,4 +25,10 @@ public class TableBookingService implements ITableBookingService {
     public TableBooking updateTableBooking(TableBooking tableBooking) {
         return client.updateTableBooking(tableBooking);
     }
+
+    @Override
+    public TableBooking createTableBooking(TableBooking tableBooking) {
+        System.out.println("hello from service");
+        return client.createTableBooking(tableBooking);
+    }
 }

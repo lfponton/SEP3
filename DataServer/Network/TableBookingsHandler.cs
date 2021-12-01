@@ -37,10 +37,25 @@ namespace DataServer.Network
                     return await GetTableBookings(args);
                 case "updateTableBooking":
                     return await UpdateTableBooking(args);
+                case "createTableBooking":
+                    return await CreateTableBooking(args);
                 default:
                     return "";
             }
            
+        }
+
+        private async Task<string> CreateTableBooking(string args)
+        {
+            Console.WriteLine($"args====>{args}");
+
+            var tableBooking = JsonSerializer.Deserialize<TableBooking>(args, options);
+            await unitOfWork.TableBookingsRepository.CreateTableBookingAsync(tableBooking);
+            await unitOfWork.Save();
+            Console.WriteLine("After save");
+
+            return JsonSerializer.Serialize(tableBooking, optionsWithoutConverter);
+
         }
 
         private async Task<string> UpdateTableBooking(string args)

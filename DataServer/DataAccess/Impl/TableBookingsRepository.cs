@@ -34,5 +34,15 @@ namespace DataServer.DataAccess.Impl
             return toUpdate;
 
         }
+
+        public async Task<TableBooking> CreateTableBookingAsync(TableBooking tableBooking)
+        {
+            var tableToUpdate = await context.Tables
+                .Include(t=>t.TableBookings)
+                .FirstAsync(t => t.TableId == tableBooking.Table.TableId);
+            tableToUpdate.TableBookings.Add(tableBooking);
+            context.Update(tableToUpdate);
+            return tableBooking;
+        }
     }
 }

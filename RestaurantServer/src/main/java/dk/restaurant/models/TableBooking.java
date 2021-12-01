@@ -19,14 +19,14 @@ public class TableBooking
   @JsonProperty("description")
   private String description;
 
-  public TableBooking(long tableBookingId, Table table, Customer customer, Date bookingDateTime, int people,String description) {
+ /* public TableBooking(long tableBookingId, Table table, Customer customer, Date bookingDateTime, int people,String description) {
     this.tableBookingId = tableBookingId;
     this.table = table;
     this.customer = customer;
     this.bookingDateTime = bookingDateTime;
     this.people = people;
     this.description = description;
-  }
+  }*/
   public TableBooking()
   {
   }
