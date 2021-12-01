@@ -50,8 +50,8 @@ namespace WebClient.Data
             {
 
                 
-                Customer u = await  customerDao.updateCustomerAsync(email,customer);
-                return Ok(u);
+               // Customer u = await  customerDao.updateCustomerAsync(email,customer);
+              //  return Ok(u);
             }
             catch (NullReferenceException e) {
                 return NotFound(e.Message);
@@ -59,6 +59,8 @@ namespace WebClient.Data
             catch (Exception e) {
                 return StatusCode(500, e.Message);
             }
+
+            return null;
         }
     }
 

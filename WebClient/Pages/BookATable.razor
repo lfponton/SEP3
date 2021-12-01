@@ -40,7 +40,7 @@
 
                     <b>Available times</b>
                 </h2>
-                <AuthorizeView Context="ASContext">
+              @*  <AuthorizeView Context="ASContext">*@
                     <!-- Days -->
                       <div class="row">
                           <div class="col-lg-4 mb-3" id="Searching date">
@@ -56,7 +56,7 @@
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null))
+                                  @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null).OrderBy(tb=>tb.BookingDateTime))
                                   {
                                       <tr>
                                           <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
@@ -70,7 +70,7 @@
                               </table>
                           </div>
                       </div>
-                      </AuthorizeView>
+                      @*</AuthorizeView>*@
             </div>
             <!-- Leaving comments and submit-->
             
