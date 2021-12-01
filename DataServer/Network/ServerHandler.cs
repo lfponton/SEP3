@@ -36,16 +36,13 @@ namespace DataServer.Network
                 try
                 {
                     // What type of service is it?
-                    Console.WriteLine("Service?");
                     var serviceType = await reader.ReadLineAsync();
-                    Console.WriteLine("Request?");
 
                     IRequestHandler handler = GetRequestHandler(serviceType);
                     // What type of request is it?
                     var requestType = await reader.ReadLineAsync();
                     
                     // Any additional arguments?
-                    Console.WriteLine("Args??");
 
                     var args = await reader.ReadLineAsync();
                     

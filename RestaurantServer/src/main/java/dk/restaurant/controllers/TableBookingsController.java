@@ -23,8 +23,7 @@ public class TableBookingsController {
 
     @PostMapping("/tableBookings")
     public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking)
-    {            System.out.println("hello");
-
+    {           
         TableBooking tableBooking1 = service.createTableBooking(tableBooking);
         if (tableBooking1 == null)
         {

@@ -47,13 +47,9 @@ namespace DataServer.Network
 
         private async Task<string> CreateTableBooking(string args)
         {
-            Console.WriteLine($"args====>{args}");
-
             var tableBooking = JsonSerializer.Deserialize<TableBooking>(args, options);
             await unitOfWork.TableBookingsRepository.CreateTableBookingAsync(tableBooking);
             await unitOfWork.Save();
-            Console.WriteLine("After save");
-
             return JsonSerializer.Serialize(tableBooking, optionsWithoutConverter);
 
         }

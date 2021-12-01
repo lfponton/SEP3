@@ -82,15 +82,11 @@ public class TableBookingsClient implements ITableBookingsClient {
         TableBooking booking = new TableBooking();
         try
         {
-            System.out.println("hello from client");
-
             out.println("Bookings");
             out.println("createTableBooking");
             String send = gson.toJson(tableBooking);
-            System.out.println("client " + send);
             out.println(send);
             String response = in.readLine();
-            System.out.println("response" + response);
             booking = gson.fromJson(response, TableBooking.class);
         }
         catch (IOException e)
