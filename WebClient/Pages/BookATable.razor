@@ -2,7 +2,10 @@
 @using WebClient.Models
 @using WebClient.Data
 @using Microsoft.AspNetCore.Http.Connections
+@using Microsoft.AspNetCore.Identity
+@using AuthenticationStateProvider = WebClient.Data.AuthenticationStateProvider
 @inject ITableBookingService tableBookingService
+@inject AuthenticationStateProvider authenticationStateProvider 
 
 <h3>Book A Table</h3>
 <body>
@@ -14,7 +17,6 @@
                 <h2 class="text-primary">Book A Table</h2>
             </div>
         </div>
-
         <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings">
             <div class="form-row">
 
@@ -22,7 +24,7 @@
                     <InputDate type="date" @bind-Value="inputDateTime"  name="date" class="form-control" id="date" placeholder="Date" />
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <input type="number" class="form-control" name="people" id="people" placeholder="No. of people">
+                    <input type="number" @bind-value="people" class="form-control" name="people" id="people" placeholder="No. of people">
                     
                 </div>
             <div class="col-lg-4 col-md-6 form-group">
@@ -32,32 +34,43 @@
 
             </div>
         </EditForm>
-        <EditForm Model="@newTableBooking" OnValidSubmit="CreateTableBooking">
             <!-- Displaying available times-->
             <div class="container py-7">
-                  @*@if ((newTableBooking.BookingDateTime != null) && newTableBooking.People != 0)
-                  {*@
-                      <h2 class="text-uppercase text-letter-spacing-xs my-0 text-primary font-weight-bold">
+                <h2 class="text-uppercase text-letter-spacing-xs my-0 text-primary font-weight-bold">
 
-                          <b>Available times</b>
-                      </h2>
-                      <!-- Days -->
+                    <b>Available times</b>
+                </h2>
+                <AuthorizeView Context="ASContext">
+                    <!-- Days -->
                       <div class="row">
                           <div class="col-lg-4 mb-3" id="Searching date">
                               <h4 class="mt-0 mb-3 text-dark op-8 font-weight-bold">
-                                  @newTableBooking.BookingDateTime.Date
+                                  @inputDateTime.ToLongDateString()
                               </h4>
-                              <ul class="list-timeline list-timeline-primary">
-                                  @foreach (var tableBooking in tableBookings.Where(tableBooking => !tableBooking.Table.IsBooked))
+                              <table class="table">
+                                  <thead>
+                                  <tr>
+                                      <th>Time</th>
+                                      <th>Table</th>
+                                      <th>Book</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null))
                                   {
-                                      <li class="list-timeline-item p-0 pb-3 pb-lg-4 d-flex flex-wrap flex-column">
-                                          <p class="my-0 text-dark flex-fw text-sm text-uppercase"><span class="text-inverse op-8">@tableBooking.BookingDateTime.Hour</span>     Available </p>
-                                      </li>
+                                      <tr>
+                                          <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
+                                          <td>@tableBooking.Table.TableId</td>
+                                          <td>
+                                             @* <input type="checkbox"  @onchange="@(() => UpdateTableBooking(@tableBooking, @ASContext))"/>*@
+                                          </td>
+                                      </tr>
                                   }
-                              </ul>
+                                  </tbody>
+                              </table>
                           </div>
                       </div>
-                  @* } *@
+                      </AuthorizeView>
             </div>
             <!-- Leaving comments and submit-->
             
@@ -65,7 +78,6 @@
                 <textarea class="form-control" name="comments" placeholder="Leave a comment"></textarea>
             </div>
             <button type="submit" class="btn btn-primary float-right mt-3">Book a Table</button>
-        </EditForm>
     </div>
 </section>
 </body>
@@ -76,16 +88,19 @@
   private List<Table> tables = new List<Table>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
+    private Customer customer = new Customer();
 
 
     private async Task GetBookings()
     {
-       tableBookings =  await tableBookingService.GetBookings(inputDateTime);
+        tableBookings =  await tableBookingService.GetBookings(inputDateTime);
     }
 
-    private async Task CreateTableBooking(EditContext arg)
+    private async Task UpdateTableBooking(TableBooking tableBooking, Customer customerBooking )
     {
-       await tableBookingService.CreateTableBooking((TableBooking) arg.Model);
-    }
+        var toUpdate = tableBooking;
+        toUpdate.Customer = customerBooking;
 
+        newTableBooking = await tableBookingService.UpdateTableBooking(tableBooking);
+    }
 }

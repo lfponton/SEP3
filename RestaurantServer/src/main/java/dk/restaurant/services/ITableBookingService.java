@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ITableBookingService {
     List<TableBooking> getTableBookings(String bookingDate);
+
+    TableBooking updateTableBooking(TableBooking tableBooking);
 }

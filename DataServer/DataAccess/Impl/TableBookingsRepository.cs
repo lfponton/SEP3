@@ -18,8 +18,20 @@ namespace DataServer.DataAccess.Impl
         }
         public async  Task<IList<TableBooking>> GetTableBookingsAsync(DateTime bookingDateTime)
         {
-            Console.WriteLine($" bookings repository{bookingDateTime}");
-            return await context.TableBookings.Include(tb => tb.Table).Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
+            return await context.TableBookings.Include(tb => tb.Table)
+                .Include(tb=>tb.Customer)
+                .Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
+        }
+
+        public async Task<TableBooking> UpdateTableBookingAsync(TableBooking tableBooking)
+        {
+            var toUpdate = await context.TableBookings
+                .Include(tb => tb.Table)
+                .FirstAsync(tb => tb.TableBookingId == tableBooking.TableBookingId);
+            toUpdate.Customer = tableBooking.Customer;
+            context.Update(toUpdate);
+            return toUpdate;
+
         }
     }
 }

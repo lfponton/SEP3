@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
 {
-    public class TableBookingService:ITableBookingService
+    public class TableBookingService : ITableBookingService
     {
         private readonly HttpClient client;
         private JsonSerializerOptions options;
@@ -25,13 +26,13 @@ namespace WebClient.Data.Impl
         public async Task<List<TableBooking>> GetBookings(DateTime bookingDateTime)
         {
             Console.Write(bookingDateTime);
-            HttpResponseMessage response = await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime.ToString()}");
+            HttpResponseMessage response =
+                await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime.ToString()}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
             List<TableBooking> tableBookings = JsonSerializer.Deserialize<List<TableBooking>>(result, options);
-            return tableBookings; 
+            return tableBookings;
         }
 
         public Task<Table> GetTables()
@@ -43,5 +44,23 @@ namespace WebClient.Data.Impl
         {
             throw new NotImplementedException();
         }
+
+        public async Task<TableBooking> UpdateTableBooking(TableBooking tableBooking)
+        {
+            string tbAsJson = JsonSerializer.Serialize(tableBooking);
+            HttpContent content = new StringContent(tbAsJson,
+                Encoding.UTF8,
+                "application/json");
+            HttpResponseMessage response =
+                await client.PatchAsync($"{uri}/tableBookings", content);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            var updatedBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
+            return updatedBooking;
+
+        }
     }
+
+
 }

@@ -5,6 +5,8 @@ import dk.restaurant.network.IClient;
 import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -20,9 +22,24 @@ public class TableBookingsController {
     }
 
     @GetMapping("/tableBookings")
+    public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam String bookingDate) {
+        List<TableBooking> tableBookings = service.getTableBookings(bookingDate);
+        if (tableBookings == null)
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        return new ResponseEntity<List<TableBooking>>(tableBookings, HttpStatus.OK);
+    }
 
-    public List<TableBooking> getTableBookings(@RequestParam(required = false) String bookingDate) {
-        System.out.println(bookingDate);
-        return service.getTableBookings(bookingDate);
+    @PatchMapping("/tableBookings/{tableBookingId}")
+
+    public ResponseEntity<TableBooking> updateTableBooking(@RequestBody TableBooking tableBooking, @PathVariable("tableBookingId") Long tableBookingId)
+    {
+        TableBooking tableBooking1 = service.updateTableBooking(tableBooking);
+        if (tableBooking1 == null)
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
     }
 }

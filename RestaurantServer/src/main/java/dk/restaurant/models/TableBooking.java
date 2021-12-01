@@ -24,4 +24,7 @@ public class TableBooking
     this.bookingDateTime = bookingDateTime;
     this.people = people;
   }
+  public TableBooking()
+  {
+  }
 }

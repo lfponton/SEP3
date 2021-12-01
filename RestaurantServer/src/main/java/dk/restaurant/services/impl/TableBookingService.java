@@ -20,4 +20,9 @@ public class TableBookingService implements ITableBookingService {
     public List<TableBooking> getTableBookings(String bookingDate) {
         return client.getTableBookings(bookingDate);
     }
+
+    @Override
+    public TableBooking updateTableBooking(TableBooking tableBooking) {
+        return client.updateTableBooking(tableBooking);
+    }
 }
