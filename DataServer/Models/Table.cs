@@ -1,9 +1,13 @@
-﻿namespace DataServer.Models
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace DataServer.Models
 {
     public class Table
     {
         public int TableId { get; set; }
         public int Capacity { get; set; }
-        public bool IsBooked { get; set; }
+        [JsonIgnore]
+        public List<TableBooking> TableBookings { get; set; }
     }
 }

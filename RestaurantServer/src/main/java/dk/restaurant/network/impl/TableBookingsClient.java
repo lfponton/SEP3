@@ -47,6 +47,7 @@ public class TableBookingsClient implements ITableBookingsClient {
             String send = gson.toJson(bookingDate);
             out.println(send);
             String response = in.readLine();
+            System.out.println("Client response" + response);
             bookings = gson.fromJson(response, new TypeToken<ArrayList<TableBooking>>() {}.getType());
         }
         catch (IOException e)
