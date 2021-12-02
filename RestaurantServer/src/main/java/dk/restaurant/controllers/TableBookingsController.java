@@ -31,7 +31,7 @@ public class TableBookingsController {
     }
 
     @GetMapping("/tableBookings")
-    public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam String bookingDate) {
+    public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam(required = false) String bookingDate) {
         List<TableBooking> tableBookings = service.getTableBookings(bookingDate);
         if (tableBookings == null)
         {
@@ -39,12 +39,22 @@ public class TableBookingsController {
         }
         return new ResponseEntity<List<TableBooking>>(tableBookings, HttpStatus.OK);
     }
+    @GetMapping("/tableBookings/{tableBookingId}")
+    public ResponseEntity<TableBooking> getBookingById(@PathVariable("tableBookingId") Long tableBookingId)
+    {System.out.println(tableBookingId);
+        TableBooking tableBooking1 = service.getBookingById(tableBookingId);
+        if (tableBooking1 == null)
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        System.out.println(tableBooking1.toString());
+        return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
+    }
 
     @PatchMapping("/tableBookings/{tableBookingId}")
     public ResponseEntity<TableBooking> updateTableBooking(@PathVariable("tableBookingId") Long tableBookingId, @RequestBody TableBooking tableBooking)
     {
-        System.out.println("patching here" + tableBooking.toString());
-        System.out.println("patching here" + tableBookingId);
+
         TableBooking tableBooking1 = service.updateTableBooking(tableBooking);
         if (tableBooking1 == null)
         {

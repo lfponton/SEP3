@@ -46,5 +46,10 @@ namespace DataServer.DataAccess.Impl
             context.Update(tableToUpdate);
             return tableBooking;
         }
+
+        public Task<TableBooking> GetBookingByIdAsync(long tableBookingId)
+        {
+            return context.TableBookings.Include(tb => tb.Table).FirstAsync(tb => tb.TableBookingId == tableBookingId);
+        }
     }
 }

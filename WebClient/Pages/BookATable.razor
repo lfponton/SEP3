@@ -104,8 +104,7 @@
     {
         tableBookings = await tableBookingService.GetBookings(inputDateTime);
         tableBookingsToDisplay = tableBookings.Where(tableBooking => 
-            tableBooking.Customer == null && 
-            (tableBooking.Table.Capacity == people || tableBooking.Table.Capacity == people+1) )
+            tableBooking.Customer == null && tableBooking.Table.Capacity <= people+1 )
             .OrderBy(tb => tb.BookingDateTime).ToList();
     }
 

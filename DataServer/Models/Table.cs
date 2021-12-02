@@ -9,5 +9,10 @@ namespace DataServer.Models
         public int Capacity { get; set; }
         [JsonIgnore]
         public List<TableBooking> TableBookings { get; set; }
+
+        public Table()
+        {
+            TableBookings = new List<TableBooking>();
+        }
     }
 }

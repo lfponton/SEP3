@@ -56,10 +56,23 @@ namespace WebClient.Data.Impl
             return updatedBooking;
 
         }
+        
+        
 
-        public Task<TableBooking> GetBookingById(long tableBookingId)
+        public async Task<TableBooking> GetBookingById(long tableBookingId)
         {
-            throw new NotImplementedException();
+
+            HttpResponseMessage response = await client.GetAsync($"{uri}/tableBookings/{tableBookingId}");
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"{this} caught exception: {await response.Content.ReadAsStringAsync()} with status code {response.StatusCode}");
+                throw new Exception(await response.Content.ReadAsStringAsync());
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            }
+                
+            string result = await response.Content.ReadAsStringAsync();
+            var tableBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
+            return tableBooking;
         }
     }
 
