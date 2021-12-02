@@ -6,12 +6,13 @@
 @using AuthenticationStateProvider = WebClient.Data.AuthenticationStateProvider
 @using System.Data
 @inject ITableBookingService tableBookingService
+@inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authenticationStateProvider 
 
 <h3>Book A Table</h3>
 <body>
     <!-- Table Reservation Form -->
-<section id="book-a-table" class="book-a-table">
+<section id="book-a-table" class="book-a-table text-center" >
     <div class="container" data-aos="fade-up">
         <div class="row">
             <div class="col-md-8 offset-md-2 text-center">
@@ -115,8 +116,10 @@
 
     private async Task UpdateTableBooking()
     {
-        //newTableBooking.Customer = customerBooking;
+    //newTableBooking.Customer = customerBooking;
         newTableBooking.People = people;
         newTableBooking = await tableBookingService.UpdateTableBooking(newTableBooking);
-    }
+        navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
+
+}
 }

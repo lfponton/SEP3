@@ -15,5 +15,10 @@ namespace WebClient.Models
         public DateTime BookingDateTime { get; set; }
         [JsonIgnore]
         public bool IsSelected { get; set; }
+
+        public TableBooking()
+        {
+            Table = new Table();
+        }
     }
 }

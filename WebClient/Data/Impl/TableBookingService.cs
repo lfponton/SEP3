@@ -56,6 +56,11 @@ namespace WebClient.Data.Impl
             return updatedBooking;
 
         }
+
+        public Task<TableBooking> GetBookingById(long tableBookingId)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

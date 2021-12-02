@@ -1,0 +1,44 @@
+﻿@page "/BookingConfirmation/{TableBookingId:long}"
+@using WebClient.Models
+@using WebClient.Data
+@inject ITableBookingService tableBookingService
+
+<h3>Booking Confirmation</h3>
+
+<div class="text-center">
+    @*<h3>@tableBooking.Customer.FirstName <br/> We are looking fordward to seeing you!</h3>
+    <div class="text-center">
+        <p>Booking id: @tableBooking.TableBookingId</p>
+    </div>
+    <div class="text-center">
+        <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p>
+        </div>
+    <div class="text-center">
+        <p>Description: Table booking for @tableBooking.People people. The reservation is valid up to 15 minutes aftyer the booked time<br/>
+            Comments: @tableBooking.Description</p>
+    </div>*@
+</div>
+
+@code {
+    [Parameter]
+    public long TableBookingId { get; set; }
+    protected override void OnParametersSet()
+    {
+
+        TableBookingId = TableBookingId;
+   
+    }
+
+    private TableBooking tableBooking = new TableBooking()
+    {
+        Table = new Table()
+    };
+
+    /*protected override async void OnInitialized()
+    {
+        //tableBooking = await tableBookingService.GetBookingById(TableBookingId);
+    }*/
+
+
+
+}
