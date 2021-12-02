@@ -1,23 +1,24 @@
 package dk.restaurant;
 
-import dk.restaurant.network.IClient;
-import dk.restaurant.network.impl.Client;
+import dk.restaurant.network.IClientFactory;
+import dk.restaurant.network.impl.ClientFactory;
+import dk.restaurant.services.IServiceFactory;
 import dk.restaurant.services.ITableBookingService;
+import dk.restaurant.services.impl.ServiceFactory;
 import dk.restaurant.services.impl.TableBookingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-public class AppConfig
+@Configuration public class AppConfig
 {
-  @Bean
-  public IClient Client()
+  @Bean public IClientFactory ClientFactory()
   {
-    return new Client();
+    return new ClientFactory();
   }
-  @Bean
-  ITableBookingService TableBookingsService()
+
+  @Bean public IServiceFactory ServiceFactory()
   {
-    return new TableBookingService(Client());}
+    return new ServiceFactory(ClientFactory());
   }
+}
 
