@@ -23,6 +23,7 @@ public class TableBookingService implements ITableBookingService {
 
     @Override
     public TableBooking updateTableBooking(TableBooking tableBooking) {
+        System.out.println("patching service");
         return client.updateTableBooking(tableBooking);
     }
 

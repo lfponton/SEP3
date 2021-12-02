@@ -30,6 +30,8 @@ namespace DataServer.DataAccess.Impl
                 .Include(tb => tb.Table)
                 .FirstAsync(tb => tb.TableBookingId == tableBooking.TableBookingId);
             toUpdate.Customer = tableBooking.Customer;
+            toUpdate.Description = tableBooking.Description;
+            toUpdate.People = tableBooking.People;
             context.Update(toUpdate);
             return toUpdate;
 

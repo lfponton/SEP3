@@ -23,7 +23,7 @@ public class TableBookingsController {
 
     @PostMapping("/tableBookings")
     public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking)
-    {           
+    {
         TableBooking tableBooking1 = service.createTableBooking(tableBooking);
         if (tableBooking1 == null)
         {
@@ -44,8 +44,10 @@ public class TableBookingsController {
     }
 
     @PatchMapping("/tableBookings/{tableBookingId}")
-    public ResponseEntity<TableBooking> updateTableBooking(@RequestBody TableBooking tableBooking, @PathVariable("tableBookingId") Long tableBookingId)
+    public ResponseEntity<TableBooking> updateTableBooking(@PathVariable("tableBookingId") Long tableBookingId, @RequestBody TableBooking tableBooking)
     {
+        System.out.println("patching here" + tableBooking.toString());
+        System.out.println("patching here" + tableBookingId);
         TableBooking tableBooking1 = service.updateTableBooking(tableBooking);
         if (tableBooking1 == null)
         {

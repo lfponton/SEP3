@@ -30,4 +30,16 @@ public class TableBooking
   public TableBooking()
   {
   }
+
+    @Override
+    public String toString() {
+        return "TableBooking{" +
+                "tableBookingId=" + tableBookingId +
+                ", table=" + table +
+                ", customer=" + customer +
+                ", bookingDateTime=" + bookingDateTime +
+                ", people=" + people +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

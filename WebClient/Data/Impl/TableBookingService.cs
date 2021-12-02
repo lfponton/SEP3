@@ -25,7 +25,6 @@ namespace WebClient.Data.Impl
 
         public async Task<List<TableBooking>> GetBookings(DateTime bookingDateTime)
         {
-            Console.Write(bookingDateTime);
             HttpResponseMessage response =
                 await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime.ToString()}");
             if (!response.IsSuccessStatusCode)
@@ -47,12 +46,9 @@ namespace WebClient.Data.Impl
 
         public async Task<TableBooking> UpdateTableBooking(TableBooking tableBooking)
         {
-            string tbAsJson = JsonSerializer.Serialize(tableBooking);
-            HttpContent content = new StringContent(tbAsJson,
-                Encoding.UTF8,
-                "application/json");
-            HttpResponseMessage response =
-                await client.PatchAsync($"{uri}/tableBookings", content);
+            string tbAsJson = JsonSerializer.Serialize(tableBooking,options);
+            HttpContent content = new StringContent(tbAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PatchAsync($"{uri}//tableBookings/{tableBooking.TableBookingId}", content);
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();

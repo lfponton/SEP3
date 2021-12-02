@@ -24,71 +24,77 @@
                     <InputDate type="date" @bind-Value="inputDateTime"  name="date" class="form-control" id="date" placeholder="Date" />
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <input type="number" @bind-value="people" class="form-control" name="people" id="people" placeholder="No. of people">
-                    
+                    <InputNumber type="number" @bind-Value="people" class="form-control" name="people" id="people" placeholder="No. of people"></InputNumber>
                 </div>
-            <div class="col-lg-4 col-md-6 form-group">
-
-                <button type="submit" class="btn btn-primary float-right mt-3">Check availability</button>
+                <div class="col-lg-4 col-md-6 form-group">
+                    <button type="submit" class="btn btn-primary float-right mt-3">Check availability</button>
                 </div>
-
             </div>
         </EditForm>
+        
+        <EditForm Model="@newTableBooking" OnValidSubmit="UpdateTableBooking">
+              <DataAnnotationsValidator/>
+                    <ValidationSummary/>
             <!-- Displaying available times-->
             <div class="container py-7">
                 <h2 class="text-uppercase text-letter-spacing-xs my-0 text-primary font-weight-bold">
 
                     <b>Available times</b>
                 </h2>
-              @*  <AuthorizeView Context="ASContext">*@
-                    <!-- Days -->
-                      <div class="row">
-                          <div class="col-lg-4 mb-3" id="Searching date">
-                              <h4 class="mt-0 mb-3 text-dark op-8 font-weight-bold">
-                                  @inputDateTime.ToLongDateString()
-                              </h4>
-                              <table class="table">
-                                  <thead>
-                                  <tr>
-                                      <th>Time</th>
-                                      <th>Table</th>
-                                      <th>Book</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null).OrderBy(tb=>tb.BookingDateTime))
-                                  {
-                                      <tr>
-                                          <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
-                                          <td>@tableBooking.Table.TableId</td>
-                                          <td>
-                                             @* <input type="checkbox"  @onchange="@(() => UpdateTableBooking(@tableBooking, @ASContext))"/>*@
-                                          </td>
-                                      </tr>
-                                  }
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                      @*</AuthorizeView>*@
+                @*  <AuthorizeView Context="ASContext">*@
+                <!-- Days -->
+                <div class="row">
+                    <div class="col-lg-4 mb-3" id="Searching date">
+                        <h4 class="mt-0 mb-3 text-dark op-8 font-weight-bold">
+                            @inputDateTime.ToLongDateString()
+                        </h4>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Table</th>
+                                <th>Max of people</th>
+                                <th>Book</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null && tableBooking.People >= people).OrderBy(tb => tb.BookingDateTime))
+                            {
+                                <tr>
+                                    <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
+                                    <td>@tableBooking.Table.TableId</td>
+                                    <td>@tableBooking.Table.Capacity</td>
+                                    <td>
+                                     <input type="checkbox" checked=@tableBooking.IsSelected @onchange="@((arg) => SelectAvailableBooking(arg, tableBooking))"/>
+                                        @* <input type="checkbox"  @onchange="@(() => SelectTableBooking(@tableBooking, @ASContext))"/>*@
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <!-- Leaving comments and submit-->
-            
+
             <div class="form-group">
-                <textarea class="form-control" name="comments" placeholder="Leave a comment"></textarea>
+                <InputTextArea class="form-control" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
+                
             </div>
             <button type="submit" class="btn btn-primary float-right mt-3">Book a Table</button>
-    </div>
+        </EditForm>
+        </div>
+    
+                          @*</AuthorizeView>*@
+
 </section>
 </body>
 
 @code {
-  private TableBooking newTableBooking = new TableBooking();
+    private TableBooking newTableBooking = new TableBooking();
   private List<TableBooking> tableBookings = new List<TableBooking>();
-  private List<Table> tables = new List<Table>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
-    private Customer customer = new Customer();
 
 
     private async Task GetBookings()
@@ -96,11 +102,15 @@
         tableBookings =  await tableBookingService.GetBookings(inputDateTime);
     }
 
-    private async Task UpdateTableBooking(TableBooking tableBooking, Customer customerBooking )
+    private async Task SelectAvailableBooking(ChangeEventArgs evt,TableBooking selectedBooking)
     {
-        var toUpdate = tableBooking;
-        toUpdate.Customer = customerBooking;
+        newTableBooking = selectedBooking;
+    }
 
-        newTableBooking = await tableBookingService.UpdateTableBooking(tableBooking);
+    private async Task UpdateTableBooking()
+    {
+        //newTableBooking.Customer = customerBooking;
+        newTableBooking.People = people;
+        newTableBooking = await tableBookingService.UpdateTableBooking(newTableBooking);
     }
 }
