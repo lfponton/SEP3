@@ -41,7 +41,7 @@ namespace WebClient
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITableBookingService, TableBookingService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            services.AddScoped<IRestClient, RestClient>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

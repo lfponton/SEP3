@@ -1,11 +1,11 @@
-﻿@page "/Account/{Id:int}"
+﻿@page "/Account"
 @using WebClient.Models
 @using WebClient.Data
 @using System.ComponentModel.DataAnnotations
 @using DataServer.DataAccess
 @using Customer = DataServer.Models.Customer
 @inject NavigationManager NavMng;
-@inject IRestClient RestClient;
+@inject IAccountService service;
 
 <h3>Account</h3>
 <EditForm Model="@customerToEdit" OnValidSubmit="@Save">
@@ -63,12 +63,12 @@
 
     private  async Task Save()
     {
-        await CustomerDAO.UpdateCustomerAsync(customerToEdit.Email,customerToEdit);
+        await AccountService.UpdateCustomerAsync(customerToEdit);
         NavMng.NavigateTo("/");
     }
     private  async Task Delete()
     {
-        await CustomerDAO.DeleteCustomer(customerToEdit.Id);
+        await AccountService.DeleteCustomer(customerToEdit.Id);
         NavMng.NavigateTo("/");
     }
 
