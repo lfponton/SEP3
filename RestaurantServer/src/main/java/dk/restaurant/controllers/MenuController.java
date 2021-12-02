@@ -2,9 +2,10 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Menu;
-import dk.restaurant.models.OrderItem;
-import dk.restaurant.network.IClient;
+import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IMenusClient;
+import dk.restaurant.services.IMenusService;
+import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,23 +15,23 @@ import java.util.List;
 @RestController
 public class MenuController {
 
-    private IMenusClient client;
+    private IMenusService service;
 
-    public MenuController(IClient client)
+    public MenuController(IServiceFactory serviceFactory)
     {
-        this.client = client.getMenusClient();
+        this.service = serviceFactory.getMenusService();
     }
 
     @GetMapping("/menus")
     public List<Menu> getMenus() throws IOException
     {
-        return client.getMenus();
+        return service.getMenus();
     }
 
     @PostMapping("/menus")
     @ResponseStatus(HttpStatus.CREATED)
     public Menu createMenu(@RequestBody Menu menu)
     {
-        return client.createMenu(menu);
+        return service.createMenu(menu);
     }
 }

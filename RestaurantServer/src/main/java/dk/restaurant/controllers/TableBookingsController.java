@@ -1,15 +1,12 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.TableBooking;
-import dk.restaurant.network.IClient;
-import dk.restaurant.network.ITableBookingsClient;
+import dk.restaurant.services.IServiceFactory;
 import dk.restaurant.services.ITableBookingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,8 +14,8 @@ public class TableBookingsController {
     private ITableBookingService service;
 
 
-    public TableBookingsController(ITableBookingService service) {
-        this.service = service;
+    public TableBookingsController(IServiceFactory serviceFactory) {
+        this.service = serviceFactory.getTableBookingsService();
     }
 
     @PostMapping("/tableBookings")

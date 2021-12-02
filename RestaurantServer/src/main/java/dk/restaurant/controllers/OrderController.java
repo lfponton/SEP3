@@ -1,8 +1,10 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Order;
-import dk.restaurant.network.IClient;
+import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IOrdersClient;
+import dk.restaurant.services.IOrdersService;
+import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,29 +13,29 @@ import java.util.List;
 @RestController
 public class OrderController
 {
-  private IOrdersClient client;
+  private IOrdersService service;
 
-  public OrderController(IClient client)
+  public OrderController(IServiceFactory serviceFactory)
   {
-    this.client = client.getOrdersClient();
+    this.service = serviceFactory.getOrdersService();
   }
 
   @GetMapping("/orders")
   public List<Order> getOrders()
   {
-    return client.getOrders();
+    return service.getOrders();
   }
 
   @GetMapping("/orders/{orderId}")
   public Order getOrder(@PathVariable long orderId)
   {
-    return client.getOrder(orderId);
+    return service.getOrder(orderId);
   }
 
   @PostMapping("/orders")
   @ResponseStatus(HttpStatus.CREATED)
   public Order createOrder(@RequestBody Order order)
   {
-    return client.createOrder(order);
+    return service.createOrder(order);
   }
 }

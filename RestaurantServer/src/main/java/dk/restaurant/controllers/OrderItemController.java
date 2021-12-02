@@ -1,8 +1,10 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.OrderItem;
-import dk.restaurant.network.IClient;
+import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IOrderItemsClient;
+import dk.restaurant.services.IOrderItemsService;
+import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,11 @@ import java.util.List;
 @RestController
 public class OrderItemController
 {
-    private IOrderItemsClient client;
+    private IOrderItemsService service;
 
-    public OrderItemController(IClient client)
+    public OrderItemController(IServiceFactory serviceFactory)
     {
-        this.client = client.getOrderItemsClient();
+        this.service = serviceFactory.getOrderItemsService();
     }
 
     @GetMapping("/orderItems/{id}")
@@ -24,7 +26,7 @@ public class OrderItemController
     public List<OrderItem> getOrdersItems(@PathVariable("id") long orderId)
     {
 
-        return client.getOrderItems(orderId);
+        return service.getOrderItems(orderId);
     }
 
     @PostMapping("/orderItems")
@@ -32,13 +34,13 @@ public class OrderItemController
     public OrderItem createOrderItem(@RequestBody OrderItem orderItem)
     {
         System.out.println("OrderItemController->" + orderItem.toString());
-        return client.createOrderItem(orderItem);
+        return service.createOrderItem(orderItem);
     }
 
     @DeleteMapping(value = "/orderItems/{id}")
     public ResponseEntity<Long> deletePost(@PathVariable Long id) {
         try {
-             client.deleteOrderItem(id);
+             service.deleteOrderItem(id);
             return new ResponseEntity<>(id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
