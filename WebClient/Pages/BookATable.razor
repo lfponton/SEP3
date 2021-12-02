@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Http.Connections
 @using Microsoft.AspNetCore.Identity
 @using AuthenticationStateProvider = WebClient.Data.AuthenticationStateProvider
+@using System.Data
 @inject ITableBookingService tableBookingService
 @inject AuthenticationStateProvider authenticationStateProvider 
 
@@ -58,7 +59,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var tableBooking in tableBookings.Where(tableBooking => tableBooking.Customer == null && tableBooking.People >= people).OrderBy(tb => tb.BookingDateTime))
+                            @foreach (var tableBooking in tableBookingsToDisplay)
                             {
                                 <tr>
                                     <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
@@ -92,14 +93,19 @@
 
 @code {
     private TableBooking newTableBooking = new TableBooking();
-  private List<TableBooking> tableBookings = new List<TableBooking>();
+  private IList<TableBooking> tableBookings = new List<TableBooking>();
+    private IList<TableBooking> tableBookingsToDisplay = new List<TableBooking>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
 
 
     private async Task GetBookings()
     {
-        tableBookings =  await tableBookingService.GetBookings(inputDateTime);
+        tableBookings = await tableBookingService.GetBookings(inputDateTime);
+        tableBookingsToDisplay = tableBookings.Where(tableBooking => 
+            tableBooking.Customer == null && 
+            (tableBooking.Table.Capacity == people || tableBooking.Table.Capacity == people+1) )
+            .OrderBy(tb => tb.BookingDateTime).ToList();
     }
 
     private async Task SelectAvailableBooking(ChangeEventArgs evt,TableBooking selectedBooking)
