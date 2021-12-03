@@ -15,9 +15,9 @@ public class OrdersService implements IOrdersService
     this.client = clientFactory.getOrdersClient();
   }
 
-  @Override public List<Order> getOrders()
+  @Override public List<Order> getOrders(String status)
   {
-    return client.getOrders();
+    return client.getOrders(status);
   }
 
   @Override public Order createOrder(Order order)

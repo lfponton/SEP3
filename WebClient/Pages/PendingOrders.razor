@@ -35,7 +35,14 @@ else
         {
             <tr>
                 <td>@item.OrderId</td>
-                <td>@item.Customer.FirstName</td>
+                @if (item.Customer == null)
+                {
+                    <td>No Customer</td>
+                }
+                else
+                {
+                    <td>@item.Customer.FirstName</td>
+                }
                 <td>@item.OrderDateTime</td>
                 <td>@item.Status</td>
                 <td>
@@ -58,7 +65,7 @@ else
     protected override async Task OnInitializedAsync()
     {
     //TODO Get from DB and check if status is pending
-        pendingOrders = await OrderService.GetOrdersAsync();
+        pendingOrders = await OrderService.GetOrdersAsync("pending");
     }
 
     private void ViewOrder(long orderId)
