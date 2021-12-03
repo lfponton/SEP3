@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -42,6 +43,17 @@ namespace WebClient.Data.Impl
 
             
         }
-        
+
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            // TODO: Include paramaters to get Pending, Confirmed, Cancelled, or Completed orders
+            HttpResponseMessage response = await client.GetAsync($"{uri}/orders");
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+            List<Order> orders = JsonSerializer.Deserialize<List<Order>>(result, options);
+            return orders;
+        }
     }
 }
