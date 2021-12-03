@@ -37,7 +37,7 @@ public class OrderController
     return service.getOrders(status);
   }
 
-  @PostMapping("/orders")
+  @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Order createOrder(@RequestBody Order order)
   {
