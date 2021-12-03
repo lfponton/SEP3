@@ -8,5 +8,7 @@ namespace WebClient.Data
     {
         Task<Order> CreateOrder();
         Task<List<Order>> GetOrdersAsync(string? status);
+        Task<Order> GetOrderAsync(long orderId);
+        Task<Order> UpdateOrderAsync(Order order);
     }
 }

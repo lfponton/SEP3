@@ -1,48 +1,77 @@
-﻿@page "/ViewOrder/{Id:int}"
+﻿@page "/ViewOrder/{Id:long}"
 @inject NavigationManager NavigationManager
+@inject IOrderService OrderService
 @using WebClient.Models
+@using WebClient.Data
 <div class="text-center">
     <!-- We could use cards here to display info -->
     <h3 style="margin-bottom: 5%">Order @Id</h3>
     <p>Order Type: @orderType </p>
-    <p>Customer Name: @order.Customer.FirstName</p>
-    <p>Date and Time of Order: @order.OrderDateTime</p>
-    <p>Status: @order.Status</p>
-    <p>Menus</p>
-    @foreach (var orderItem in order.OrderItems)
+    @if (order == null)
     {
-        <p>Menu Name: @orderItem.Menu.Name</p>
-        <p>Quantity: @orderItem.Quantity</p>
-        <p>MenuItems:</p>
-        foreach (var selection in orderItem.Menu.MenusItemsSelections)
-        {
-            <p>MenuItem Name: @selection.MenuItem.Name</p>
-            <p>Quantity: @selection.Quantity</p>
-        }
+        <p>
+            <em>Loading order</em>
+        </p>
     }
-    <!-- Needs input validation -->
-    <p>Delivery Time</p>
-    <RadzenDatePicker TValue="DateTime?" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" Change=@(args => OnChange(args))>
-    </RadzenDatePicker>
+    else
+    {
+        @if (order.Customer != null)
+        {
+            <p>Customer Name: @order.Customer.FirstName</p>
+        }
+        else
+        {
+            <p>No customer available</p>
+        }
+        <p>Date and Time of Order: @order.OrderDateTime</p>
+        <p>Status: @order.Status</p>
+        <p>Menus</p>
+        @if (order.OrderItems != null)
+        {
+            @foreach (var orderItem in order.OrderItems)
+            {
+                <p>Menu Name: @orderItem.Menu.Name</p>
+                <p>Quantity: @orderItem.Quantity</p>
+                <p>MenuItems:</p>
+                foreach (var selection in orderItem.Menu.MenusItemsSelections)
+                {
+                    <p>MenuItem Name: @selection.MenuItem.Name</p>
+                    <p>Quantity: @selection.Quantity</p>
+                }
+            }
+        }
+        else
+        {
+            <p>The selected order has no ordered items</p>
+        }
+        <!-- INCLUDE DELIVERY ADDRESS -->
+        <!-- Needs input validation -->
+        <p>Delivery Time</p>
+        <RadzenDatePicker TValue="DateTime?" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" Change=@(args => OnChange(args))>
+        </RadzenDatePicker>
 
-    <div>
-        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ConfirmOrder">Confirm</button>
-        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="CancelOrder">Cancel</button>
-        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
-    </div>
+        <div>
+            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ConfirmOrder">Confirm</button>
+            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="CancelOrder">Cancel</button>
+            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+        </div>
+    }
 </div>
+  }
+}
 
 @code {
 
     [Parameter]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     private Order order;
     private string orderType;
 
     protected override async Task OnInitializedAsync()
     {
-        order = Seed();
+        order = await OrderService.GetOrderAsync(Id);
+        Console.WriteLine(order.ToString());
         orderType = order.IsDelivery ? "Delivery" : "Pick Up";
     }
 
@@ -54,15 +83,16 @@
         }
     }
 
-    private void ConfirmOrder()
+    private async Task ConfirmOrder()
     {
-        // TODO save in DB
+        order.Status = "confirmed";
+        await OrderService.UpdateOrderAsync(order);
         NavigationManager.NavigateTo("PendingOrders");
     }
 
     private void CancelOrder()
     {
-        //TODO set order status to Cancelled
+    //TODO set order status to Cancelled
         NavigationManager.NavigateTo("PendingOrders");
     }
 
@@ -155,4 +185,5 @@
             ;
         return orderSeed;
     }
+
 }

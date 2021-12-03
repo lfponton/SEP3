@@ -38,10 +38,10 @@ namespace DataServer.Network
                     return await GetOrder(args);
                 case "getOrders":
                     return await GetOrders(args);
-
                 case "createOrder":
                     return await CreateOrder(args);
-
+                case "updateOrder":
+                    return await UpdateOrderAsync(args);
                 case "createOrderItem":
                     return await CreateOrderItem(args);
 
@@ -53,6 +53,14 @@ namespace DataServer.Network
                 default:
                     return "";
             }
+        }
+
+        private async Task<string> UpdateOrderAsync(string args)
+        {
+            Order order = JsonSerializer.Deserialize<Order>(args, options);
+            await unitOfWork.OrdersRepository.UpdateOrderAsync(order);
+            await unitOfWork.Save();
+            return JsonSerializer.Serialize(order, optionsWithoutConverter);
         }
 
         private async Task<string> GetOrder(string args)

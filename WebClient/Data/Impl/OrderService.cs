@@ -46,14 +46,35 @@ namespace WebClient.Data.Impl
 
         public async Task<List<Order>> GetOrdersAsync(string? status)
         {
-            // TODO: Include paramaters to get Pending, Confirmed, Cancelled, or Completed orders
             HttpResponseMessage response = await client.GetAsync($"{uri}/orders/?status={status}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
             List<Order> orders = JsonSerializer.Deserialize<List<Order>>(result, options);
             return orders;
+        }
+
+        public async Task<Order> GetOrderAsync(long orderId)
+        {
+            HttpResponseMessage response = await client.GetAsync($"{uri}/orders/{orderId}");
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+            Order order = JsonSerializer.Deserialize<Order>(result, options);
+            return order;
+        }
+
+        public async Task<Order> UpdateOrderAsync(Order order)
+        {
+            string orderAsJson = JsonSerializer.Serialize(order,options);
+            HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PatchAsync($"{uri}/orders/", content);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            var updatedOrder = JsonSerializer.Deserialize<Order>(result, options);
+            return updatedOrder;
         }
     }
 }

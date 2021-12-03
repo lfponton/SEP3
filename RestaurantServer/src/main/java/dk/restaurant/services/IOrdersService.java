@@ -9,4 +9,5 @@ public interface IOrdersService
   List<Order> getOrders(String status);
   Order createOrder(Order order);
   Order getOrder(long orderId);
+  Order updateOrder(Order order);
 }

@@ -33,7 +33,7 @@ namespace DataServer.DataAccess.Impl
             return await context.Orders.Where(o => o.Status == status).ToListAsync();
         }
 
-        public async Task UpdateOrderAsync(Order order)
+        public async Task<Order> UpdateOrderAsync(Order order)
         {
             Order toUpdate = await context.Orders.FirstAsync(o => o.OrderId == order.OrderId);
             toUpdate.Customer = order.Customer;
@@ -44,7 +44,7 @@ namespace DataServer.DataAccess.Impl
             toUpdate.OrderDateTime = order.OrderDateTime;
             toUpdate.DeliveryAddress = order.DeliveryAddress;
             context.Update(toUpdate);
-            await context.SaveChangesAsync();
+            return toUpdate;
         }
 
         // Not sure why orders should be deleted

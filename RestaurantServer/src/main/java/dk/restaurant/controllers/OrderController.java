@@ -1,11 +1,13 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Order;
+import dk.restaurant.models.TableBooking;
 import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IOrdersClient;
 import dk.restaurant.services.IOrdersService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +42,16 @@ public class OrderController
   public Order createOrder(@RequestBody Order order)
   {
     return service.createOrder(order);
+  }
+
+  @PatchMapping
+  public ResponseEntity<Order> updateOrder(@RequestBody Order order)
+  {
+    Order updatedOrder = service.updateOrder(order);
+    if (updatedOrder == null)
+    {
+      return ResponseEntity.badRequest().build();
+    }
+    return new ResponseEntity<Order>(updatedOrder, HttpStatus.OK);
   }
 }

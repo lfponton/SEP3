@@ -29,4 +29,9 @@ public class OrdersService implements IOrdersService
   {
     return client.getOrder(orderId);
   }
+
+  @Override public Order updateOrder(Order order)
+  {
+    return client.updateOrder(order);
+  }
 }
