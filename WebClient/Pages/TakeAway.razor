@@ -35,7 +35,7 @@ else
                         <b>
                             @foreach (var selection in menu.MenusItemsSelections)
                             {
-                                @selection.MenuItem.Name;
+                               @* @selection.MenuItem.Name; *@
                             }
                         </b>
                         <br/>
@@ -115,6 +115,8 @@ else
         Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
          await OrderItemsService.CreateOrderItem(quantity, menu, cacheOrder);
         orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
+        
+        
     }
 
     private async Task DeleteOrderItem(long orderItemId)
@@ -124,6 +126,8 @@ else
 
         
     }
+    
+    
 
   
 

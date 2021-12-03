@@ -7,11 +7,20 @@
 @using WebClient.Data
 @inject IOrderItemsService OrderItemService
 @using MatBlazor 
+@using WebClient.Data.Impl
 
 
-<PageTitle>OrderInformation</PageTitle>
+<div>
 
-<h2>OrderInformation</h2>
+<span class="text-nowrap">
+    <a target="_blank" class="font-weight-bold link-dark" href="/TakeAway">Back</a>
+</span>
+
+</div>
+
+
+<h2>Order Information</h2>
+
 
 <p>Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
 
@@ -26,11 +35,11 @@ else
     <table class="table me-2">
         <thead>
         <tr>
-            <th>Order Item Id</th>
-            <th>Order Id</th>
-            <th>Menu Id</th>
-            <th>Quantity</th>
-            <th>Price</th>
+            <th>Name:</th>
+            <th>Order Id:</th>
+            <th>Menu Id:</th>
+            <th>Quantity:</th>
+            <th>Price:</th>
            
         </tr>
         </thead>
@@ -42,10 +51,12 @@ else
                 <td>@forecast.Menu.Name</td>
                 <td>@forecast.Quantity</td>
                 <td>@forecast.Price</td>
+                <td>@forecast.Total </td>
 
             </tr>
         }
         <h4>Total to pay</h4>
+        
         <br>
         </tbody>
 
@@ -67,8 +78,7 @@ else
        
         
         <div class="d-flex justify-content-center align-self-center">
-        <div class="card w-50" style="border-bottom-width: 1px;
-                                          margin-bottom: 10px;" >
+        <div class="card w-50" style=" border-right-width: 200px; border-color: whitesmoke; padding-left: 20px" >
             <h4 class="card-header">Address Information</h4>
             <br/>
         
@@ -120,6 +130,7 @@ else
     private OrderItem orderItem = new OrderItem();
     
     
+    
     private DeliveryAddress DeliveryAddress = new DeliveryAddress();
     
    
@@ -137,12 +148,13 @@ else
         protected override async Task OnInitializedAsync()
     {
         orderItems = await OrderItemService.GetOrderItems(OrderId);
-       // infoOrder = await InfoService.AddInfoOrderAsync();
-        
+    // infoOrder = await InfoService.AddInfoOrderAsync();
+
 
     }
     // Demonstrates how a parent component can supply parameters
-    
+
+
     [Parameter]
     public long OrderId { get; set; }
 

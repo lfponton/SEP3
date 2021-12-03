@@ -11,7 +11,7 @@ namespace WebClient.Models
         
         [Required, MaxLength(128)] 
         public string Name { get; set; }
-        
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         
         public IList<MenuItemsSelection> MenusItemsSelections { get; set; }

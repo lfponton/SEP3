@@ -13,8 +13,9 @@ namespace WebClient.Models
         
        
         public DateTime OrderDateTime { get; set; }
-        
+        [DataType(DataType.Date)]
         public DateTime DeliveryTime { get; set; }
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public IList<OrderItem> OrderItems { get; set; } 
         public Customer Customer { get; set; }
