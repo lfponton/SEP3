@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataServer.Models;
 using DataServer.Persistence;
@@ -27,9 +28,9 @@ namespace DataServer.DataAccess.Impl
             return order;
         }
 
-        public async Task<IList<Order>> GetOrdersAsync()
+        public async Task<IList<Order>> GetOrdersAsync(string status)
         {
-            return await context.Orders.ToListAsync();
+            return await context.Orders.Where(o => o.Status == status).ToListAsync();
         }
 
         public async Task UpdateOrderAsync(Order order)

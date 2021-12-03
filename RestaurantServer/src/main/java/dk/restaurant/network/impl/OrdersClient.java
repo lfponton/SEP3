@@ -41,14 +41,21 @@ public class OrdersClient implements IOrdersClient
     }
   }
 
-  @Override public synchronized List<Order> getOrders()
+  @Override public synchronized List<Order> getOrders(String status)
   {
     List<Order> orders = new ArrayList<>();
     try
     {
       out.println("Orders");
       out.println("getOrders");
-      out.println("");
+      if (status == null)
+      {
+        out.println("");
+      }
+      else
+      {
+        out.println(status);
+      }
       String response = in.readLine();
       orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>() {}.getType());
     }

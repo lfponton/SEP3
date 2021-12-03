@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/orders")
 public class OrderController
 {
   private IOrdersService service;
@@ -20,16 +22,17 @@ public class OrderController
     this.service = serviceFactory.getOrdersService();
   }
 
-  @GetMapping("/orders")
-  public List<Order> getOrders()
-  {
-    return service.getOrders();
-  }
-
-  @GetMapping("/orders/{orderId}")
-  public Order getOrder(@PathVariable long orderId)
+  @GetMapping(value = "/{orderId}")
+  public Order getOrder(@PathVariable("orderId") long orderId)
   {
     return service.getOrder(orderId);
+  }
+
+  @GetMapping
+  @RequestMapping(method = RequestMethod.GET)
+  public List<Order> getOrders(@RequestParam(value="status", required = false) String status)
+  {
+    return service.getOrders(status);
   }
 
   @PostMapping("/orders")

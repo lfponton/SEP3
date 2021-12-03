@@ -44,10 +44,10 @@ namespace WebClient.Data.Impl
             
         }
 
-        public async Task<List<Order>> GetOrdersAsync()
+        public async Task<List<Order>> GetOrdersAsync(string? status)
         {
             // TODO: Include paramaters to get Pending, Confirmed, Cancelled, or Completed orders
-            HttpResponseMessage response = await client.GetAsync($"{uri}/orders");
+            HttpResponseMessage response = await client.GetAsync($"{uri}/orders/?status={status}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
