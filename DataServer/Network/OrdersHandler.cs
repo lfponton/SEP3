@@ -63,7 +63,7 @@ namespace DataServer.Network
 
         private async Task<string> GetOrders()
         {
-            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.ReadOrdersAsync(), optionsWithoutConverter);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetOrdersAsync(), optionsWithoutConverter);
         }
 
         private async Task<string> CreateOrder(string args)

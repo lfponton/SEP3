@@ -27,14 +27,9 @@ namespace DataServer.DataAccess.Impl
             return order;
         }
 
-        public async Task<IList<Order>> ReadOrdersAsync()
+        public async Task<IList<Order>> GetOrdersAsync()
         {
-            // return await context.Orders
-            //     .Include(o => o.OrderItems)
-            //     .Include(o => o.Customer)
-            //     .Include(o => o.DeliveryAddress).ToListAsync();
             return await context.Orders.ToListAsync();
-
         }
 
         public async Task UpdateOrderAsync(Order order)

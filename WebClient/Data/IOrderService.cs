@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebClient.Models;
 
 namespace WebClient.Data
@@ -6,5 +7,6 @@ namespace WebClient.Data
     public interface IOrderService
     {
         Task<Order> CreateOrder();
+        Task<List<Order>> GetOrdersAsync();
     }
 }

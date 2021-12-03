@@ -1,6 +1,8 @@
 ﻿@page "/PendingOrders"
 @inject NavigationManager NavigationManager
+@inject IOrderService OrderService
 @using WebClient.Models
+@using WebClient.Data
 <div class="text-center">
     <h3 style="margin-bottom: 5%">PendingOrders</h3>
 </div>
@@ -56,7 +58,7 @@ else
     protected override async Task OnInitializedAsync()
     {
     //TODO Get from DB and check if status is pending
-        pendingOrders = Seed();
+        pendingOrders = await OrderService.GetOrdersAsync();
     }
 
     private void ViewOrder(long orderId)
