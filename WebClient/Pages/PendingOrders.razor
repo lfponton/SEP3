@@ -4,7 +4,7 @@
 @using WebClient.Models
 @using WebClient.Data
 <div class="text-center">
-    <h3 style="margin-bottom: 5%">PendingOrders</h3>
+    <h3 style="margin-bottom: 5%">Pending Orders</h3>
 </div>
 @if (pendingOrders == null)
 {
@@ -64,7 +64,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-    //TODO Get from DB and check if status is pending
         pendingOrders = await OrderService.GetOrdersAsync("pending");
     }
 
@@ -77,45 +76,4 @@ else
     {
         NavigationManager.NavigateTo("ManageOrders");
     }
-
-    private IList<Order> Seed()
-    {
-        List<Order> orders = new List<Order>
-        {
-            new Order()
-            {
-                OrderId = 1,
-                OrderDateTime = new DateTime(2021, 11, 26, 11, 15, 30),
-                Customer = new Customer
-                {
-                    FirstName = "Luis"
-                },
-                Status = "Pending",
-                IsDelivery = true,
-                Price = 500,
-                OrderItems = new List<OrderItem>
-                {
-                    new OrderItem
-                    {
-                        Menu = new Menu
-                        {
-                            Name = "Menu1",
-                            MenusItemsSelections = new List<MenuItemsSelection>
-                            {
-                                new MenuItemsSelection
-                                {
-                                    MenuItem = new MenuItem
-                                    {
-                                        Name = "MenuItem1"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        return orders;
-    }
-
 }
