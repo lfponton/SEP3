@@ -15,7 +15,7 @@
         <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p>
     </div>
     <div class="text-center">
-        <p>Description: Table booking for @tableBooking.People people. <br/>The reservation is valid up to 15 minutes aftyer the booked time<br/></p>
+         <p>Description: Table booking for @tableBooking.People people. <br/>The reservation is valid up to 15 minutes aftyer the booked time<br/></p>
         @if (tableBooking.Description != null || tableBooking.Description == "")
         {
             <p> Comments: @tableBooking.Description</p>
@@ -39,16 +39,7 @@
 
     protected override async void OnInitialized()
     {
-        try
-        {
-            tableBooking = await tableBookingService.GetBookingById(TableBookingId);
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        tableBooking = await tableBookingService.GetBookingById(TableBookingId);
     }
 
 

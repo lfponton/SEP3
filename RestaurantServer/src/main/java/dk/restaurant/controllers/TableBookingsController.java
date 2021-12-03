@@ -41,20 +41,18 @@ public class TableBookingsController {
     }
     @GetMapping("/tableBookings/{tableBookingId}")
     public ResponseEntity<TableBooking> getBookingById(@PathVariable("tableBookingId") Long tableBookingId)
-    {System.out.println(tableBookingId);
+    {
         TableBooking tableBooking1 = service.getBookingById(tableBookingId);
         if (tableBooking1 == null)
         {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println(tableBooking1.toString());
         return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
     }
 
     @PatchMapping("/tableBookings/{tableBookingId}")
     public ResponseEntity<TableBooking> updateTableBooking(@PathVariable("tableBookingId") Long tableBookingId, @RequestBody TableBooking tableBooking)
     {
-
         TableBooking tableBooking1 = service.updateTableBooking(tableBooking);
         if (tableBooking1 == null)
         {
