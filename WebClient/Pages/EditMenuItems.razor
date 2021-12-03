@@ -1,0 +1,62 @@
+﻿@page "/EditMenuItems"
+@inject NavigationManager NavigationManager
+<h3>EditMenuItems</h3>
+<div class="text-center">
+    <div class="form-group">
+        <label>MenuItem Id</label>
+        <input class="form-control" type="text" placeholder="Menu id" @bind-value="Id"/>
+    </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
+            </div>
+       
+            <p>Menus</p>
+        </div>
+       
+
+
+    <p>MenuItemId:@Id</p>
+    <p>Name:@Name</p>
+    <p>Price: @Price</p>
+
+    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+    <button class=" btn btn-primary mr-1" @onclick="Save">Save</button>
+
+
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private EditMenus editMenus;
+    
+    private string Name;
+    private double Price;
+
+    protected override async Task OnInitializedAsync()
+    {
+        editMenus = Seed();
+    }
+
+    private EditMenus Seed()
+    {
+        return editMenus;
+    }
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/AllMenuItems");
+    }
+
+
+    private void Save()
+    {
+        NavigationManager.NavigateTo("/AllMenuItems");
+    }
+}
