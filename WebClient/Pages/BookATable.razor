@@ -13,22 +13,17 @@
     <!-- Table Reservation Form -->
 <section  class="text-center">
     <div class="container-fluid ">
-        <div class="row d-flex justify-content-center">
-            <div class="text-center">
-                <h2>Book A Table</h2>
+        <div class="text-center" style="margin-bottom: 3%">
+            <h2>Book A Table</h2>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings" class="d-flex justify-content-around" style="width: 50%">
-                <div class="form-group">
-                    <InputDate type="date" @bind-Value="inputDateTime" name="date" class="form-control" id="date" placeholder="Date"/>
-                </div>
-                <div class=" form-group">
-                    <InputNumber type="number" @bind-Value="people" class="form-control" style="width: 40%" name="people" id="people" placeholder="No. of people"></InputNumber>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-outline-dark">Check availability</button>
-                </div>
+        <div class="d-flex justify-content-center" style="margin-bottom: 3%">
+            <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings" class="d-flex justify-content-around justify-content-between" style="width: 50%">
+              
+                    <InputDate type="date" @bind-Value="inputDateTime" name="date" class="form-control" style="width: 60%" id="date" placeholder="Date"/>
+                
+                    <InputNumber type="number" @bind-Value="people" class="form-control" style="width: 30%" name="people" id="people" placeholder="No. of people"></InputNumber>
+                    
+                    <button type="submit" class="btn btn-outline-dark" >Search</button>
             </EditForm>
             </div>
         
@@ -36,51 +31,64 @@
               <DataAnnotationsValidator/>
                     <ValidationSummary/>
             <!-- Displaying available times-->
-            <div class="text-center">
-                <h2 class="font-weight-bold">
+            
+                <h2 class="font-weight-bold" style="margin-bottom: 1%">
                     <b>Available times</b>
                 </h2>
                 @*  <AuthorizeView Context="ASContext">*@
                 <!-- Days -->
-                <div class="row d-flex justify-content-center">
-                    <div class="align-content-md-center" id="Searching date">
-                        <h4 class="mt-0 mb-3 text-dark op-8 font-weight-bold">
-                            @inputDateTime.ToLongDateString()
-                        </h4>
-                        <table class="table align-content-md-center" style="width: 80%">
-                            <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Table</th>
-                                <th>Max of people</th>
-                                <th>Book</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var tableBooking in tableBookingsToDisplay)
-                            {
-                                <tr>
-                                    <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
-                                    <td>@tableBooking.Table.TableId</td>
-                                    <td>@tableBooking.Table.Capacity</td>
-                                    <td>
-                                     <input type="checkbox" checked=@tableBooking.IsSelected @onchange="@((arg) => SelectAvailableBooking(arg, tableBooking))"/>
-                                        @* <input type="checkbox"  @onchange="@(() => SelectTableBooking(@tableBooking, @ASContext))"/>*@
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Leaving comments and submit-->
-
-            <div class="form-group d-flex justify-content-center">
-                <InputTextArea class="form-control" style="width: 50%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
+                     @if (tableBookingsToDisplay.Count > 0)
+                     {
+                         <div class="row d-flex justify-content-center">
+                             <h4 class="text-dark op-8 font-weight-bold">
+                                 @inputDateTime.ToLongDateString()
+                             </h4>
+                             
+                                 <table class="table" style="width: 100%">
+                                     <thead>
+                                     <tr>
+                                         <th>Time</th>
+                                         <th>Table</th>
+                                         <th>Max of people</th>
+                                         <th>Book</th>
+                                     </tr>
+                                     </thead>
+                                     <tbody>
+                                     @foreach (var tableBooking in tableBookingsToDisplay)
+                                     {
+                                         <tr>
+                                             <td>@tableBooking.BookingDateTime.ToShortTimeString()</td>
+                                             <td>@tableBooking.Table.TableId</td>
+                                             <td>@tableBooking.Table.Capacity</td>
+                                             <td>
+                                                 <input type="checkbox" checked=@tableBooking.IsSelected @onchange="@((arg) => SelectAvailableBooking(arg, tableBooking))"/>
+                                                 @* <input type="checkbox"  @onchange="@(() => SelectTableBooking(@tableBooking, @ASContext))"/>*@
+                                             </td>
+                                         </tr>
+                                     }
+                                     
+                                     </tbody>
+                                 </table>
+                         </div>
+                         <!-- Leaving comments and submit-->
+                         <div class="form-group d-flex justify-content-center">
+                             <InputTextArea class="form-control" style="width: 50%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
                 
-            </div>
-            <button type="submit" class="btn btn-outline-dark">Book a Table</button>
+                         </div>
+                         <button type="submit" class="btn btn-outline-dark">Book a Table</button>
+                         
+                     }
+                     else
+                     {
+                         <div>Please select a date and how many guests</div>
+                         
+                     }
+                                        
+               
+          
+           
+
+          
         </EditForm>
         </div>
     
@@ -95,8 +103,7 @@
     private IList<TableBooking> tableBookingsToDisplay = new List<TableBooking>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
-
-
+    
     private async Task GetBookings()
     {
         tableBookings = await tableBookingService.GetBookings(inputDateTime);
