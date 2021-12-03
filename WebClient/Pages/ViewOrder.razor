@@ -77,12 +77,14 @@
 
     void OnChange(DateTime? value)
     {
+        // TODO: Check if this is working
         if (value != null)
         {
             order.DeliveryTime = (DateTime) value;
         }
     }
 
+    // TODO: Should set it to confirmed if it is pending, to completed if confirmed (or have different pages)
     private async Task ConfirmOrder()
     {
         order.Status = "confirmed";
@@ -99,91 +101,6 @@
     private void Back()
     {
         NavigationManager.NavigateTo("PendingOrders");
-    }
-
-    private Order Seed()
-    {
-        Order orderSeed = new Order()
-        {
-            OrderId = 1,
-            OrderDateTime = new DateTime(2021, 11, 26, 11, 15, 30),
-            Customer = new Customer
-            {
-                FirstName = "Luis",
-                LastName = "Fernandez",
-                Email = "email@mail.com"
-            },
-            Status = "Pending",
-            IsDelivery = true,
-            Price = 500,
-            OrderItems = new List<OrderItem>
-            {
-                new OrderItem
-                {
-                    Quantity = 2,
-                    Menu = new Menu
-                    {
-                        Name = "Healthy Menu",
-                        Type = "Vegetarian",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-                                      "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
-                                      "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-                        MenusItemsSelections = new List<MenuItemsSelection>
-                        {
-                            new MenuItemsSelection
-                            {
-                                Quantity = 3,
-                                MenuItem = new MenuItem
-                                {
-                                    Name = "MenuItem1"
-                                }
-                            },
-                            new MenuItemsSelection
-                            {
-                                Quantity = 1,
-                                MenuItem = new MenuItem
-                                {
-                                    Name = "MenuItem2"
-                                }
-                            }
-                        }
-                    }
-                },
-                new OrderItem
-                {
-                    Quantity = 1,
-                    Menu = new Menu
-                    {
-                        Name = "Yummy Menu",
-                        Type = "Regular",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-                                      "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
-                                      "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-                        MenusItemsSelections = new List<MenuItemsSelection>
-                        {
-                            new MenuItemsSelection
-                            {
-                                Quantity = 2,
-                                MenuItem = new MenuItem
-                                {
-                                    Name = "MenuItem3"
-                                }
-                            },
-                            new MenuItemsSelection
-                            {
-                                Quantity = 4,
-                                MenuItem = new MenuItem
-                                {
-                                    Name = "MenuItem4"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-            ;
-        return orderSeed;
     }
 
 }

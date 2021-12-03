@@ -1,6 +1,80 @@
 ﻿@page "/ConfirmedOrders"
-<h3>ConfirmedOrders</h3>
+@inject NavigationManager NavigationManager
+@inject IOrderService OrderService
+@using WebClient.Models
+@using WebClient.Data
+<div class="text-center">
+    <h3 style="margin-bottom: 5%">Confirmed Orders</h3>
+</div>
+@if (confirmedOrders == null)
+{
+    <p>
+        <em>Loading confirmed orders</em>
+    </p>
+}
+else if (!confirmedOrders.Any())
+{
+    <p>
+        <em>There are no confirmed orders to show</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in confirmedOrders)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                @if (item.Customer == null)
+                {
+                    <td>No Customer</td>
+                }
+                else
+                {
+                    <td>@item.Customer.FirstName</td>
+                }
+                <td>@item.OrderDateTime</td>
+                <td>@item.Status</td>
+                <td>
+                    <button @onclick="@(() => ViewOrder(item.OrderId))">
+                        <i class="oi oi-eye" style="color:#1b6ec2"/>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+<div class="text-center">
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+</div>
 
 @code {
-    
+    private IList<Order> confirmedOrders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        confirmedOrders = await OrderService.GetOrdersAsync("confirmed");
+    }
+
+    private void ViewOrder(long orderId)
+    {
+    // TODO: Need to have a ViewConfirmedOrders page?
+        NavigationManager.NavigateTo($"ViewOrder/{orderId}");
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("ManageOrders");
+    }
 }
