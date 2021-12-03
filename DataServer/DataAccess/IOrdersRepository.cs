@@ -9,7 +9,7 @@ namespace DataServer.DataAccess
     {
         Task<Order> CreateOrderAsync(Order order);
         Task<IList<Order>> GetOrdersAsync(string status);
-        Task UpdateOrderAsync(Order order);
+        Task<Order> UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Order order);
         Task<Order> GetOrder(long orderId);
     }
