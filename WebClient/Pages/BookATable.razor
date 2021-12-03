@@ -9,48 +9,45 @@
 @inject NavigationManager navigationManager
 @inject AuthenticationStateProvider authenticationStateProvider 
 
-<h3>Book A Table</h3>
 <body>
     <!-- Table Reservation Form -->
-<section id="book-a-table" class="book-a-table text-center" >
-    <div class="container" data-aos="fade-up">
-        <div class="row">
-            <div class="col-md-8 offset-md-2 text-center">
-                <h2 class="text-primary">Book A Table</h2>
+<section  class="text-center">
+    <div class="container-fluid ">
+        <div class="row d-flex justify-content-center">
+            <div class="text-center">
+                <h2>Book A Table</h2>
             </div>
         </div>
-        <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings">
-            <div class="form-row">
-
-                <div class="col-lg-4 col-md-6 form-group">
-                    <InputDate type="date" @bind-Value="inputDateTime"  name="date" class="form-control" id="date" placeholder="Date" />
+        <div class="d-flex justify-content-center">
+            <EditForm Model="@inputDateTime" OnValidSubmit="GetBookings" class="d-flex justify-content-around" style="width: 50%">
+                <div class="form-group">
+                    <InputDate type="date" @bind-Value="inputDateTime" name="date" class="form-control" id="date" placeholder="Date"/>
                 </div>
-                <div class="col-lg-4 col-md-6 form-group">
-                    <InputNumber type="number" @bind-Value="people" class="form-control" name="people" id="people" placeholder="No. of people"></InputNumber>
+                <div class=" form-group">
+                    <InputNumber type="number" @bind-Value="people" class="form-control" style="width: 40%" name="people" id="people" placeholder="No. of people"></InputNumber>
                 </div>
-                <div class="col-lg-4 col-md-6 form-group">
-                    <button type="submit" class="btn btn-primary float-right mt-3">Check availability</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-dark">Check availability</button>
                 </div>
+            </EditForm>
             </div>
-        </EditForm>
         
         <EditForm Model="@newTableBooking" OnValidSubmit="UpdateTableBooking">
               <DataAnnotationsValidator/>
                     <ValidationSummary/>
             <!-- Displaying available times-->
-            <div class="container py-7">
-                <h2 class="text-uppercase text-letter-spacing-xs my-0 text-primary font-weight-bold">
-
+            <div class="text-center">
+                <h2 class="font-weight-bold">
                     <b>Available times</b>
                 </h2>
                 @*  <AuthorizeView Context="ASContext">*@
                 <!-- Days -->
-                <div class="row">
-                    <div class="col-lg-4 mb-3" id="Searching date">
+                <div class="row d-flex justify-content-center">
+                    <div class="align-content-md-center" id="Searching date">
                         <h4 class="mt-0 mb-3 text-dark op-8 font-weight-bold">
                             @inputDateTime.ToLongDateString()
                         </h4>
-                        <table class="table">
+                        <table class="table align-content-md-center" style="width: 80%">
                             <thead>
                             <tr>
                                 <th>Time</th>
@@ -79,11 +76,11 @@
             </div>
             <!-- Leaving comments and submit-->
 
-            <div class="form-group">
-                <InputTextArea class="form-control" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
+            <div class="form-group d-flex justify-content-center">
+                <InputTextArea class="form-control" style="width: 50%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
                 
             </div>
-            <button type="submit" class="btn btn-primary float-right mt-3">Book a Table</button>
+            <button type="submit" class="btn btn-outline-dark">Book a Table</button>
         </EditForm>
         </div>
     
