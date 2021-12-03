@@ -252,9 +252,6 @@ namespace DataServer.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsBooked")
-                        .HasColumnType("boolean");
-
                     b.HasKey("TableId");
 
                     b.ToTable("Tables");
@@ -351,7 +348,7 @@ namespace DataServer.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("DataServer.Models.Table", "Table")
-                        .WithMany()
+                        .WithMany("TableBookings")
                         .HasForeignKey("TableId");
 
                     b.Navigation("Customer");
@@ -374,6 +371,11 @@ namespace DataServer.Migrations
             modelBuilder.Entity("DataServer.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("DataServer.Models.Table", b =>
+                {
+                    b.Navigation("TableBookings");
                 });
 #pragma warning restore 612, 618
         }

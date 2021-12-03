@@ -8,7 +8,7 @@ namespace DataServer.DataAccess
     public interface IOrdersRepository
     {
         Task<Order> CreateOrderAsync(Order order);
-        Task<IList<Order>> ReadOrdersAsync();
+        Task<IList<Order>> GetOrdersAsync(string status);
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Order order);
         Task<Order> GetOrder(long orderId);

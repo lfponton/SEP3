@@ -32,5 +32,6 @@ namespace DataServer.Persistence
             modelBuilder.Entity<MenuItemsSelection>().HasKey(selection => new { selection.MenuId, selection.MenuItemId });
             modelBuilder.Entity<OrderItem>().HasKey(item => new { item.OrderId, item.MenuId });
         }
+        
     }
 }

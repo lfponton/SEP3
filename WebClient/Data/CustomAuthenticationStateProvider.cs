@@ -16,12 +16,12 @@ using WebClient.Models;
 namespace WebClient.Data {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider {
         private readonly IJSRuntime jsRuntime;
-        private readonly IRestClient restClient;
+        private readonly IAccountService service;
         private Customer cachedCustomer;
 
-        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IRestClient restClient) {
+        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IAccountService restClient) {
             this.jsRuntime = jsRuntime;
-            this.restClient = restClient;
+            this.service = service;
         }
         
         public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
@@ -46,7 +46,7 @@ namespace WebClient.Data {
 
             ClaimsIdentity identity = new ClaimsIdentity();
             try {
-                Customer customer = await restClient.GetAsync<Customer>(email, password);
+                Customer customer = await service.GetAsync<Customer>(email, password);
                 identity = SetupClaimsForCustomer(customer);
                 string serializedData = JsonSerializer.Serialize(customer);
                 jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentCustomer", serializedData);
@@ -75,7 +75,7 @@ namespace WebClient.Data {
                Role = Role.Customer
             }; 
 
-            await restClient.PostAsync(customer);
+            await service.PostAsync(customer);
         }
 
         public void Logout() {

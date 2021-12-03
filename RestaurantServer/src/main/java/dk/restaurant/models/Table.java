@@ -1,16 +1,17 @@
 package dk.restaurant.models;
 
+import java.util.List;
+
 public class Table
 {
   private int tableId;
   private int capacity;
-  private boolean isBooked;
-
-  public Table(int tableId, int capacity, boolean isBooked)
+  private List<TableBooking> tableBookings;
+  public Table(int tableId, int capacity, List<TableBooking> tableBookings)
   {
     this.tableId = tableId;
     this.capacity = capacity;
-    this.isBooked = isBooked;
+    this.tableBookings = tableBookings;
   }
 
   public Table() {}
@@ -35,13 +36,11 @@ public class Table
     this.capacity = capacity;
   }
 
-  public boolean isBooked()
-  {
-    return isBooked;
+  public List<TableBooking> getTableBookings() {
+    return tableBookings;
   }
 
-  public void setBooked(boolean booked)
-  {
-    isBooked = booked;
+  public void setTableBookings(List<TableBooking> tableBookings) {
+    this.tableBookings = tableBookings;
   }
 }

@@ -17,8 +17,9 @@ namespace DataServer
     {
         static async Task Main(string[] args)
         {
-            DataSeeder seeder = new DataSeeder();
+            //DataSeeder seeder = new DataSeeder();
             //await seeder.Seed();
+            //await seeder.SeedPendingOrders();
             Server server = new Server(IPAddress.Parse("127.0.0.1"), 2001);
             var serverThread = new Thread(server.Listen);
             serverThread.Start();

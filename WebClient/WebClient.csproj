@@ -9,4 +9,14 @@
       <PackageReference Include="Radzen.Blazor" Version="3.11.12" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="Pages\ConfirmedOrders.razor">
+        <DependentUpon>CompletedOrders.razor</DependentUpon>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DataServer\DataServer.csproj" />
+    </ItemGroup>
+
 </Project>

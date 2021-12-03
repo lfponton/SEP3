@@ -1,6 +1,56 @@
 ﻿@page "/ViewMenuItems"
+@inject NavigationManager NavigationManager
+@using WebClient.Models
+@using Microsoft.AspNetCore.Mvc.Diagnostics
 <h3>ViewMenuItems</h3>
+<div class="text-center">
+    <h3 style="margin-bottom:5%">MenuItem @Id</h3>
+    <p>MenuItem Name:@Name</p>
+    <p>MenuItem Price:@Price</p>
+    <p>MenuItem</p>
+</div>
 
 @code {
-    
+    [Parameter]
+    public int Id { get; set; }
+
+    private MenuItem menuItem;
+    private string Name;
+    private double Price;
+
+    protected override async Task OnInitializedAsync()
+    {
+        menuItem = Seed();
+    }
+
+    private void CancelMenuItem()
+    {
+       NavigationManager.NavigateTo("View Menu Items");
+    }
+
+    private void AddMenuItem()
+    {
+        NavigationManager.NavigateTo("View Menu Items");
+    }
+
+    private void EditMenuItem()
+    {
+        NavigationManager.NavigateTo("View Menu Items");
+    }
+
+    private void DeleteMenuItems()
+    {
+        NavigationManager.NavigateTo("View Menu Items");
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("View wMenu Item");
+    }
+
+    private MenuItem Seed()
+    {
+        return menuItem;
+    }
+
 }

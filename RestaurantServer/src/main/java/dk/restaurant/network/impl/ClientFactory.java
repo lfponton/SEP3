@@ -2,9 +2,9 @@ package dk.restaurant.network.impl;
 
 import dk.restaurant.network.*;
 
-public class Client implements IClient
+public class ClientFactory implements IClientFactory
 {
-  public Client()
+  public ClientFactory()
   {
   }
 
@@ -31,6 +31,11 @@ public class Client implements IClient
   @Override public IMenuItemsSelectionsClient getMenuItemsSelectionsClient()
   {
     return new MenuItemsSelectionsClient();
+  }
+
+  @Override
+  public ITableBookingsClient getTableBookingsClient() {
+    return new TableBookingsClient();
   }
 
 }

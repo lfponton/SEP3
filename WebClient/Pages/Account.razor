@@ -1,0 +1,75 @@
+﻿@page "/Account"
+@using WebClient.Models
+@using WebClient.Data
+@using System.ComponentModel.DataAnnotations
+@using DataServer.DataAccess
+@using Customer = DataServer.Models.Customer
+@inject NavigationManager NavMng;
+@inject IAccountService service;
+
+<h3>Account</h3>
+<EditForm Model="@customerToEdit" OnValidSubmit="@Save">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+<div class="container text-center">
+<div class="card text-center py-3">
+<div class="row">
+<div class="offset-md-3 col-md-3 text-center">
+<div class="mb-5 mt-4">
+    <label>First Name:</label>
+    <div class="form-group">
+        <InputText @bind-Value="customerToEdit.FirstName"/>
+    </div>
+</div><div class="mb-5">
+    <label>Last Name:</label>
+    <div class="form-group">
+        <InputText @bind-Value="customerToEdit.LastName"/>
+    </div>
+</div>
+<div class="mb-5">
+    <label>Email:</label>
+    <div class="form-group">
+        <InputText @bind-Value="customerToEdit.Email"/>
+    </div>
+</div>
+<div class="mb-5">
+                              <label>Password:</label>
+                              <div class="form-group">
+                                  <InputText @bind-Value="customerToEdit.Password"/>
+                              </div>
+                          </div>
+<div class="col-md-3"></div>
+    <p class="actions mx-auto">
+        <button class="btn btn-outline-dark" type="submit" @onclick="Save">Save</button>
+    </p>
+    <p class="actions mx-auto">
+        <button class="btn btn-outline-dark" type="submit" @onclick="Delete">delete</button>
+    </p>
+<label style="color: red">@error</label>
+</div>
+</div></div></div>
+</EditForm>
+
+
+@code {
+    private Models.Customer customerToEdit;
+    private static string error = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+    }
+
+    private  async Task Save()
+    {
+        await AccountService.UpdateCustomerAsync(customerToEdit);
+        NavMng.NavigateTo("/");
+    }
+    private  async Task Delete()
+    {
+        await AccountService.DeleteCustomer(customerToEdit.Id);
+        NavMng.NavigateTo("/");
+    }
+
+}
