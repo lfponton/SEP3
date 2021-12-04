@@ -3,11 +3,7 @@
 @inject NavigationManager NavigationManager
 <h3>AddMenus</h3>
 <div class="text-center">
-    <div class="form-group">
-        <label>Menu Id</label>
-        <input class="form-control" type="text" placeholder="Menu id" @bind-value="Id"/>
-    </div>
-        <div class="card-body">
+    <div class="card-body">
             <div class="form-group">
                 <label>Name</label>
                 <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
@@ -30,10 +26,7 @@
        
             <p>Menus</p>
         </div>
-       
-
-
-    <p>MenuId:@Id</p>
+    
     <p>Name:@Name</p>
     <p>Type: @Type</p>
     <p>Description: @Description</p>
