@@ -53,38 +53,8 @@ else
         }
     </div>
 
-    @*  <table class="table">
-        <thead>
-        <tr>
-            <th>Number Of items</th>
-            <th>Menu</th>
-            <th>Price </th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in orderItems)
-        {
-            <tr>
-                <td>@item.Quantity</td>
-                <td>@item.Menu.Name
-                    @*had to change this because orderItems don't have ids any more
-                </td>
-                <td></td>
-                <td>
-                    <button @onclick="@(() => DeleteOrderItem(1))"> <!-- Delete here should have an orderItem object as an argument. Not an id.-->
-                        <i class="oi oi-trash" style="color:red"/>
-                    </button>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table> *@
-
     <RadzenButton Click=@(() => Next()) Text="Proceed to Payment" Style="margin-top: 2em; width: 40%"/>
 }
-
-
 
 
 
@@ -131,22 +101,10 @@ else
             Menu = menu,
             Quantity = quantity
         };
-        Console.WriteLine(orderItem.ToString());
         orderItems.Add(orderItem);
         order.OrderItems = orderItems;
     }
 
-   /* private async Task DeleteOrderItem(long orderItemId)
-    {
-        await OrderItemsService.DeleteOrderItem(orderItemId);
-        orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
-
-        
-    }*/
-    
-    
-
-  
 
     private async Task Next()
     {
@@ -154,9 +112,7 @@ else
         if (order.OrderItems.Any())
         {
             order.OrderDateTime = DateTime.Now;
-            Console.WriteLine(order.ToString());
             order = await OrderService.CreateOrder(order);
-            Console.WriteLine(order.ToString());
             NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
         }
     }

@@ -93,7 +93,6 @@ public class OrdersClient implements IOrdersClient
       out.println("getOrder");
       out.println(orderId);
       response = in.readLine();
-      System.out.println(response);
     }
     catch (Exception e)
     {
@@ -112,7 +111,6 @@ public class OrdersClient implements IOrdersClient
       String jsonOrder = gson.toJson(order);
       out.println(jsonOrder);
       response = in.readLine();
-      System.out.println(response);
     }
     catch (Exception e)
     {

@@ -52,7 +52,6 @@ public class OrderItemsClient implements IOrderItemsClient
       String send = gson.toJson(orderItem);
       out.println(send);
       response = in.readLine();
-      System.out.println("OrderItemControllerResponse->" + response);
     }
     catch (IOException e)
     {

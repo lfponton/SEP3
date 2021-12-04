@@ -59,7 +59,6 @@ namespace DataServer.Network
             string response =
                 JsonSerializer.Serialize(await unitOfWork.MenuItemsSelectionsRepository.GetMenuItemsSelections(menuId),
                     options);
-            Console.WriteLine(response);
             return response;
         }
     }
