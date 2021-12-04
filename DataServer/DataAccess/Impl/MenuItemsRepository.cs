@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataServer.Models;
@@ -16,22 +17,42 @@ namespace DataServer.DataAccess.Impl
             this.context = context;
         }
 
-        public async Task CreateMenuItemAsync(MenuItem menuItem)
+        public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
-            await context.MenuItems.AddAsync(menuItem);
-        }
-
-        public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
-        {
-            List<MenuItemsSelection> selection = await context.MenuItemsSelections
-                .Where(selection => selection.MenuId == menuId).Include(selection => selection.MenuItem).ToListAsync(); 
-            List<MenuItem> menuItems = new List<MenuItem>();
-            foreach (var s in selection)
-            {
-                menuItems.Add(s.MenuItem);
-            }
+            var menuItemToUpdate = await context.MenuItems
+                .Include(Menuitem => menuItem.MenuItemId)
+                .FirstAsync(MenuItem => MenuItem.MenuItemId==menuItem.MenuItemId);
+           menuItemToUpdate.Name = menuItem.Name;
+         menuItemToUpdate.Price = menuItem.Price;
+            context.Update(menuItemToUpdate);
+            return menuItemToUpdate;
             
-            return menuItems;
-        }
-    }
+}
+
+public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
+{
+List<MenuItemsSelection> selection = await context.MenuItemsSelections
+  .Where(selection => selection.MenuId == menuId).Include(selection => selection.MenuItem).ToListAsync(); 
+List<MenuItem> menuItems = new List<MenuItem>();
+foreach (var s in selection)
+{
+  menuItems.Add(s.MenuItem);
+}
+
+return menuItems;
+}
+
+public async Task DeleteMenuItemAsync(long menuItemsId)
+{
+
+MenuItem toRemove =
+  await context.MenuItems.FirstOrDefaultAsync(MenuItem => MenuItem.MenuItemId == menuItemsId);
+if (toRemove != null)
+{
+  context.MenuItems.Remove(toRemove);
+  await context.SaveChangesAsync();
+}
+}
+
+}
 }

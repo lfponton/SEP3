@@ -9,5 +9,6 @@ namespace DataServer.DataAccess
     {
         Task<Menu> CreateMenuAsync(Menu menu);
         Task<List<Menu>> GetMenusAsync();
+        
     }
 }
