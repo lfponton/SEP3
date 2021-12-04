@@ -42,11 +42,6 @@ foreach (var s in selection)
 return menuItems;
 }
 
-public Task DeleteOrderItemAsync(long orderItemsId)
-{
-throw new NotImplementedException();
-}
-
 public async Task DeleteMenuItemAsync(long menuItemsId)
 {
 

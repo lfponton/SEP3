@@ -18,15 +18,22 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<Menu> CreateMenuAsync(Menu menu)
         {
-            
-            if (menu.employee)!= null)
-            {
-                Employee employee = await context.Employees.FirstOrDefaultAsync(employee => employee.Id == menu.Employee.Id);
-               Menu.Employee = employee;
-            }
-            Console.WriteLine(menu.ToString());
-            await context.Menus.AddAsync(menu);
-            return menu;
+            /* if (menu.employee)!= null)
+             {
+                 Employee employee = await context.Employees.FirstOrDefaultAsync(employee => employee.Id == menu.Employee.Id);
+                Menu.Employee = employee;
+             }
+             Console.WriteLine(menu.ToString());
+             await context.Menus.AddAsync(menu);
+             return menu;*/
+            var menuToUpdate = await context.Menus
+                .Include(Menu => menu.MenuId)
+                .FirstAsync(Menu => Menu.MenuId == menu.MenuId);
+            menuToUpdate.Name = menu.Name;
+            menuToUpdate.Type = menu.Type;
+            menuToUpdate.Description = menu.Description;
+            menuToUpdate.Price = menu.Price;
+
         }
 
         public async Task<List<Menu>> GetMenusAsync()
