@@ -19,13 +19,8 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
-            var menuItemToUpdate = await context.MenuItems
-                .Include(Menuitem => menuItem.MenuItemId)
-                .FirstAsync(MenuItem => MenuItem.MenuItemId == menuItem.MenuItemId);
-            menuItemToUpdate.Name = menuItem.Name;
-            menuItemToUpdate.Price = menuItem.Price;
-            context.Update(menuItemToUpdate);
-            return menuItemToUpdate;
+            await context.MenuItems.AddAsync(menuItem);
+            return menuItem;
         }
 
         public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
