@@ -22,7 +22,14 @@ namespace DataServer.DataAccess.Impl
                 Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
                 order.Customer = customer;
             }
+
+            foreach (var item in order.OrderItems)
+            {
+                item.Menu = null;
+            }
+            
             await context.Orders.AddAsync(order);
+            await context.SaveChangesAsync();
             return order;
         }
 
@@ -58,7 +65,9 @@ namespace DataServer.DataAccess.Impl
 
         public Task<Order> GetOrder(long orderId)
         {
-            return context.Orders.FirstOrDefaultAsync(order => order.OrderId == orderId);
+            return context.Orders.
+                Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
     }
 }

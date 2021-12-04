@@ -148,9 +148,17 @@ else
 
   
 
-    private void Next()
+    private async Task Next()
     {
-        NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
+        // TODO: If there is nothing selected it shouldn't continue
+        if (order.OrderItems.Any())
+        {
+            order.OrderDateTime = DateTime.Now;
+            Console.WriteLine(order.ToString());
+            order = await OrderService.CreateOrder(order);
+            Console.WriteLine(order.ToString());
+            NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
+        }
     }
 
 }

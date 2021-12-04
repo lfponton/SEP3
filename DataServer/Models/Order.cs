@@ -12,7 +12,7 @@ namespace DataServer.Models
         public DateTime OrderDateTime { get; set; }
         public DateTime DeliveryTime { get; set; }
         public decimal Price { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public IList<OrderItem> OrderItems { get; set; }
         public Customer Customer { get; set; }
         public string Status { get; set; }

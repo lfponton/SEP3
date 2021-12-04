@@ -17,17 +17,17 @@ public class OrderItem {
       //setPrice();
   }
 
-    public OrderItem(Order order, Menu menu, int quantity) {
-      this.order = order;
-      this.menu = menu;
-      this.quantity = quantity;
-     // setPrice();
-    }
+  public OrderItem(long orderId, Order order, long menuId, Menu menu,
+      int quantity, BigDecimal price)
+  {
+    this.orderId = orderId;
+    this.order = order;
+    this.menuId = menuId;
+    this.menu = menu;
+    this.quantity = quantity;
+    this.price = price;
+  }
 
-//    private void setPrice()
-//  {
-//      this.price = .multiply(new BigDecimal(quantity));
-//  }
 //For testing
 
     public BigDecimal getPrice() {
@@ -46,8 +46,8 @@ public class OrderItem {
         return order;
     }
 
-    public Menu getMenuId() {
-        return menu;
+    public long getMenuId() {
+        return menuId;
     }
 
   public void setMenuId(long menuId)

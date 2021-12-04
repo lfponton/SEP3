@@ -23,13 +23,9 @@ namespace WebClient.Data.Impl
             };
         }
 
-        public async Task<Order> CreateOrder()
+        public async Task<Order> CreateOrder(Order order)
         {
-            var newOrder = new Order()
-            {
-                OrderDateTime = DateTime.Now,
-            };
-            string orderAsJson = JsonSerializer.Serialize(newOrder, options);
+            string orderAsJson = JsonSerializer.Serialize(order, options);
             HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(uri + "/orders", content);
             if (response.IsSuccessStatusCode)

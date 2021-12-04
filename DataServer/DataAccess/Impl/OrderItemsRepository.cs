@@ -43,8 +43,8 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<List<OrderItem>> GetOrderItemsAsync(int orderId)
         {
-            List<OrderItem> orderItems = await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
-            return await context.OrderItems.Where(o => o.Order.OrderId == orderId).ToListAsync();
+            return await context.OrderItems.Where(o => o.OrderId == orderId).Include(oI => oI.Menu).ToListAsync();
+            
         }
 
         public async Task DeleteOrderItemAsync(long orderItemId)
