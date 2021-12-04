@@ -9,7 +9,7 @@ namespace DataServer.DataAccess
         Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem);
 
         Task<List<MenuItem>> ReadMenuItemsAsync(int menuId);
-        
-        Task DeleteOrderItemAsync(long orderItemsId);
+
+        Task DeleteMenuItemAsync(long menuItemsId);
     }
 }

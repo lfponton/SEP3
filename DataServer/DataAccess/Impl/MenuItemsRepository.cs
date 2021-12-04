@@ -21,38 +21,35 @@ namespace DataServer.DataAccess.Impl
         {
             var menuItemToUpdate = await context.MenuItems
                 .Include(Menuitem => menuItem.MenuItemId)
-                .FirstAsync(MenuItem => MenuItem.MenuItemId==menuItem.MenuItemId);
-           menuItemToUpdate.Name = menuItem.Name;
-         menuItemToUpdate.Price = menuItem.Price;
+                .FirstAsync(MenuItem => MenuItem.MenuItemId == menuItem.MenuItemId);
+            menuItemToUpdate.Name = menuItem.Name;
+            menuItemToUpdate.Price = menuItem.Price;
             context.Update(menuItemToUpdate);
             return menuItemToUpdate;
-            
-}
+        }
 
-public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
-{
-List<MenuItemsSelection> selection = await context.MenuItemsSelections
-  .Where(selection => selection.MenuId == menuId).Include(selection => selection.MenuItem).ToListAsync(); 
-List<MenuItem> menuItems = new List<MenuItem>();
-foreach (var s in selection)
-{
-  menuItems.Add(s.MenuItem);
-}
+        public async Task<List<MenuItem>> ReadMenuItemsAsync(int menuId)
+        {
+            List<MenuItemsSelection> selection = await context.MenuItemsSelections
+                .Where(selection => selection.MenuId == menuId).Include(selection => selection.MenuItem).ToListAsync();
+            List<MenuItem> menuItems = new List<MenuItem>();
+            foreach (var s in selection)
+            {
+                menuItems.Add(s.MenuItem);
+            }
 
-return menuItems;
-}
+            return menuItems;
+        }
 
-public async Task DeleteMenuItemAsync(long menuItemsId)
-{
-
-MenuItem toRemove =
-  await context.MenuItems.FirstOrDefaultAsync(MenuItem => MenuItem.MenuItemId == menuItemsId);
-if (toRemove != null)
-{
-  context.MenuItems.Remove(toRemove);
-  await context.SaveChangesAsync();
-}
-}
-
-}
+        public async Task DeleteMenuItemAsync(long menuItemsId)
+        {
+            MenuItem toRemove =
+                await context.MenuItems.FirstOrDefaultAsync(MenuItem => MenuItem.MenuItemId == menuItemsId);
+            if (toRemove != null)
+            {
+                context.MenuItems.Remove(toRemove);
+                await context.SaveChangesAsync();
+            }
+        }
+    }
 }
