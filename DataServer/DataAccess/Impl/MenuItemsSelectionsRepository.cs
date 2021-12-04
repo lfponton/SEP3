@@ -25,6 +25,11 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<MenuItemsSelection> CreateMenuItemsSelectionAsync(MenuItemsSelection menuItemsSelection)
         {
+            if (menuItemsSelection.MenuItem != null)
+            {
+                MenuItem menuItem = await context.MenuItems.FirstOrDefaultAsync(mI => mI.MenuItemId == menuItemsSelection.MenuItem.MenuItemId);
+                menuItemsSelection.MenuItem = menuItem;
+            }
             await context.MenuItemsSelections.AddAsync(menuItemsSelection);
             return menuItemsSelection;
         }

@@ -9,7 +9,7 @@ namespace DataServer.Models
         [JsonIgnore]
         public Menu Menu { get; set; }
         public long MenuItemId { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public MenuItem MenuItem { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }

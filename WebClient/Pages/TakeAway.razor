@@ -13,7 +13,7 @@
 @if (menus == null)
 {
     <p>
-        <em>Loading orders - something went worng</em>
+        <em>Loading menus...</em>
     </p>
 }
 else if (!menus.Any())
@@ -31,13 +31,11 @@ else
                 <div class="row">
                     <div class="col-md-6">
                         <b>@menu.Name</b>
-                        <div style="margin-top:20px">Description:</div>
-                        <b>
-                            @foreach (var selection in menu.MenusItemsSelections)
+                        <div style="margin-top:20px">Menu Items:</div>
+                        @foreach (var selection in menu.MenusItemsSelections)
                             {
-                               @* @selection.MenuItem.Name; *@
+                                <p>@selection.MenuItem.Name x @selection.Quantity</p>
                             }
-                        </b>
                         <br/>
                     </div>
                     <div class="col-md-6">

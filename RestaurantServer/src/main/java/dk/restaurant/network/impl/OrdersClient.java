@@ -121,23 +121,4 @@ public class OrdersClient implements IOrdersClient
     return gson.fromJson(response, Order.class);
   }
 
-  @Override public Order updateOrder(Order order)
-  {
-    String response = "";
-    try
-    {
-      out.println("Orders");
-      out.println("updateOrder");
-      String jsonOrder = gson.toJson(order);
-      out.println(jsonOrder);
-      response = in.readLine();
-      System.out.println(response);
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-    return gson.fromJson(response, Order.class);
-  }
-
 }
