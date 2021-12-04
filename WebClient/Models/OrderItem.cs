@@ -20,8 +20,9 @@ namespace WebClient.Models
         public Order Total { get; set; }
         
     }
+    
 
-
+    
 }
     
    

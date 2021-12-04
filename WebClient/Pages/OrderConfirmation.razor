@@ -2,36 +2,58 @@
 @using Microsoft.AspNetCore.Components
 @using MatBlazor
 @using WebClient.Data
-@using System.Timers
-@using Timer = System.Threading.Timer
+
+@using WebClient.Models
+@using OrderItem = DataServer.Models.OrderItem
 @using System.Threading
-@using System.Collections
-@using System.Net.Mime
+@inject IOrderService OrderService
+@inject NavigationManager NavigationManager
 
 @inject IOrderItemsService OrderItemService
 
 
+<div>
 
+    <span class="text-nowrap">
+        <a target="_blank" class="font-weight-bold link-dark" href="/OrderInformation">Back</a>
+    </span>
+    
+    <br/>
+
+</div>
 
 <h3>OrderConfirmation</h3>
 
+ <p>
+            <em>Status: Order under processing.........</em>
+        </p>
+
+<br/>
 
 
-
-<MatProgressBar Indeterminate="true" Reversed="true"></MatProgressBar>/>
-
-    
+<MatProgressBar Indeterminate="true" Id="MatProgressBar" Reversed="false"></MatProgressBar>
 
 <br/>
 <br/>
-<br/>
 
+<div class="text-center">
+    <h3 style="margin-bottom:5%">Order Item Id @OrderId</h3>
+         <MatList class="text-center">
+                <MatListItem>Item Name:@Name</MatListItem>
+                <MatListItem>Quantity:@Quantity</MatListItem>
+                <MatListItem> Price:@Price</MatListItem>
+                <MatListItem>Total:@Total </MatListItem>
+        </MatList>
+   <div>
+               <MatCheckbox @bind-Value="@checked1" Disabled="true" Label="Payed"></MatCheckbox>
+           </div>
+</div>
+<br/>
 <div>
 
-<span class="text-nowrap">
-    <a target="_blank" class="font-weight-bold link-dark" href="/Index">Exit</a>
-</span>
-
+    <span class="text-nowrap">
+        <a target="_blank" class="font-weight-bold link-dark" href="/Index">Exit</a>
+    </span>
 </div>
 
 
@@ -45,9 +67,44 @@
 
 
 
-@code {
-   
 
-    public object ShowProgress { get; set; }
+
+
+@code {
+    
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private OrderItem orderItems;
+    private string Name;
+    private decimal Price;
+    private int Quantity;
+    private Order Total;
+    MatProgressBar progressBar;
+    
+    bool checked1 = true;
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        orderItems = Seed();
+    }
+    private OrderItem Seed()
+    {
+        return orderItems;
+    }
+    
+    public void Interrupt (MatProgressBar progressBar)
+    {
+        Thread.Sleep(3000);
+        var threadState = ThreadState.Stopped;
+        Console.WriteLine("Order is complete");
+    }
+    
+    
+    
+    
+
 
 }
+        
