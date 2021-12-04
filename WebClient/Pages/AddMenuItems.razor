@@ -1,0 +1,57 @@
+﻿@page "/AddMenuItems"
+@using WebClient.Models
+@inject NavigationManager NavigationManager
+<h3>AddMenuItems</h3>
+<div class="text-center">
+   
+    <div class="card-body">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
+        </div>
+        <p>MenuItems</p>
+    </div>
+    
+    <p>Name:@Name</p>
+    <p>Price: @Price</p>
+    
+    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+    <button class=" btn btn-primary mr-1" @onclick="Save">Save></button>
+        
+    
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AddMenuItems addMenuItems;
+    
+    private string Name;
+    private double Price;
+
+    protected override async Task OnInitializedAsync()
+    {
+        addMenuItems = Seed();
+    }
+
+    private AddMenuItems Seed()
+    {
+        return addMenuItems;
+    }
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/ViewMenuItems");
+    }
+
+
+    private void Save()
+    {
+        NavigationManager.NavigateTo("/AllMenuItems");
+    }
+
+}

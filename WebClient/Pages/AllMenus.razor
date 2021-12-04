@@ -1,0 +1,85 @@
+﻿@page "/AllMenus"
+@using WebClient.Models
+@inject NavigationManager NavigationManager
+<h3>AllMenus</h3>
+<div class="text-center">
+    <h3 style="margin-bottom: 5%">AllMenus</h3>
+    <table width="400"cellpadding="10"cellspacing="5">
+        <tr>
+            <th width="150"></th>
+            <th>Menu Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Edit</th>
+        </tr>
+        <tr>
+            <th>Menu 1</th>
+            <td>1</td>
+            <td>Healthy Menu</td>
+            <td>200</td>
+            <td>Mexican</td>
+            <td>Wonderful meal</td>
+            <td><button class=" btn btn-primary mr-1" @onclick="Edit">Edit</button></td>
+            <td><button class=" btn btn-primary mr-1" @onclick="Delete">Delete</button></td>
+        </tr>
+
+        <tr>
+            <th>Menu 2</th>
+            <td>2</td>
+            <td>UnHealthy Menu</td>
+            <td>120</td>
+            <td>Indian</td>
+            <td>Wow meal</td>
+            <td><button class=" btn btn-primary mr-1" @onclick="Edit">Edit</button></td>
+            <td><button class=" btn btn-primary mr-1" @onclick="Delete">Delete</button></td>
+        </tr>
+        
+        
+    </table>
+    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+    <button class=" btn btn-primary mr-1" @onclick="Save">Save</button>
+   
+</div>
+    
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AllMenus allMenus;
+    
+    private string Name;
+    private double Price;
+    private string Type;
+    private string Description;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        allMenus = Seed();
+    }
+
+    private AllMenus Seed()
+    {
+        return allMenus;
+    }
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/ViewMenus");
+    }
+
+    private void Edit()
+    {
+        NavigationManager.NavigateTo("/EditMenus");
+    }
+    private void Save()
+    {
+        NavigationManager.NavigateTo("/Menus");
+    }
+
+    private void Delete()
+    {
+        NavigationManager.NavigateTo("/DeleteMenus");
+    }
+
+}

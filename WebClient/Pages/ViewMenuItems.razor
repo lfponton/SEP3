@@ -4,10 +4,16 @@
 @using Microsoft.AspNetCore.Mvc.Diagnostics
 <h3>ViewMenuItems</h3>
 <div class="text-center">
-    <h3 style="margin-bottom:5%">MenuItem @Id</h3>
-    <p>MenuItem Name:@Name</p>
-    <p>MenuItem Price:@Price</p>
-    <p>MenuItem</p>
+     <div class="text-center">
+                        <h3>All Menu Items</h3>
+             <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AllMenuItems">AllMenuItems</div>
+             </div>
+    <div class="text-center">
+        <h3>Add Menu Items</h3>
+        <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AddMenuItems">AddMenuItems</div>
+    </div>
+    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+
 </div>
 
 @code {
@@ -15,37 +21,25 @@
     public int Id { get; set; }
 
     private MenuItem menuItem;
-    private string Name;
-    private double Price;
 
     protected override async Task OnInitializedAsync()
     {
         menuItem = Seed();
     }
 
-    private void CancelMenuItem()
+    private void AllMenuItems()
     {
-       NavigationManager.NavigateTo("View Menu Items");
+        NavigationManager.NavigateTo("/AllMenuItems");
     }
 
-    private void AddMenuItem()
+    private void AddMenuItems()
     {
-        NavigationManager.NavigateTo("View Menu Items");
-    }
-
-    private void EditMenuItem()
-    {
-        NavigationManager.NavigateTo("View Menu Items");
-    }
-
-    private void DeleteMenuItems()
-    {
-        NavigationManager.NavigateTo("View Menu Items");
+        NavigationManager.NavigateTo("/AddMenuItems");
     }
 
     private void Back()
     {
-        NavigationManager.NavigateTo("View wMenu Item");
+        NavigationManager.NavigateTo("/ManageMenus");
     }
 
     private MenuItem Seed()

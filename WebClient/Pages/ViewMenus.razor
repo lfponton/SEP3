@@ -5,49 +5,48 @@
 
 <h3>ViewMenus</h3>
 <div class="text-center">
-    <h3 style="margin-bottom:5%">Menu @Id</h3>
-    <p>Menu Name:@Name</p>
-    <p>Menu Type:@Type</p>
-    <p>Menu Price:@Price</p>
-    <p>Menus</p>
-    
+     <div class="text-center">
+                    <h3>All Menus</h3>
+         <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AllMenus">AllMenus</div>
+         </div>
+        
+    <div class="text-center">
+        <h3>Add Menus</h3>
+        <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AddMenus">AddMenus</div>
+    </div>
+
+    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+
+
 </div>
 
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
-
+    
     private Menu menu;
-    private string Name;
-    private string Type;
-    private double Price;
+   
 
     protected override async Task OnInitializedAsync()
     {
         menu = Seed();
     }
 
-    private void CancelMenu()
+    private void AllMenus()
     {
-        NavigationManager.NavigateTo("View Menus");
-    }
-
-    private void RemoveMenu()
-    {
-        NavigationManager.NavigateTo("View Menus");
+        NavigationManager.NavigateTo("/AllMenus");
     }
 
     private void AddMenus()
     {
-        NavigationManager.NavigateTo("View Menus");
+        NavigationManager.NavigateTo("/AddMenus");
     }
     
-
     private void Back()
     {
-        NavigationManager.NavigateTo("View Menus");
+        NavigationManager.NavigateTo("ManageMenus");
     }
+
+    
 
     private Menu Seed()
     {
