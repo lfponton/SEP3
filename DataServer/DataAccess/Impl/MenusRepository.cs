@@ -18,6 +18,13 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<Menu> CreateMenuAsync(Menu menu)
         {
+            
+            if (menu.employee)!= null)
+            {
+                Employee employee = await context.Employees.FirstOrDefaultAsync(employee => employee.Id == menu.Employee.Id);
+               Menu.Employee = employee;
+            }
+            Console.WriteLine(menu.ToString());
             await context.Menus.AddAsync(menu);
             return menu;
         }
@@ -28,5 +35,18 @@ namespace DataServer.DataAccess.Impl
                 .ThenInclude(selection => selection.MenuItem)
                 .ToListAsync();
         }
+
+        public async Task DeleteMenuAsync(Menu menu)
+        {
+            Menu toRemove = await context.Menus.FirstOrDefaultAsync(menu => menu.MenuId == menu.MenuId);
+
+            if (toRemove != null)
+            {
+                context.Menus.Remove(toRemove);
+                await context.SaveChangesAsync();
+            }
+        }
+
+    
     }
 }

@@ -6,8 +6,10 @@ namespace DataServer.DataAccess
 {
     public interface IMenuItemsRepository
     {
-        Task CreateMenuItemAsync(MenuItem menuItem);
+        Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem);
 
         Task<List<MenuItem>> ReadMenuItemsAsync(int menuId);
+        
+        Task DeleteOrderItemAsync(long orderItemsId);
     }
 }
