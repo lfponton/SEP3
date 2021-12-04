@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace WebClient.Models
 {
@@ -15,6 +16,15 @@ namespace WebClient.Models
 
         [DataType(DataType.Currency)] 
         public decimal Price { get; set; }
+        
+        // TESTING
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+        }
 
     }
     

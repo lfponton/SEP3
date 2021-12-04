@@ -43,10 +43,10 @@ else
                         <b>@menu.Type</b>
                         <div style="margin-top:20px">Price:</div>
                         <b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", menu.Price)</b>
-                        <div style="margin-top:20px">Order: </div>
+                        <div style="margin-top:20px">Quantity: </div>
                         <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                         <br/>
-                        <RadzenButton Click=@(() => OnAddOrderItem(@menu.MenuId)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
+                        <RadzenButton Click=@(() => OnAddOrderItem(menu.MenuId)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
                     </div>
                 </div>
             </RadzenCard>
@@ -81,7 +81,7 @@ else
         </tbody>
     </table> *@
 
-    <RadzenButton Click=@(() => Next()) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
+    <RadzenButton Click=@(() => Next()) Text="Proceed to Payment" Style="margin-top: 2em; width: 40%"/>
 }
 
 
@@ -91,12 +91,23 @@ else
 @code {
     private IList<Menu> menus = new List<Menu>();
     private IList<OrderItem> orderItems = new List<OrderItem>();
-    private Order cacheOrder = new Order();
+    private Order order = new Order();
     private int quantity;
 
     protected override async Task OnInitializedAsync()
     {
-        cacheOrder = await OrderService.CreateOrder();
+        // TODO: We need to get the customer from the login
+        var customer = new Customer
+        {
+            Email = "hello@gmail.com",
+            FirstName = "Bill",
+            LastName = "Smith",
+            Password = "4321",
+        };
+        order = new Order
+        {
+            Customer = customer
+        };
         menus = await MenusPersistence.GetMenus();
         
         foreach (var m in menus)
@@ -112,11 +123,17 @@ else
 
     private async Task OnAddOrderItem(long menuId)
     {
+        // TODO: To avoid having more orderItems created when the quantity of a Menu is changed, then check if the menuId already exists in an orderItem and if so update it.
         Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
-         await OrderItemsService.CreateOrderItem(quantity, menu, cacheOrder);
-        orderItems = await OrderItemsService.GetOrderItems(cacheOrder.OrderId);
-        
-        
+        OrderItem orderItem = new OrderItem
+        {
+            MenuId = menuId,
+            Menu = menu,
+            Quantity = quantity
+        };
+        Console.WriteLine(orderItem.ToString());
+        orderItems.Add(orderItem);
+        order.OrderItems = orderItems;
     }
 
    /* private async Task DeleteOrderItem(long orderItemId)
@@ -133,7 +150,7 @@ else
 
     private void Next()
     {
-        NavigationManager.NavigateTo($"/OrderInformation/{cacheOrder.OrderId}");
+        NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
     }
 
 }
