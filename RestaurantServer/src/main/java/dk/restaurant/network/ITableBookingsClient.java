@@ -7,4 +7,10 @@ import java.util.List;
 
 public interface ITableBookingsClient {
     List<TableBooking> getTableBookings(String bookingDate);
+
+    TableBooking updateTableBooking(TableBooking tableBooking);
+
+    TableBooking createTableBooking(TableBooking tableBooking);
+
+    TableBooking getBookingById(Long tableBookingId);
 }

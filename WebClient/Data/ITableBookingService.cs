@@ -10,5 +10,7 @@ namespace WebClient.Data
         Task<List<TableBooking>> GetBookings(DateTime bookingDateTime);
         Task<Table> GetTables();
         Task<TableBooking> CreateTableBooking(TableBooking tableBooking);
+        Task<TableBooking> UpdateTableBooking(TableBooking tableBooking);
+        Task<TableBooking> GetBookingById(long tableBookingId);
     }
 }

@@ -18,8 +18,38 @@ namespace DataServer.DataAccess.Impl
         }
         public async  Task<IList<TableBooking>> GetTableBookingsAsync(DateTime bookingDateTime)
         {
-            Console.WriteLine($" bookings repository{bookingDateTime}");
-            return await context.TableBookings.Include(tb => tb.Table).Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
+            
+            return await context.TableBookings.Include(tb => tb.Table)
+                .Include(tb=>tb.Customer)
+                .Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
+        }
+
+        public async Task<TableBooking> UpdateTableBookingAsync(TableBooking tableBooking)
+        {
+            var toUpdate = await context.TableBookings
+                .Include(tb => tb.Table)
+                .FirstAsync(tb => tb.TableBookingId == tableBooking.TableBookingId);
+            toUpdate.Customer = tableBooking.Customer;
+            toUpdate.Description = tableBooking.Description;
+            toUpdate.People = tableBooking.People;
+            context.Update(toUpdate);
+            return toUpdate;
+
+        }
+
+        public async Task<TableBooking> CreateTableBookingAsync(TableBooking tableBooking)
+        {
+            var tableToUpdate = await context.Tables
+                .Include(t=>t.TableBookings)
+                .FirstAsync(t => t.TableId == tableBooking.Table.TableId);
+            tableToUpdate.TableBookings.Add(tableBooking);
+            context.Update(tableToUpdate);
+            return tableBooking;
+        }
+
+        public Task<TableBooking> GetBookingByIdAsync(long tableBookingId)
+        {
+            return context.TableBookings.Include(tb => tb.Table).FirstAsync(tb => tb.TableBookingId == tableBookingId);
         }
     }
 }

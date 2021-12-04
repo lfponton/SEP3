@@ -1,39 +1,57 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Order;
-import dk.restaurant.network.IClient;
+import dk.restaurant.models.TableBooking;
+import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IOrdersClient;
+import dk.restaurant.services.IOrdersService;
+import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/orders")
 public class OrderController
 {
-  private IOrdersClient client;
+  private IOrdersService service;
 
-  public OrderController(IClient client)
+  public OrderController(IServiceFactory serviceFactory)
   {
-    this.client = client.getOrdersClient();
+    this.service = serviceFactory.getOrdersService();
   }
 
-  @GetMapping("/orders")
-  public List<Order> getOrders()
+  @GetMapping(value = "/{orderId}")
+  public Order getOrder(@PathVariable("orderId") long orderId)
   {
-    return client.getOrders();
+    return service.getOrder(orderId);
   }
 
-  @GetMapping("/orders/{orderId}")
-  public Order getOrder(@PathVariable long orderId)
+  @GetMapping
+  @RequestMapping(method = RequestMethod.GET)
+  public List<Order> getOrders(@RequestParam(value="status", required = false) String status)
   {
-    return client.getOrder(orderId);
+    return service.getOrders(status);
   }
 
   @PostMapping("/orders")
   @ResponseStatus(HttpStatus.CREATED)
   public Order createOrder(@RequestBody Order order)
   {
-    return client.createOrder(order);
+    return service.createOrder(order);
+  }
+
+  @PatchMapping
+  public ResponseEntity<Order> updateOrder(@RequestBody Order order)
+  {
+    Order updatedOrder = service.updateOrder(order);
+    if (updatedOrder == null)
+    {
+      return ResponseEntity.badRequest().build();
+    }
+    return new ResponseEntity<Order>(updatedOrder, HttpStatus.OK);
   }
 }

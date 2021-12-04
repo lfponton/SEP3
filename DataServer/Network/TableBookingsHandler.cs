@@ -35,18 +35,44 @@ namespace DataServer.Network
             {
                 case "getTableBookings":
                     return await GetTableBookings(args);
+                case "updateTableBooking":
+                    return await UpdateTableBooking(args);
+                case "createTableBooking":
+                    return await CreateTableBooking(args);
+                case "getBookingById":
+                    return await GetBookingById(args);
                 default:
                     return "";
             }
            
         }
 
+        private async Task<string> GetBookingById(string args)
+        {
+            var tableBookingId = JsonSerializer.Deserialize<long>(args, options);
+            return JsonSerializer.Serialize(await unitOfWork.TableBookingsRepository.GetBookingByIdAsync(tableBookingId), optionsWithoutConverter);
+        }
+
+        private async Task<string> CreateTableBooking(string args)
+        {
+            var tableBooking = JsonSerializer.Deserialize<TableBooking>(args, options);
+            await unitOfWork.TableBookingsRepository.CreateTableBookingAsync(tableBooking);
+            await unitOfWork.Save();
+            return JsonSerializer.Serialize(tableBooking, optionsWithoutConverter);
+
+        }
+
+        private async Task<string> UpdateTableBooking(string args)
+        {
+            var tableBooking = JsonSerializer.Deserialize<TableBooking>(args, options);
+            await unitOfWork.TableBookingsRepository.UpdateTableBookingAsync(tableBooking);
+            await unitOfWork.Save();
+            return JsonSerializer.Serialize(tableBooking, optionsWithoutConverter);
+        }
+
         private async Task<string> GetTableBookings(string args)
         {
-            Console.WriteLine($"bookings handler {args}");
-            DateTime dateTime = new DateTime();
-               dateTime = JsonSerializer.Deserialize<DateTime>(args, options);
-            Console.WriteLine($"{dateTime}");
+            var dateTime = JsonSerializer.Deserialize<DateTime>(args, options);
             return JsonSerializer.Serialize(await unitOfWork.TableBookingsRepository.GetTableBookingsAsync(dateTime.Date), optionsWithoutConverter);
         }
     }

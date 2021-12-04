@@ -44,18 +44,71 @@ public class TableBookingsClient implements ITableBookingsClient {
         {
             out.println("Bookings");
             out.println("getTableBookings");
-            System.out.println("Client send" + bookingDate);
             String send = gson.toJson(bookingDate);
             out.println(send);
             String response = in.readLine();
-            System.out.println("Client response" + response);
             bookings = gson.fromJson(response, new TypeToken<ArrayList<TableBooking>>() {}.getType());
         }
         catch (IOException e)
         {
             e.printStackTrace();
+        }return bookings;
+    }
+
+    @Override
+    public synchronized TableBooking updateTableBooking(TableBooking tableBooking) {
+        TableBooking booking = new TableBooking();
+        try
+        {
+            System.out.println("patching client");
+            out.println("Bookings");
+            out.println("updateTableBooking");
+            String send = gson.toJson(tableBooking);
+            out.println(send);
+            String response = in.readLine();
+            booking = gson.fromJson(response, TableBooking.class);
         }
-        System.out.println(bookings.size());
-        return bookings;
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return booking;
+    }
+
+    @Override
+    public synchronized TableBooking createTableBooking(TableBooking tableBooking) {
+        TableBooking booking = new TableBooking();
+        try
+        {
+            out.println("Bookings");
+            out.println("createTableBooking");
+            String send = gson.toJson(tableBooking);
+            out.println(send);
+            String response = in.readLine();
+            booking = gson.fromJson(response, TableBooking.class);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return booking;
+    }
+
+    @Override
+    public TableBooking getBookingById(Long tableBookingId) {
+        TableBooking booking = new TableBooking();
+        try
+        {
+            out.println("Bookings");
+            out.println("getBookingById");
+            String send = gson.toJson(tableBookingId);
+            out.println(send);
+            String response = in.readLine();
+            booking = gson.fromJson(response, TableBooking.class);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }return booking;
     }
 }

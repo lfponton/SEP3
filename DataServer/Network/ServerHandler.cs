@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using DataServer.DataAccess;
 
 namespace DataServer.Network
@@ -36,12 +37,13 @@ namespace DataServer.Network
                 {
                     // What type of service is it?
                     var serviceType = await reader.ReadLineAsync();
-                   
+
                     IRequestHandler handler = GetRequestHandler(serviceType);
                     // What type of request is it?
                     var requestType = await reader.ReadLineAsync();
                     
                     // Any additional arguments?
+
                     var args = await reader.ReadLineAsync();
                     
                     // Process request

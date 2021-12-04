@@ -1,19 +1,21 @@
 ﻿@page "/PendingOrders"
 @inject NavigationManager NavigationManager
+@inject IOrderService OrderService
 @using WebClient.Models
+@using WebClient.Data
 <div class="text-center">
-    <h3 style="margin-bottom: 5%">PendingOrders</h3>
+    <h3 style="margin-bottom: 5%">Pending Orders</h3>
 </div>
 @if (pendingOrders == null)
 {
     <p>
-        <em>Filter to show todos</em>
+        <em>Loading pending orders</em>
     </p>
 }
 else if (!pendingOrders.Any())
 {
     <p>
-        <em>No todo items exist for the current filter selection</em>
+        <em>There are no pending orders at the moment</em>
     </p>
 }
 else
@@ -33,7 +35,14 @@ else
         {
             <tr>
                 <td>@item.OrderId</td>
-                <td>@item.Customer.FirstName</td>
+                @if (item.Customer == null)
+                {
+                    <td>No Customer</td>
+                }
+                else
+                {
+                    <td>@item.Customer.FirstName</td>
+                }
                 <td>@item.OrderDateTime</td>
                 <td>@item.Status</td>
                 <td>
@@ -55,8 +64,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-    //TODO Get from DB and check if status is pending
-        pendingOrders = Seed();
+        pendingOrders = await OrderService.GetOrdersAsync("pending");
     }
 
     private void ViewOrder(long orderId)
@@ -68,45 +76,4 @@ else
     {
         NavigationManager.NavigateTo("ManageOrders");
     }
-
-    private IList<Order> Seed()
-    {
-        List<Order> orders = new List<Order>
-        {
-            new Order()
-            {
-                OrderId = 1,
-                OrderDateTime = new DateTime(2021, 11, 26, 11, 15, 30),
-                Customer = new Customer
-                {
-                    FirstName = "Luis"
-                },
-                Status = "Pending",
-                IsDelivery = true,
-                Price = 500,
-                OrderItems = new List<OrderItem>
-                {
-                    new OrderItem
-                    {
-                        Menu = new Menu
-                        {
-                            Name = "Menu1",
-                            MenusItemsSelections = new List<MenuItemsSelection>
-                            {
-                                new MenuItemsSelection
-                                {
-                                    MenuItem = new MenuItem
-                                    {
-                                        Name = "MenuItem1"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        return orders;
-    }
-
 }

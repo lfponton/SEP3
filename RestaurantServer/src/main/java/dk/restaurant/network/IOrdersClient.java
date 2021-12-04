@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IOrdersClient
 {
-  List<Order> getOrders();
+  List<Order> getOrders(String status);
   Order createOrder(Order order);
   Order getOrder(long orderId);
+  Order updateOrder(Order order);
 }

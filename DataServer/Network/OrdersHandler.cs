@@ -37,11 +37,11 @@ namespace DataServer.Network
                 case "getOrder":
                     return await GetOrder(args);
                 case "getOrders":
-                    return await GetOrders();
-
+                    return await GetOrders(args);
                 case "createOrder":
                     return await CreateOrder(args);
-
+                case "updateOrder":
+                    return await UpdateOrderAsync(args);
                 case "createOrderItem":
                     return await CreateOrderItem(args);
 
@@ -55,15 +55,23 @@ namespace DataServer.Network
             }
         }
 
+        private async Task<string> UpdateOrderAsync(string args)
+        {
+            Order order = JsonSerializer.Deserialize<Order>(args, options);
+            await unitOfWork.OrdersRepository.UpdateOrderAsync(order);
+            await unitOfWork.Save();
+            return JsonSerializer.Serialize(order, optionsWithoutConverter);
+        }
+
         private async Task<string> GetOrder(string args)
         {
             long orderId = Int64.Parse(args);
             return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetOrder(orderId), optionsWithoutConverter);
         }
 
-        private async Task<string> GetOrders()
+        private async Task<string> GetOrders(String args)
         {
-            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.ReadOrdersAsync(), optionsWithoutConverter);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetOrdersAsync(args), optionsWithoutConverter);
         }
 
         private async Task<string> CreateOrder(string args)

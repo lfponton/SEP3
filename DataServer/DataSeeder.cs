@@ -49,6 +49,37 @@ namespace DataServer
             await unitOfWork.Save();
         }
 
+        public async Task SeedPendingOrders()
+        {
+            await using var restaurantDbContext = new RestaurantDbContext();
+            IUnitOfWork unitOfWork = new UnitOfWork(restaurantDbContext);
+            Menu menu = await restaurantDbContext.Menus.FirstOrDefaultAsync(m => m.MenuId == 1);
+            await CreateOrderWithCustomerAndStatus(unitOfWork.OrdersRepository, menu);
+            await unitOfWork.Save();
+        }
+
+        private async Task CreateOrderWithCustomerAndStatus(IOrdersRepository ordersRepository, Menu menu)
+        {
+            var order = new Order
+            {
+                OrderDateTime = DateTime.Now,
+                DeliveryTime = DateTime.Now,
+                OrderItems = new List<OrderItem>()
+                {
+                    new OrderItem()
+                    {
+                        Menu = menu,
+                        Quantity = 5,
+                        Price = 1000
+                    }
+                },
+                Price = 300,
+                Status = "pending"
+            };
+            await ordersRepository.CreateOrderAsync(order);
+        }
+
+
         private async Task CreateOrderItem(IOrderItemsRepository orderItemsRepository, Menu menu1)
         {
             var orderItem = new OrderItem

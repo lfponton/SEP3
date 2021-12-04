@@ -2,7 +2,7 @@
 
 namespace DataServer.Models
 {
-    public class TableBooking
+    public class  TableBooking
     {
         public long TableBookingId { get; set; }
         public int People { get; set; }

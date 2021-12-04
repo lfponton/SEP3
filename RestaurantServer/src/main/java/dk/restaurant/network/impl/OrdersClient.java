@@ -41,14 +41,21 @@ public class OrdersClient implements IOrdersClient
     }
   }
 
-  @Override public synchronized List<Order> getOrders()
+  @Override public synchronized List<Order> getOrders(String status)
   {
     List<Order> orders = new ArrayList<>();
     try
     {
       out.println("Orders");
       out.println("getOrders");
-      out.println("");
+      if (status == null)
+      {
+        out.println("");
+      }
+      else
+      {
+        out.println(status);
+      }
       String response = in.readLine();
       orders = gson.fromJson(response, new TypeToken<ArrayList<Order>>() {}.getType());
     }
@@ -66,11 +73,9 @@ public class OrdersClient implements IOrdersClient
     {
       out.println("Orders");
       out.println("createOrder");
-      String send = gson.toJson(order);
-      System.out.println("Order to DS " + send);
-      out.println(send);
+      String jsonOrder = gson.toJson(order);
+      out.println(jsonOrder);
       response = in.readLine();
-      System.out.println("Order from DS " + response);
     }
     catch (Exception e)
     {
@@ -87,6 +92,25 @@ public class OrdersClient implements IOrdersClient
       out.println("Orders");
       out.println("getOrder");
       out.println(orderId);
+      response = in.readLine();
+      System.out.println(response);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, Order.class);
+  }
+
+  @Override public Order updateOrder(Order order)
+  {
+    String response = "";
+    try
+    {
+      out.println("Orders");
+      out.println("updateOrder");
+      String jsonOrder = gson.toJson(order);
+      out.println(jsonOrder);
       response = in.readLine();
       System.out.println(response);
     }
