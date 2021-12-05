@@ -16,7 +16,7 @@
 
 <p>Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
 
-@if (orderItems == null)
+@if (order == null)
 {
     <p>
         <em>Loading...</em>
@@ -27,52 +27,48 @@ else
     <table class="table me-2">
         <thead>
         <tr>
-            <th>Name: </th>
-            <th>Quantity:</th>
-            <th>Price: </th>
-
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Delete</th>
 
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in orderItems)
+        @foreach (var item in order.OrderItems)
         {
             <tr>
                 <td>@item.Menu.Name</td>
                 <td>@item.Quantity</td>
-                <td>@item.Price</td>
-
+                <td>@item.Menu.Price</td>
+                <td>
+                    <button @onclick="@(() => DeleteOrderItem(item))">
+                        <i class="oi oi-trash" style="color:red"/>
+                    </button>
+                </td>
             </tr>
-            <td>
-                <button @onclick="@(() => DeleteOrderItem(item))">
-                    <i class="oi oi-trash" style="color:red"/>
-                </button>
-            </td>
         }
-        
+
         <br/>
         <br/>
 
-        <h4 class="total-to-pay" id="Total">Total to pay</h4>
+        <h4 class="total-to-pay" id="Total">Total to pay: @order.Price</h4>
 
         <br>
         </tbody>
 
     </table>
 
-    <MatRadioGroup @bind-Value="@Val1" TValue="string">
+    <RadzenRadioButtonList @bind-Value=@value TValue="int" Change="@PickUpOrDelivery">
+        <Items>
+            <RadzenRadioButtonListItem Text="Delivery" Value="1"/>
+            <RadzenRadioButtonListItem Text="Pick-Up" Value="2"/>
+        </Items>
+    </RadzenRadioButtonList>
 
-        <MatRadioButton Value="@("f")" @onclick="() => hideAddress = true" TValue="string">Pick-up</MatRadioButton>
-        <MatRadioButton Value="@("m")" @onclick="() => hideAddress = false" TValue="string">Delivery</MatRadioButton>
-
-        <br/>
-
-    </MatRadioGroup>
-
-    <EditForm Model="@addNewDeliveryAddressItem" hidden="@hideAddress" OnValidSubmit="@AddNewAddress">
+    <EditForm Model="@deliveryAddress" hidden="@hideAddress" OnValidSubmit="@AddNewAddress">
         <DataAnnotationsValidator/>
         <ValidationSummary/>
-
 
         <div class="d-flex justify-content-center align-self-center">
             <div class="card w-50" style=" border-right-width: 200px; border-color: whitesmoke; padding-left: 20px">
@@ -81,23 +77,23 @@ else
 
                 <div class="form-group">
                     <label>City:</label> <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.City"/>
+                    <InputText @bind-Value="deliveryAddress.City"/>
                 </div>
                 <div class="form-group">
                     <label>Street Name:</label> <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.StreetName"/>
+                    <InputText @bind-Value="deliveryAddress.StreetName"/>
                 </div>
                 <div class="form-group">
                     <label>Post Number</label> <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.PostNumber"/>
+                    <InputText @bind-Value="deliveryAddress.PostNumber"/>
                 </div>
                 <div class="form-group">
                     <label>Address Number</label> <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.AddressNumber"/>
+                    <InputText @bind-Value="deliveryAddress.AddressNumber"/>
                 </div>
                 <div class="form-group">
                     <label>Door</label> <br/>
-                    <InputText @bind-Value="addNewDeliveryAddressItem.Door"/>
+                    <InputText @bind-Value="deliveryAddress.Door"/>
                 </div>
 
                 <p class="actions">
@@ -125,38 +121,47 @@ else
             <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
         </span>
     </div>
+    <div class="text-center">
+        <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="PlaceOrder">Place Order</button>
+
+    </div>
 @code {
 
-    private IList<OrderItem> orderItems = new List<OrderItem>();
-    private DeliveryAddress addNewDeliveryAddressItem = new DeliveryAddress();
-    private IList<DeliveryAddress> infoOrder = new List<DeliveryAddress>();
-    private OrderItem orderItem;
-    private OrderItem Total;
-    private int Quantity;
-    private decimal Price;
     [Parameter]
     public long OrderId { get; set; }
 
-    private DeliveryAddress DeliveryAddress = new DeliveryAddress();
-
-
-    protected string Val1;
-    bool hideAddress = false;
-
-    private async void AddNewAddress()
-    {
-    //      await InfoService.AddInfoOrderAsync(addNewAddressItem);
-        NavigationManager.NavigateTo("/infoOrder");
-    }
-
+    private int value = 1;
+    private DeliveryAddress deliveryAddress;
+    private Order order;
+    private bool hideAddress;
 
     protected override async Task OnInitializedAsync()
     {
-        orderItems = await OrderItemService.GetOrderItems(OrderId);
-
-
-    // infoOrder = await InfoService.AddInfoOrderAsync();
+        order = await OrderService.GetOrderAsync(OrderId);
+        hideAddress = false;
+        deliveryAddress = new DeliveryAddress();
     }
+
+    void PickUpOrDelivery()
+    {
+        hideAddress = !hideAddress;
+        order.IsDelivery = !order.IsDelivery;
+    }
+    
+    private void AddNewAddress()
+    {
+        order.DeliveryAddress = deliveryAddress;
+    }
+    
+    private async Task PlaceOrder()
+    {
+        order.Status = "pending";
+        await OrderService.UpdateOrderAsync(order);
+        NavigationManager.NavigateTo($"/OrderConfirmation");
+    }
+
+    // Not sure we need the code below
+
 
     public void getTotal(OrderItem Total)
     {
@@ -192,9 +197,5 @@ else
         "MobilPay",
         "Cash",
     };
-
-
-    
-    
 
 }}

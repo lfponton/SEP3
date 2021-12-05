@@ -7,36 +7,37 @@
 @inject IOrderItemsService OrderItemsService;
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
+<div class="text-center">
+    <h3>TakeAway</h3>
 
-<h3>TakeAway</h3>
-
-@if (menus == null)
-{
-    <p>
-        <em>Loading menus...</em>
-    </p>
-}
-else if (!menus.Any())
-{
-    <p>
-        <em>No menus to show.</em>
-    </p>
-}
-else
-{
-    <div class="pre-scrollable">
+    @if (menus == null)
+    {
+        <p>
+            <em>Loading menus...</em>
+        </p>
+    }
+    else if (!menus.Any())
+    {
+        <p>
+            <em>No menus to show.</em>
+        </p>
+    }
+    else
+    {
         @foreach (var menu in menus)
         {
-            <RadzenCard Style="width:80%; margin-bottom: 2em; height:15%;">
+            <RadzenCard Style="margin-bottom: 2%; height:15%;">
                 <div class="row">
                     <div class="col-md-6">
                         <b>@menu.Name</b>
-                        <div style="margin-top:20px">Menu Items:</div>
+                        <div style="margin-top:1%">Menu Items:</div>
                         @foreach (var selection in menu.MenusItemsSelections)
-                            {
-                                <p>@selection.MenuItem.Name x @selection.Quantity</p>
-                            }
+                        {
+                            <p>@selection.MenuItem.Name x @selection.Quantity</p>
+                        }
                         <br/>
+                        <b>Description</b>
+                        <p style="margin-top:1%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
                     </div>
                     <div class="col-md-6">
                         <div>Type:</div>
@@ -46,27 +47,31 @@ else
                         <div style="margin-top:20px">Quantity: </div>
                         <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                         <br/>
-                        <RadzenButton Click=@(() => OnAddOrderItem(menu.MenuId)) Text="Add to Order" Style="margin-top: 2em; width: 40%"/>
+                        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick=@(() => OnAddOrderItem(menu.MenuId))>Add to Order</button>
                     </div>
                 </div>
             </RadzenCard>
         }
-    </div>
 
-    <RadzenButton Click=@(() => Next()) Text="Proceed to Payment" Style="margin-top: 2em; width: 40%"/>
-}
-
+        <p>Current Price @price</p>
+        
+        <div class="text-center">
+            <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
+        </div>
+    }
+</div>
 
 
 @code {
     private IList<Menu> menus = new List<Menu>();
     private IList<OrderItem> orderItems = new List<OrderItem>();
-    private Order order = new Order();
+    private Order order;
     private int quantity;
+    private decimal price;
 
     protected override async Task OnInitializedAsync()
     {
-        // TODO: We need to get the customer from the login
+    // TODO: We need to get the customer from the login
         var customer = new Customer
         {
             Email = "hello@gmail.com",
@@ -79,13 +84,13 @@ else
             Customer = customer
         };
         menus = await MenusPersistence.GetMenus();
-        
+
         foreach (var m in menus)
         {
             m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
         }
     }
-    
+
     private void OnSelectQuantity(dynamic value)
     {
         quantity = value;
@@ -93,7 +98,7 @@ else
 
     private async Task OnAddOrderItem(long menuId)
     {
-        // TODO: To avoid having more orderItems created when the quantity of a Menu is changed, then check if the menuId already exists in an orderItem and if so update it.
+    // TODO: To avoid having more orderItems created when the quantity of a Menu is changed, then check if the menuId already exists in an orderItem and if so update it.
         Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
         OrderItem orderItem = new OrderItem
         {
@@ -101,6 +106,7 @@ else
             Menu = menu,
             Quantity = quantity
         };
+        price += orderItem.Menu.Price * orderItem.Quantity;
         orderItems.Add(orderItem);
         order.OrderItems = orderItems;
     }
@@ -111,9 +117,13 @@ else
         if (order.OrderItems.Any())
         {
             order.OrderDateTime = DateTime.Now;
+            order.Price = price;
+            order.Status = "ordering";
+            order.IsDelivery = true;
             order = await OrderService.CreateOrder(order);
             NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
         }
     }
+
 
 }
