@@ -1,7 +1,21 @@
-﻿
+﻿@using WebClient.Models
+@using WebClient.Data.Impl
+@using WebClient.Data
+
 <div class="text-center">
     
     <h3>ManageBookings</h3>
+    <!--Create Tables-->
+    <EditForm>
+        <div>Table ---> dropdownlist</div>
+        <div>Add tablebookings --->with date-time</div>
+    </EditForm>
+        <!--Assign bookings for tables-->
+      <EditForm>
+        <div>Table ---> dropdownlist</div>
+      <div>Add tablebookings --->with date-time</div>
+      </EditForm>
+  
 
 
 
@@ -20,5 +34,16 @@
 
 
 @code {
+   private List<Table> tables = new List<Table>();
+    private TableBooking tableBooking;
+
+    protected override async void OnInitialized()
+    {
+      //  tables = await tableBookingService.GetTables();
+    }
     
+    
+    
+    
+
 }

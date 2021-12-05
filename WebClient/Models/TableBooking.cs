@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace WebClient.Models
@@ -7,11 +8,14 @@ namespace WebClient.Models
     {
         
         public long TableBookingId { get; set; }
+        [Required]
+        [Range(1, 20, ErrorMessage = "Please, for reservations bigger than 20 guests, contact us")]
         public int People { get; set; }
         public string Description { get; set; }
         public Table Table { get; set; }
         [JsonInclude]
         public Customer? Customer { get; set; }
+        
         public DateTime BookingDateTime { get; set; }
         [JsonIgnore]
         public bool IsSelected { get; set; }
@@ -21,5 +25,7 @@ namespace WebClient.Models
             Table = new Table();
             Customer = new Customer();
         }
+        
+        
     }
 }

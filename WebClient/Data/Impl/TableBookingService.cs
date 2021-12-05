@@ -71,6 +71,8 @@ namespace WebClient.Data.Impl
             }
                 
             string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+
             var tableBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
             return tableBooking;
         }
