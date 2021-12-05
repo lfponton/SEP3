@@ -1,28 +1,18 @@
 ﻿@page "/OrderInformation/{OrderId:long}"
 @using WebClient.Models
-@using WebClient
 @inject NavigationManager NavigationManager
-@using System.Net
-@using System.Net.Http.Json
 @using WebClient.Data
 @inject IOrderItemsService OrderItemService
 @using MatBlazor
-@using WebClient.Data.Impl
 @inject IOrderService OrderService
-@using MenuItem = DataServer.Models.MenuItem
-
 
 <div>
-
     <span class="text-nowrap">
         <a target="_blank" class="font-weight-bold link-dark" href="/TakeAway">Back</a>
     </span>
-
 </div>
 
-
 <h2>Order Information</h2>
-
 
 <p>Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
 
@@ -38,7 +28,6 @@ else
         <thead>
         <tr>
             <th>Name: </th>
-            <th>Menu Id:</th>
             <th>Quantity:</th>
             <th>Price: </th>
 
@@ -54,24 +43,16 @@ else
                 <td>@item.Price</td>
 
             </tr>
+            <td>
+                <button @onclick="@(() => DeleteOrderItem(item))">
+                    <i class="oi oi-trash" style="color:red"/>
+                </button>
+            </td>
         }
-        <td>
-            <button @onclick="@(() => DeleteOrderItem(1))">
-                <!-- Delete here should have an orderItem object as an argument. Not an id.-->
-                <i class="oi oi-trash" style="color:red"/>
-            </button>
-        </td>
+        
         <br/>
         <br/>
 
-        <p>
-            @*    <MatNumericUpDownField Label="Discount"
-                                           @bind-Value=@testingNullableDecimal1
-                                           FieldType="MatNumericUpDownFieldType.Percent"
-                                           DecimalPlaces=0
-                                           Minimum=null Maximum=null>
-                    </MatNumericUpDownField> *@
-        </p>
         <h4 class="total-to-pay" id="Total">Total to pay</h4>
 
         <br>
@@ -183,9 +164,9 @@ else
     }
 
 
-    private async Task DeleteOrderItem(long orderId)
+    private async Task DeleteOrderItem(OrderItem orderItem)
     {
-        await OrderItemService.DeleteOrderItem(orderId);
+        await OrderItemService.DeleteOrderItem(orderItem);
     }
 
     decimal? testingNullableDecimal1 = 0m;

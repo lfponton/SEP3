@@ -9,6 +9,6 @@ namespace WebClient.Data
         Task CreateOrderItem(int quantity, Menu menu, Order order);
         Task<List<OrderItem>> GetOrderItems(long orderId);
 
-        Task DeleteOrderItem(long orderItemId);
+        Task DeleteOrderItem(OrderItem orderItem);
     }
 }

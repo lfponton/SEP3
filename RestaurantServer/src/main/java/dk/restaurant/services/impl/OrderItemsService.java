@@ -25,8 +25,8 @@ public class OrderItemsService implements IOrderItemsService
     return client.getOrderItems(orderId);
   }
 
-  @Override public void deleteOrderItem(long orderItemId)
+  @Override public void deleteOrderItem(OrderItem orderItem)
   {
-    client.deleteOrderItem(orderItemId);
+    client.deleteOrderItem(orderItem);
   }
 }
