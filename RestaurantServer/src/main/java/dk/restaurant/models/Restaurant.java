@@ -7,7 +7,7 @@ public class Restaurant {
     private int capacity;
 
     public Restaurant() {
-        this.capacity = 200;
+        this.capacity = 10;
     }
 
     public int getCapacity() {

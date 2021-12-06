@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,7 @@ public class TableBookingsController {
     @PostMapping("/tableBookings")
     public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking)
     {
+        System.out.println("here");
         TableBooking tableBooking1 = service.createTableBooking(tableBooking);
         if (tableBooking1 == null)
         {
@@ -31,7 +33,7 @@ public class TableBookingsController {
     }
 
     @GetMapping("/tableBookings")
-    public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam(required = false) String bookingDate) {
+    public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam(required = false) Date bookingDate) {
         List<TableBooking> tableBookings = service.getTableBookings(bookingDate);
         if (tableBookings == null)
         {

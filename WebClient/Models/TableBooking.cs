@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using COFRS;
 
 namespace WebClient.Models
 {
@@ -15,7 +16,7 @@ namespace WebClient.Models
         public Table Table { get; set; }
         [JsonInclude]
         public Customer? Customer { get; set; }
-        
+         [JsonFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")]
         public DateTime BookingDateTime { get; set; }
         [JsonIgnore]
         public bool IsSelected { get; set; }
