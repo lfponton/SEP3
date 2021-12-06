@@ -82,10 +82,10 @@ public class OrderItemsClient implements IOrderItemsClient
     return orderItems;
   }
 
-  @Override public synchronized void deleteOrderItem(long orderItemId)
+  @Override public synchronized void deleteOrderItem(OrderItem orderItem)
   {
     out.println("deleteOrderItem");
-    String send = gson.toJson(orderItemId);
+    String send = gson.toJson(orderItem);
     out.println(send);
   }
 }

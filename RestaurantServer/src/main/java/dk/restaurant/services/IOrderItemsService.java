@@ -8,5 +8,5 @@ public interface IOrderItemsService
 {
   OrderItem createOrderItem(OrderItem orderItem);
   List<OrderItem> getOrderItems(long orderId);
-  void deleteOrderItem(long orderItemId);
+  void deleteOrderItem(OrderItem orderItem);
 }

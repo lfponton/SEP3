@@ -36,11 +36,11 @@ public class OrderItemController
         return service.createOrderItem(orderItem);
     }
 
-    @DeleteMapping(value = "/orderItems/{id}")
-    public ResponseEntity<Long> deletePost(@PathVariable Long id) {
+    @DeleteMapping(value = "/orderItems")
+    public ResponseEntity<Long> deletePost(@RequestBody OrderItem orderItem) {
         try {
-             service.deleteOrderItem(id);
-            return new ResponseEntity<>(id, HttpStatus.OK);
+             service.deleteOrderItem(orderItem);
+            return new ResponseEntity<>(orderItem.getOrderId(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -67,6 +67,7 @@ namespace DataServer.DataAccess.Impl
         {
             return context.Orders.
                 Include(o => o.OrderItems)
+                .ThenInclude(item => item.Menu)
                 .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
     }

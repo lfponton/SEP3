@@ -87,7 +87,6 @@ namespace DataServer.Network
             OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
             await unitOfWork.OrderItemsRepository.CreateOrderItemAsync(orderItem);
             await unitOfWork.Save();
-            Console.WriteLine(JsonSerializer.Serialize(orderItem, optionsWithoutConverter));
             return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
         }
 
@@ -99,9 +98,9 @@ namespace DataServer.Network
 
         private async Task<string> DeleteOrderItem(string args)
         {
-            int orderItemId = Int32.Parse(args);
-            await unitOfWork.OrderItemsRepository.DeleteOrderItemAsync(orderItemId);
-            return args; // needs to return the deleted object
+            OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
+            await unitOfWork.OrderItemsRepository.DeleteOrderItemAsync(orderItem);
+            return args;
         }
     }
 }

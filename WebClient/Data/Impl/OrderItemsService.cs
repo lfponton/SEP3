@@ -54,10 +54,10 @@ namespace WebClient.Data.Impl
             List<OrderItem> orderItems = JsonSerializer.Deserialize<List<OrderItem>>(result, options);
             return orderItems;        }
 
-        public async Task DeleteOrderItem(long orderItemId)
+        public async Task DeleteOrderItem(OrderItem orderItem)
         {
             HttpResponseMessage response = await client.DeleteAsync(
-                $"{uri}/orderItems/{orderItemId}");
+                $"{uri}/orderItems/{orderItem}");
             if(!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
         }

@@ -47,10 +47,10 @@ namespace DataServer.DataAccess.Impl
             
         }
 
-        public async Task DeleteOrderItemAsync(long orderItemId)
+        public async Task DeleteOrderItemAsync(OrderItem orderItem)
         {
             // Needs to be fixed
-            OrderItem toRemove = await context.OrderItems.FirstOrDefaultAsync(o => o.OrderId == orderItemId);
+            OrderItem toRemove = await context.OrderItems.FirstOrDefaultAsync(o => o.OrderId == orderItem.OrderId);
             if (toRemove != null)
             {
                 context.OrderItems.Remove(toRemove);
