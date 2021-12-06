@@ -12,6 +12,7 @@ namespace WebClient.Data.Impl
     {
         private readonly HttpClient client;
         private JsonSerializerOptions options;
+        private JsonSerializerOptions optionsWithConverter;
         private string uri = "http://localhost:8080";
 
         public TableBookingService()
@@ -21,6 +22,8 @@ namespace WebClient.Data.Impl
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
+            
+
         }
 
         public async Task<List<TableBooking>> GetBookings(DateTime bookingDateTime)
@@ -39,9 +42,20 @@ namespace WebClient.Data.Impl
             throw new NotImplementedException();
         }
 
-        public Task<TableBooking> CreateTableBooking(TableBooking tableBooking)
+        public async Task<TableBooking> CreateTableBooking(TableBooking tableBooking)
         {
-            throw new NotImplementedException();
+            string orderAsJson = JsonSerializer.Serialize(tableBooking, options);
+            HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(uri + "/tableBookings", content);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                string orderAsJsonResponse = await response.Content.ReadAsStringAsync();
+                TableBooking resultTBooking = JsonSerializer.Deserialize<TableBooking>(orderAsJsonResponse, options);
+                Console.WriteLine($"CreateOrder in order service---->{orderAsJsonResponse}");
+                return resultTBooking;
+            }
+            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
         }
 
         public async Task<TableBooking> UpdateTableBooking(TableBooking tableBooking)
@@ -71,6 +85,8 @@ namespace WebClient.Data.Impl
             }
                 
             string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+
             var tableBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
             return tableBooking;
         }

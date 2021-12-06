@@ -11,6 +11,7 @@ namespace WebClient {
         public Task PostAsync<T>(T customer);
         public Task UpdateCustomerAsync(Customer customer);
         public  Task DeleteCustomer(long id);
+        
 
         Task<Customer> CreateCustomerAsync(Customer customer);
         Task<Employee> CreateEmployeeAsync(Employee employee);

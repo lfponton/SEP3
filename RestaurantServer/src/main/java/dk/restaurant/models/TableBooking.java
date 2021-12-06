@@ -1,7 +1,16 @@
 package dk.restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+
+
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TableBooking
@@ -12,24 +21,28 @@ public class TableBooking
   private Table table;
   @JsonProperty("customer")
   private Customer customer;
+
   @JsonProperty("bookingDateTime")
+
+  //@JsonFormat(pattern="^(\\d{2}/\\d{2}/\\d{4})|^(\\d{4}-\\d{2}-\\d{2})")
+  //@Temporal(TemporalType.DATE)
+  /*@Column(name = "local_date_time", columnDefinition = "TIMESTAMP")
+
+  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+*/
+
   private Date bookingDateTime;
   @JsonProperty("people")
   private int people;
   @JsonProperty("description")
   private String description;
 
- /* public TableBooking(long tableBookingId, Table table, Customer customer, Date bookingDateTime, int people,String description) {
-    this.tableBookingId = tableBookingId;
-    this.table = table;
-    this.customer = customer;
-    this.bookingDateTime = bookingDateTime;
-    this.people = people;
-    this.description = description;
-  }*/
-  public TableBooking()
-  {
-  }
+    public TableBooking() {
+
+    }
 
     @Override
     public String toString() {
@@ -41,5 +54,53 @@ public class TableBooking
                 ", people=" + people +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public long getTableBookingId() {
+        return tableBookingId;
+    }
+
+    public void setTableBookingId(long tableBookingId) {
+        this.tableBookingId = tableBookingId;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Date getBookingDateTime() {
+        return bookingDateTime;
+    }
+
+    public void setBookingDateTime(Date bookingDateTime) {
+        this.bookingDateTime = bookingDateTime;
+    }
+
+    public int getPeople() {
+        return people;
+    }
+
+    public void setPeople(int people) {
+        this.people = people;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

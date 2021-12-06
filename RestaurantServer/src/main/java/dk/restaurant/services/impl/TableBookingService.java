@@ -1,10 +1,12 @@
 package dk.restaurant.services.impl;
 
+import dk.restaurant.models.Restaurant;
 import dk.restaurant.models.TableBooking;
 import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
 
+import java.util.Date;
 import java.util.List;
 
 public class TableBookingService implements ITableBookingService {
@@ -15,7 +17,7 @@ public class TableBookingService implements ITableBookingService {
     }
 
     @Override
-    public List<TableBooking> getTableBookings(String bookingDate) {
+    public List<TableBooking> getTableBookings(Date bookingDate) {
         return client.getTableBookings(bookingDate);
     }
 
@@ -26,6 +28,10 @@ public class TableBookingService implements ITableBookingService {
 
     @Override
     public TableBooking createTableBooking(TableBooking tableBooking) {
+        if (tableBooking == null){
+            throw new IllegalArgumentException("The request can not be empty");
+        }
+       else validateBooking(tableBooking);
         return client.createTableBooking(tableBooking);
     }
 
@@ -33,4 +39,48 @@ public class TableBookingService implements ITableBookingService {
     public TableBooking getBookingById(Long tableBookingId) {
         return client.getBookingById(tableBookingId);
     }
+
+    //this should be a separated class to test without running anything else
+
+    public void validateBooking(TableBooking tableBooking) {
+       isValidPeople(tableBooking);
+        isThereCapacity(tableBooking);
+       isCorrectDate(tableBooking);
+    }
+
+    private boolean isValidPeople(TableBooking tableBooking) {
+        if (tableBooking.getPeople() < 1 || tableBooking.getPeople() > 20) {
+            throw new IllegalArgumentException("Only bookings from 1 to 20 people are accepted at the web site. For bigger events, please contact us");
+        }
+            return true;
+    }
+    private boolean isThereCapacity(TableBooking tableBooking)
+    {
+        Restaurant restaurant = new Restaurant();
+        System.out.println(tableBooking.getBookingDateTime().toString());
+        List<TableBooking> tableBookings = client.getTableBookings(tableBooking.getBookingDateTime());
+        int peopleControl = 0;
+        for (TableBooking tb : tableBookings) {
+            peopleControl += tableBooking.getPeople();
+        }
+        if (peopleControl > 1){
+            if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
+            {
+                throw new IllegalArgumentException("Sorry, try with a different time or date");
+            }
+        }
+        return true;
+    }
+    private boolean isCorrectDate(TableBooking tableBooking){
+     /*   Date now = Date.
+        LocalDateTime max = now.plusDays(365);
+
+        if (tableBooking.getBookingDateTime().before() || tableBooking.getBookingDateTime().isBefore(now)){
+            throw new IllegalArgumentException("The date must be between today and 365 days after");
+        }
+        return true;*/
+        return true;
+    }
+
+
 }

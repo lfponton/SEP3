@@ -7,16 +7,16 @@
 <h3>Booking Confirmation</h3>
 
 <div class="text-center">
-    <h3>@tableBooking.Customer.FirstName <br/> We are looking forward to seeing you!</h3>
+    <h3> <br/> We are looking forward to seeing you!</h3>
     <div class="text-center">
         <p>Booking id: @tableBooking.TableBookingId</p>
     </div>
     <div class="text-center">
-        <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p>
+        @* <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p> *@
     </div>
     <div class="text-center">
          <p>Description: Table booking for @tableBooking.People people. <br/>The reservation is valid up to 15 minutes aftyer the booked time<br/></p>
-        @if (tableBooking.Description != null || tableBooking.Description == "")
+        @if (tableBooking.Description is { } or "")
         {
             <p> Comments: @tableBooking.Description</p>
         }
@@ -25,19 +25,17 @@
     <div class="text-md-right">
         <button @onclick="BackToMainPage">Back to home page</button>
     </div>
+    @tableBooking.Description
 </div>
 
 @code {
     [Parameter]
     public long TableBookingId { get; set; }
-   
 
-    private TableBooking tableBooking = new TableBooking()
-    {
-        Table = new Table()
-    };
 
-    protected override async void OnInitialized()
+    private TableBooking tableBooking = new TableBooking();
+
+    protected override async Task OnInitializedAsync()
     {
         tableBooking = await tableBookingService.GetBookingById(TableBookingId);
     }
