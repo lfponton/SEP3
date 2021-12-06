@@ -3,6 +3,7 @@
 @using WebClient.Data
 @using System.ComponentModel.DataAnnotations
 @using DataServer.DataAccess
+@using WebClient.Data.Impl
 @using Customer = DataServer.Models.Customer
 @inject NavigationManager NavMng;
 @inject IAccountService service;
@@ -63,12 +64,12 @@
 
     private  async Task Save()
     {
-        await AccountService.UpdateCustomerAsync(customerToEdit);
+        await AccountWebService.UpdateCustomerAsync(customerToEdit);
         NavMng.NavigateTo("/");
     }
     private  async Task Delete()
     {
-        await AccountService.DeleteCustomer(customerToEdit.Id);
+        await AccountWebService.DeleteCustomer(customerToEdit.Id);
         NavMng.NavigateTo("/");
     }
 

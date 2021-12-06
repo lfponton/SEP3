@@ -96,7 +96,7 @@ namespace DataServer
         
         private static async Task CreateCustomer(IAccountsRepository accountsRepository)
         {
-            var customer = new Customer
+            Person customer = new Customer
             {
                 Email = "hello@gmail.com",
                 FirstName = "Bill",
@@ -104,7 +104,7 @@ namespace DataServer
                 Password = "4321",
             };
 
-            await accountsRepository.CreateCustomerAsync(customer);
+            await accountsRepository.CreateAccountAsync(customer);
         }
 
         private static async Task CreateMenuItems(IMenuItemsRepository menuItemsRepository)

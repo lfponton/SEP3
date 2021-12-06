@@ -1,17 +1,20 @@
 package dk.restaurant.models;
 
+
 public abstract class Person
 {
   private long id;
   public String email;
   private String firstName;
   private String lastName;
+  private String password;
 
-  public Person(long id, String email, String firstName, String lastName) {
+  public Person(long id, String email, String firstName, String lastName, String password) {
     this.id = id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.password = password;
   }
 
   public Person()
@@ -56,5 +59,15 @@ public abstract class Person
   public void setEmail(String email)
   {
     this.email = email;
+  }
+
+  public String getPassword()
+  {
+    return password;
+  }
+
+  public void setPassword(String password)
+  {
+    this.password = password;
   }
 }

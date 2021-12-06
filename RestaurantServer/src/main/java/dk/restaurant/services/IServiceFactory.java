@@ -1,7 +1,5 @@
 package dk.restaurant.services;
 
-import dk.restaurant.network.*;
-
 public interface IServiceFactory
 {
   IOrdersService getOrdersService();
@@ -10,4 +8,5 @@ public interface IServiceFactory
   IOrderItemsService getOrderItemsService();
   IMenuItemsSelectionsService getMenuItemsSelectionsService();
   ITableBookingService getTableBookingsService();
+  IAccountsService getAccountsService();
 }

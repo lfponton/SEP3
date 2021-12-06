@@ -38,4 +38,9 @@ public class ClientFactory implements IClientFactory
     return new TableBookingsClient();
   }
 
+  @Override public IAccountsClient getAccountsClient()
+  {
+    return new AccountsClient();
+  }
+
 }
