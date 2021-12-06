@@ -1,7 +1,7 @@
 ﻿@page "/TakeAway"
 @using WebClient.Models
 @using WebClient.Data
-@inject IMenusPersistence MenusPersistence;
+@inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
 @inject IOrderItemsService OrderItemsService;
@@ -83,7 +83,7 @@
         {
             Customer = customer
         };
-        menus = await MenusPersistence.GetMenus();
+        menus = await MenusService.GetMenus();
 
         foreach (var m in menus)
         {

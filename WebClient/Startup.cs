@@ -34,9 +34,9 @@ namespace WebClient
             services.AddScoped<NotificationService>();
             services.AddScoped<TooltipService>();
             services.AddScoped<ContextMenuService>();
-            services.AddSingleton<IMenusPersistence, MenusPersistence>();
-            services.AddSingleton<IMenuItemsService, MenuItemsWebService>();
-            services.AddSingleton<IMenuItemsSelectionsService, MenuItemsSelectionsWebService>();
+            services.AddScoped<IMenusService, MenusWebService>();
+            services.AddScoped<IMenuItemsService, MenuItemsWebService>();
+            services.AddScoped<IMenuItemsSelectionsService, MenuItemsSelectionsWebService>();
             services.AddScoped<IOrderItemsService, OrderItemsService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITableBookingService, TableBookingService>();

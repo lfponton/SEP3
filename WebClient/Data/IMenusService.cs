@@ -4,9 +4,9 @@ using WebClient.Models;
 
 namespace WebClient.Data
 {
-    public interface IMenusPersistence
+    public interface IMenusService
     {
         Task<List<Menu>> GetMenus();
-        Task CreateMenu(Menu menu);
+        Task<Menu> CreateMenuAsync(Menu menu);
     }
 }
