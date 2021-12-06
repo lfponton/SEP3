@@ -6,7 +6,26 @@
 <h3>ViewMenus</h3>
 <div class="text-center">
      <div class="text-center">
-                    <h3>All Menus</h3>
+         <h3>All Menus</h3>
+         @if (menu.MenuItems != null)
+                {
+                    @foreach (var menuItem in menu.MenuItems)
+                    {
+                        <p>Menu Name: @menuItem.Name</p>
+                        <p>Quantity: @menuItem.Price</p>
+                        <p>MenuItems:</p>
+                        foreach (var selection in menuItem.MenusItemsSelections)
+                        {
+                            <p>MenuItem Name: @selection.MenuItem.Name</p>
+                            <p>Quantity: @selection.Price</p>
+                        }
+                    }
+                }
+                else
+                {
+                    <p>The selected menu has no menu items</p>
+                }
+
          <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AllMenus">AllMenus</div>
          </div>
         
@@ -22,7 +41,7 @@
 
 
 @code {
-    
+    private IList<Menu> menus = new List<Menu>();
     private Menu menu;
    
 
