@@ -16,19 +16,21 @@
             <h2>Book A Table</h2>
             </div>
         <div class="d-flex justify-content-center" style="margin-bottom: 3%">
+            <p>@errorMessage</p>
             <EditForm Model="newTableBooking" OnValidSubmit="CreateBooking" class="d-flex justify-content-around justify-content-between" style="width: 50%">
                 <DataAnnotationsValidator/>
                 <ValidationSummary/>
-                
+
                 <InputNumber type="number" @bind-Value="@newTableBooking.People" class="form-control" style="width: 30%" name="people" id="people" placeholder="No. of people"></InputNumber>
-                
+
                 <MatDatePicker @bind-Value="@inputDateTime" EnableTime="true" Format="yyyy-MM-dd'T'HH:mm:ss" Enable24hours="true"></MatDatePicker>
-                <button type="submit" class="btn btn-outline-dark" >Book</button>
-                <div class="form-group d-flex justify-content-center">
-                                             <InputTextArea class="form-control" style="width: 50%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
-                </div>
+               <div class="form-group d-flex justify-content-center">
+                                   <InputTextArea class="form-control" style="width: 50%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
+                               </div>
+                <button type="submit" class="btn btn-outline-dark">Book</button>
+                
             </EditForm>
-            </div>
+        </div>
     </div>
 
 
@@ -40,29 +42,24 @@
     private IList<TableBooking> tableBookingsToDisplay = new List<TableBooking>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
-   
-    
-    private async Task GetBookings()
-    {
-        tableBookings = await tableBookingService.GetBookings(inputDateTime);
-        tableBookingsToDisplay = tableBookings.Where(tableBooking => 
-            tableBooking.Customer == null && tableBooking.Table.Capacity <= people+1 )
-            .OrderBy(tb => tb.BookingDateTime).ToList();
-    }
-
-    private async Task SelectAvailableBooking(ChangeEventArgs evt,TableBooking selectedBooking)
-    {
-        newTableBooking = selectedBooking;
-    }
+    private string errorMessage ="";
     
 
     private async Task CreateBooking()
     {
-        newTableBooking.BookingDateTime = inputDateTime;
-        newTableBooking.Table.TableId = 1;
-        Console.WriteLine($"{newTableBooking.BookingDateTime}{   people}");
-        newTableBooking = await tableBookingService.CreateTableBooking(newTableBooking);
-        navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
+        try
+        {
+            newTableBooking.BookingDateTime = inputDateTime;
+            newTableBooking.Table.TableId = 1;
+            newTableBooking = await tableBookingService.CreateTableBooking(newTableBooking);
+            navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+            throw;
+        }
+        
 
     }
 

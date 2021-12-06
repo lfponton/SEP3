@@ -47,6 +47,7 @@ namespace WebClient.Data.Impl
             string orderAsJson = JsonSerializer.Serialize(tableBooking, options);
             HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(uri + "/tableBookings", content);
+            
             if (response.IsSuccessStatusCode)
             {
                 string orderAsJsonResponse = await response.Content.ReadAsStringAsync();
