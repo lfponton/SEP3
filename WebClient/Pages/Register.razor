@@ -52,8 +52,7 @@
     public async Task PerformRegistration() {
         ErrorMessage = "";
         try {
-            Console.WriteLine("{0} {1} {2} {3} {4}", firstName,lastName,email, Password, ConfirmationPassword);
-          await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateRegister(firstName,lastName,email, Password, ConfirmationPassword);
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateRegister(firstName,lastName,email, Password, ConfirmationPassword);
             email = "";
             Password = "";
             NavigationManager.NavigateTo("/Login");
