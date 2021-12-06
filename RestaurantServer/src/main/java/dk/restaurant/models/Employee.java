@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Component
+
 public class Employee extends Person implements Serializable
 {
   public Employee()

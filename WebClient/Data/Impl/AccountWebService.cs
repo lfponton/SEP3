@@ -69,7 +69,8 @@ namespace WebClient.Data.Impl {
       
         public async Task<Employee> GetEmployeeAccountAsync(string email, string password)
         {
-            HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/employees/?email={email}$password={password}");
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/employees/?email={email}&password={password}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
@@ -79,7 +80,8 @@ namespace WebClient.Data.Impl {
 
         public async Task<Customer> GetCustomerAccountAsync(string email, string password)
         {
-            HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/customers/?email={email}$password={password}");
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/customers/?email={email}&password={password}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();

@@ -1,7 +1,7 @@
 package dk.restaurant.models;
 
 
-public abstract class Person
+public class Person
 {
   private long id;
   public String email;

@@ -29,35 +29,33 @@ public class AccountsService implements IAccountsService
   @Override public Employee getEmployeeAccount(String email, String password)
   {
     Employee employee = client.getEmployeeAccount(email);
-    try
+
+    if (employee == null) {
+      throw new NullPointerException("User not found");
+    }
+    else
     {
-      if (employee != null)
+      if (employee.getPassword().equals(password))
       {
-        if (employee.getPassword() == password)
         return employee;
       }
     }
-    catch (NullPointerException e)
-    {
-      e.printStackTrace();
-    }
-    return employee;
+    return null;
   }
 
   @Override public Customer getCustomerAccount(String email, String password)
   {
-    try
-    {
-      Customer customer = client.getCustomerAccount(email);
-      if (customer != null)
-      {
-        if (customer.getPassword() == password)
-          return customer;
-      }
+    Customer customer = client.getCustomerAccount(email);
+
+    if (customer == null) {
+      throw new NullPointerException("User not found");
     }
-    catch (NullPointerException e)
+    else
     {
-      e.printStackTrace();
+      if (customer.getPassword().equals(password))
+      {
+        return customer;
+      }
     }
     return null;
   }

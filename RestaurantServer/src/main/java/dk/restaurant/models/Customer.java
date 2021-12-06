@@ -3,7 +3,7 @@ package dk.restaurant.models;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-@Component
+
 public class Customer extends Person implements Serializable
 {
   public Customer()
