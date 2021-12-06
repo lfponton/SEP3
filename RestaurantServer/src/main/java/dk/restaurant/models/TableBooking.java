@@ -3,7 +3,8 @@ package dk.restaurant.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import dk.restaurant.utilities.CustomJsonDateDeserializer;
+
+
 
 import javax.persistence.Column;
 import javax.persistence.Temporal;
