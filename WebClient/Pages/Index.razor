@@ -1,21 +1,78 @@
 @page "/"
+@inject NavigationManager NavigationManager
+<div class="text-center">
+    <h3>Restaurant</h3>
+    <AuthorizeView Policy="Employee">
+        <Authorized>
+            <h3>Hello @context.User.Identity.Name</h3>
+            <h3>You are logged in</h3>
 
-<AuthorizeView Policy="Employee">
-    <Authorized>
-        <h3>Hello @context.User.Identity.Name</h3>
-        <h3>You are logged in</h3>
-    </Authorized>
-    <NotAuthorized>
-        <h3>Hello! Please log in for full access.</h3>
-    </NotAuthorized>
-</AuthorizeView>
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ManageOrders">Orders</button>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ManageBookings">Bookings</button>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ManageMenus">Menus</button>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <h3>Hello! Please log in for full access.</h3>
+        </NotAuthorized>
+    </AuthorizeView>
 
-<AuthorizeView Policy="Customer">
-    <Authorized>
-        <h3>Hello @context.User.Identity.Name</h3>
-        <h3>You are logged in</h3>
-    </Authorized>
-    <NotAuthorized>
-        <h3>Hello! Please log in for full access.</h3>
-    </NotAuthorized>
-</AuthorizeView>
+    <AuthorizeView Policy="Customer">
+        <Authorized>
+            <h3>Hello @context.User.Identity.Name</h3>
+            <h3>You are logged in</h3>
+            
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="PlaceOrder">Place Order</button>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="BookATable">Book Table</button>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ManageAccount">Account</button>
+            </div>
+
+        </Authorized>
+    </AuthorizeView>
+</div>
+
+@code {
+
+    private void ManageOrders()
+    {
+        NavigationManager.NavigateTo("/ManageOrders");
+    }
+
+    private void ManageBookings()
+    {
+    //TODO: include page for managing bookings
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void ManageMenus()
+    {
+        NavigationManager.NavigateTo("/ManageMenus");
+    }
+    
+    private void PlaceOrder()
+    {
+        NavigationManager.NavigateTo("/TakeAway");
+    }
+
+    private void BookATable()
+    {
+    //TODO: include page for managing bookings
+        NavigationManager.NavigateTo("/BookATable");
+    }
+
+    private void ManageAccount()
+    {
+        NavigationManager.NavigateTo("/Account");
+    }
+
+}
