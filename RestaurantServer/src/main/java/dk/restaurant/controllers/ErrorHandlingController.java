@@ -11,7 +11,7 @@ public class ErrorHandlingController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> generalException(Exception e) throws Exception{
-        System.out.println("exception handler****************** " +e.getMessage());
+        System.out.println("Exception handler: " +e.getMessage());
         ExceptionResponse exceptionResponse = new ExceptionResponse();
         exceptionResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         exceptionResponse.setDescription(e.getMessage());
