@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebClient.Data.validationhandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
@@ -46,30 +47,23 @@ namespace WebClient.Data.Impl
         {
             HttpResponseMessage response;
             
-                string orderAsJson = JsonSerializer.Serialize(tableBooking, options);
+                var orderAsJson = JsonSerializer.Serialize(tableBooking, options);
                 HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
-                try
-                {
+                string tbAsJsonResponse;
+              
                     response = await client.PostAsync(uri + "/tableBookings", content);
                     if 
                         (!response.IsSuccessStatusCode)
                     {
-                        throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+                        var errorMessage = await response.Content.ReadAsStringAsync();
+                        var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+                        Console.WriteLine(exceptionResponse.Message);
+                        throw new Exception($"{exceptionResponse.Message}");
                     }
-                    string  tbAsJsonResponse = await response.Content.ReadAsStringAsync();
+                    tbAsJsonResponse = await response.Content.ReadAsStringAsync();
                     TableBooking resultTBooking = JsonSerializer.Deserialize<TableBooking>(tbAsJsonResponse, options);
                     return resultTBooking;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    throw;
-                }
-              
 
-               
-                
-                
         }
 
         public async Task<TableBooking> UpdateTableBooking(TableBooking tableBooking)

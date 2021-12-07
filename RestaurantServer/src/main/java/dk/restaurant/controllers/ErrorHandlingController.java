@@ -13,10 +13,10 @@ public class ErrorHandlingController {
     public ResponseEntity<ExceptionResponse> generalException(Exception e) throws Exception{
         System.out.println("exception handler****************** " +e.getMessage());
         ExceptionResponse exceptionResponse = new ExceptionResponse();
-        exceptionResponse.setCody(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        exceptionResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         exceptionResponse.setDescription(e.getMessage());
-        System.out.println(exceptionResponse.getCody() + exceptionResponse.getMessage());
-        return new ResponseEntity<ExceptionResponse>( exceptionResponse,HttpStatus.NOT_FOUND);
+        System.out.println(exceptionResponse.getCode() + exceptionResponse.getMessage());
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse,HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 }

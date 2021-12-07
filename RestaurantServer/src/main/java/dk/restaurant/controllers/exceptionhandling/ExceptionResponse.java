@@ -4,23 +4,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExceptionResponse {
-    private int cody;
+    private int code;
     private String message;
 
     public ExceptionResponse() {
 
     }
 
-    public void setCody(int value) {
-        this.cody = value;
+    public void setCode(int value) {
+        this.code = value;
     }
 
     public void setDescription(String message) {
         this.message = message;
     }
 
-    public int getCody() {
-        return cody;
+    public int getCode() {
+        return code;
     }
 
     public String getMessage() {
