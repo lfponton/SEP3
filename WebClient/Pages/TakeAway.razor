@@ -1,29 +1,35 @@
 ﻿@page "/TakeAway"
 @using WebClient.Models
 @using WebClient.Data
+@using System.Security.Claims
 @inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
 @inject IOrderItemsService OrderItemsService;
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
+@inject IAccountService AccountService
+
 <div class="text-center">
     <h3>TakeAway</h3>
-
+<AuthorizeView Policy="Customer">
+        <Authorized>
+            <h3>Hello @context.User.Identity.Name</h3>
     @if (menus == null)
     {
-        <p>
-            <em>Loading menus...</em>
-        </p>
+        <p>No menus to show.</p>
     }
     else if (!menus.Any())
     {
-        <p>
-            <em>No menus to show.</em>
-        </p>
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
     }
     else
     {
+        customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
+
         @foreach (var menu in menus)
         {
             <RadzenCard Style="margin-bottom: 2%; height:15%;">
@@ -54,11 +60,13 @@
         }
 
         <p>Current Price @price</p>
-        
+
         <div class="text-center">
             <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
         </div>
     }
+       </Authorized>
+        </AuthorizeView>
 </div>
 
 
@@ -68,20 +76,12 @@
     private Order order;
     private int quantity;
     private decimal price;
+    private string customerEmail;
 
     protected override async Task OnInitializedAsync()
     {
-    // TODO: We need to get the customer from the login
-        var customer = new Customer
-        {
-            Email = "hello@gmail.com",
-            FirstName = "Bill",
-            LastName = "Smith",
-            Password = "4321",
-        };
         order = new Order
         {
-            Customer = customer
         };
         menus = await MenusService.GetMenus();
 
@@ -116,6 +116,7 @@
     {
         if (order.OrderItems.Any())
         {
+            order.Customer = new Customer {Email = customerEmail};
             order.OrderDateTime = DateTime.Now;
             order.Price = price;
             order.Status = "ordering";

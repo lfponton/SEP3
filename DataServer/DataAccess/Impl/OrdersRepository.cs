@@ -19,7 +19,7 @@ namespace DataServer.DataAccess.Impl
         {
             if (order.Customer != null)
             {
-                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Id == order.Customer.Id);
+                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Email.Equals(order.Customer.Email));
                 order.Customer = customer;
             }
 

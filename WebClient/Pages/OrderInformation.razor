@@ -5,22 +5,16 @@
 @inject IOrderItemsService OrderItemService
 @using MatBlazor
 @inject IOrderService OrderService
-
-<div>
-    <span class="text-nowrap">
-        <a target="_blank" class="font-weight-bold link-dark" href="/TakeAway">Back</a>
-    </span>
-</div>
-
-<h2>Order Information</h2>
+<h3>Order Information</h3>
 
 <p>Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
 
 @if (order == null)
 {
-    <p>
-        <em>Loading...</em>
-    </p>
+    <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
 }
 else
 {
@@ -147,17 +141,17 @@ else
         hideAddress = !hideAddress;
         order.IsDelivery = !order.IsDelivery;
     }
-    
+
     private void AddNewAddress()
     {
         order.DeliveryAddress = deliveryAddress;
     }
-    
+
     private async Task PlaceOrder()
     {
         order.Status = "pending";
         await OrderService.UpdateOrderAsync(order);
-        NavigationManager.NavigateTo($"/OrderConfirmation");
+        NavigationManager.NavigateTo($"/OrderConfirmation/{order.OrderId}");
     }
 
     // Not sure we need the code below

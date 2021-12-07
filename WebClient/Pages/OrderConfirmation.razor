@@ -1,17 +1,35 @@
-﻿@page "/OrderConfirmation"
+﻿@page "/OrderConfirmation/{OrderId:long}"
 @using Microsoft.AspNetCore.Components
 @using MatBlazor
 @using WebClient.Data
-
 @using WebClient.Models
-@using OrderItem = DataServer.Models.OrderItem
 @using System.Threading
 @inject IOrderService OrderService
 @inject NavigationManager NavigationManager
 
-@inject IOrderItemsService OrderItemService
+<h3>Order Confirmation</h3>
 
+@if (order == null || order.Status.Equals("pending"))
+{
+    <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Waiting for Order Confirmation...
+    </button>
+}
+else if (order.Status.Equals("confirmed"))
+{
+    <p>Your order has been confirmed!</p>
+    if (order.IsDelivery)
+    {
+        <p>You can expect to receive your order at: @order.DeliveryTime.TimeOfDay</p>
+    }
+    else
+    {
+        <p>Your order will be available for pick up at: @order.DeliveryTime.TimeOfDay</p>
+    }
+}
 
+<!--
 <div>
 
     <span class="text-nowrap">
@@ -57,7 +75,7 @@
 </div>
 
 
-
+-->
 
 
 
@@ -73,8 +91,9 @@
 @code {
     
     [Parameter]
-    public int OrderId { get; set; }
+    public long OrderId { get; set; }
 
+    private Order order;
     private OrderItem orderItems;
     private string Name;
     private decimal Price;
@@ -87,7 +106,12 @@
     
     protected override async Task OnInitializedAsync()
     {
-        orderItems = Seed();
+        order = await OrderService.GetOrderAsync(OrderId);
+    }
+
+    private async Task CheckOrderStatus()
+    {
+        
     }
     private OrderItem Seed()
     {
