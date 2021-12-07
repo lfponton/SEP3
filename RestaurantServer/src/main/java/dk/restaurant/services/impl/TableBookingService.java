@@ -61,7 +61,6 @@ public class TableBookingService implements ITableBookingService {
         }
         catch (Exception e)
         {
-            System.out.println(e.getStackTrace());
             throw e;
         }
     }
@@ -85,7 +84,7 @@ public class TableBookingService implements ITableBookingService {
         if (peopleControl > 0){
             if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
             {
-               throw new IllegalArgumentException("Sorry, we are fully booked.Try another date");
+               throw new IllegalArgumentException("Sorry, we are fully booked at the required time. Try another time or date");
             }
         }
     }
