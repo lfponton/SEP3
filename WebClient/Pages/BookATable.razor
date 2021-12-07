@@ -6,41 +6,52 @@
 @inject AuthenticationStateProvider authenticationStateProvider 
 @using MatBlazor
 
+<h2>Book A Table</h2>
 
-            <h2>Book A Table</h2>
-            <p>@errorMessage</p>
-            
-            <EditForm Model="newTableBooking" OnValidSubmit="CreateBooking" class="d-flex flex-column" >
-            
-                <div class="container text-center">
-                <div class="card text-center py-3">
-                <div class="row">
-                <div class="offset-md-3 col-md-3 text-center">
-                <div class="mb-5 mt-4">
-                    <label>Select how many guests:</label>
-                    <div class="form-group">
-                 <InputNumber type="number" @bind-Value="@newTableBooking.People" class="form-control" style="width: 100%" name="people" id="people" placeholder="No. of people"></InputNumber>                    </div>
-                </div><div class="mb-5">
-                    <label>Select date and time:</label>
-                        <div class="form-group">
-                            <MatDatePicker @bind-Value="@inputDateTime" EnableTime="true" Enable24hours="true" Style="height: inherit"></MatDatePicker>
+<AuthorizeView Policy="Customer">
+    <Authorized Context="Auth">
+        
+        @if (Auth.User.Claims.First(claim => claim.Type.Equals("Email")).Value != null)
+        {
+            customerEmail = @Auth.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
+
+        }
+                <EditForm Model="newTableBooking" OnValidSubmit="CreateBooking" class="text-center">
+                    <div class="container text-center">
+                        <div class="card text-center py-3">
+                            <div class="row">
+                                <div class="offset-md-4 col-md-3 text-center">
+                                    <div class="mb-5 mt-4">
+                                        <label>Select how many guests:</label>
+                                        <div class="form-group">
+                                            <InputNumber type="number" @bind-Value="@newTableBooking.People" class="form-control" style="width: 100%" name="people" id="people" placeholder="No. of people"></InputNumber>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label>Select date and time:</label>
+                                        <div class="form-group">
+                                            <MatDatePicker @bind-Value="@inputDateTime" EnableTime="true" Enable24hours="true" Style="height: inherit"></MatDatePicker>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label>Leave us a comment:</label>
+                                        <div class="form-group">
+                                            <InputTextArea class="form-control" style="width: 100%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <p class="actions mx-auto">
+                                        <button class="btn btn-outline-dark" type="submit">Book</button>
+                                    </p>
+                                    <label style="color: red">@errorMessage</label>
+                                </div>
+                            </div>
                         </div>
-                </div>
-                <div class="mb-5">
-                    <label>Leave us a comment:</label>
-                    <div class="form-group">
-                         <InputTextArea class="form-control" style="width: 100%" @bind-Value="@newTableBooking.Description" name="comments" placeholder="Leave a comment"></InputTextArea>
                     </div>
-                </div>
-                    <div class="col-md-3"></div>
-                    <p class="actions mx-auto">
-                        <button class="btn btn-outline-dark" type="submit" >Book</button>
-                    </p>
-                    <label style="color: red">@errorMessage</label>
-                </div>
-                </div></div></div>
-            </EditForm>
-  
+                </EditForm>
+    </Authorized>
+    
+</AuthorizeView>
 
 
 
@@ -49,6 +60,8 @@
     private DateTime inputDateTime = DateTime.Today.Date;
     private int people;
     private string errorMessage;
+    private string customerEmail;
+
     
 
     private async Task CreateBooking()
@@ -56,6 +69,7 @@
         try
         {
             newTableBooking.BookingDateTime = inputDateTime;
+            newTableBooking.Customer = new Customer() {Email = customerEmail};
             newTableBooking.Table.TableId = 1;
             newTableBooking = await tableBookingService.CreateTableBooking(newTableBooking);
             navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");

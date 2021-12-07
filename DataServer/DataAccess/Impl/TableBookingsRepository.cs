@@ -42,6 +42,8 @@ namespace DataServer.DataAccess.Impl
             var tableToUpdate = await context.Tables
                 .Include(t=>t.TableBookings)
                 .FirstAsync(t => t.TableId == tableBooking.Table.TableId);
+            Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Email.Equals(tableBooking.Customer.Email));
+            tableBooking.Customer = customer;
             tableToUpdate.TableBookings.Add(tableBooking);
             context.Update(tableToUpdate);
             return tableBooking;
