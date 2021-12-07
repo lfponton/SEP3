@@ -1,5 +1,7 @@
 package dk.restaurant;
 
+import dk.restaurant.controllers.ErrorHandlingController;
+import dk.restaurant.controllers.exceptionhandling.ExceptionResponse;
 import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.impl.ClientFactory;
 import dk.restaurant.services.IServiceFactory;
@@ -20,5 +22,9 @@ import org.springframework.context.annotation.Configuration;
   {
     return new ServiceFactory(ClientFactory());
   }
+
+  @Bean public ExceptionResponse ExceptionResponse(){return new ExceptionResponse();}
+
+  @Bean public ErrorHandlingController ErrorController(){return new ErrorHandlingController();}
 }
 

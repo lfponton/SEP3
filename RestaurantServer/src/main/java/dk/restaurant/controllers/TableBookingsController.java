@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-
 @RestController
 public class TableBookingsController {
     private ITableBookingService service;
@@ -19,18 +18,24 @@ public class TableBookingsController {
         this.service = serviceFactory.getTableBookingsService();
     }
 
+
     @PostMapping("/tableBookings")
-    public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking)
-    {
-        System.out.println("here");
-        TableBooking tableBooking1 = service.createTableBooking(tableBooking);
-        if (tableBooking1 == null)
-        {
-            return ResponseEntity.badRequest().build();
-        }
-        return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
+    public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking) throws Exception{
+        TableBooking tableBooking1;
+
+
+            tableBooking1 = service.createTableBooking(tableBooking);
+         /*   if (tableBooking1 == null)
+            {
+                return ResponseEntity.badRequest().build();
+            }*/
+            return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
+
+
 
     }
+
+
 
     @GetMapping("/tableBookings")
     public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam(required = false) Date bookingDate) {

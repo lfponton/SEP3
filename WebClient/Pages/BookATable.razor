@@ -16,10 +16,11 @@
             <h2>Book A Table</h2>
             </div>
         <div class="d-flex justify-content-center" style="margin-bottom: 3%">
-            <p>@errorMessage</p>
             <EditForm Model="newTableBooking" OnValidSubmit="CreateBooking" class="d-flex justify-content-around justify-content-between" style="width: 50%">
                 <DataAnnotationsValidator/>
                 <ValidationSummary/>
+                            <p>@errorMessage</p>
+
 
                 <InputNumber type="number" @bind-Value="@newTableBooking.People" class="form-control" style="width: 30%" name="people" id="people" placeholder="No. of people"></InputNumber>
 
@@ -42,7 +43,7 @@
     private IList<TableBooking> tableBookingsToDisplay = new List<TableBooking>();
     private DateTime inputDateTime = DateTime.Today;
     private int people;
-    private string errorMessage ="";
+    private string errorMessage;
     
 
     private async Task CreateBooking()
@@ -52,14 +53,16 @@
             newTableBooking.BookingDateTime = inputDateTime;
             newTableBooking.Table.TableId = 1;
             newTableBooking = await tableBookingService.CreateTableBooking(newTableBooking);
-            navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
-        }
+           // navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
+
+
+        } 
         catch (Exception e)
         {
             errorMessage = e.Message;
-            throw;
+           // StateHasChanged();
         }
-        
+
 
     }
 

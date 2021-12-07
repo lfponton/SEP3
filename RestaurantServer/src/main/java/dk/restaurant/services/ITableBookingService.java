@@ -10,7 +10,7 @@ public interface ITableBookingService {
 
     TableBooking updateTableBooking(TableBooking tableBooking);
 
-    TableBooking createTableBooking(TableBooking tableBooking);
+    TableBooking createTableBooking(TableBooking tableBooking) throws Exception;
 
     TableBooking getBookingById(Long tableBookingId);
 }

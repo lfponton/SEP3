@@ -5,6 +5,7 @@ import dk.restaurant.models.TableBooking;
 import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -27,12 +28,19 @@ public class TableBookingService implements ITableBookingService {
     }
 
     @Override
-    public TableBooking createTableBooking(TableBooking tableBooking) {
-        if (tableBooking == null){
-            throw new IllegalArgumentException("The request can not be empty");
-        }
-       else validateBooking(tableBooking);
-        return client.createTableBooking(tableBooking);
+    public TableBooking createTableBooking(TableBooking tableBooking){
+        TableBooking tableBooking1 = tableBooking;
+
+            try {
+                validateBooking(tableBooking);
+                tableBooking1 = client.createTableBooking(tableBooking);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+       return tableBooking1;
     }
 
     @Override
@@ -43,9 +51,16 @@ public class TableBookingService implements ITableBookingService {
     //this should be a separated class to test without running anything else
 
     public void validateBooking(TableBooking tableBooking) {
-       isValidPeople(tableBooking);
-        isThereCapacity(tableBooking);
-       isCorrectDate(tableBooking);
+        try {
+            //isValidPeople(tableBooking);
+            isThereCapacity(tableBooking);
+           // isCorrectDate(tableBooking);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getStackTrace());
+            throw e;
+        }
     }
 
     private boolean isValidPeople(TableBooking tableBooking) {
@@ -54,8 +69,7 @@ public class TableBookingService implements ITableBookingService {
         }
             return true;
     }
-    private boolean isThereCapacity(TableBooking tableBooking)
-    {
+    private void isThereCapacity(TableBooking tableBooking) throws IllegalArgumentException{
         Restaurant restaurant = new Restaurant();
         System.out.println(tableBooking.getBookingDateTime().toString());
         List<TableBooking> tableBookings = client.getTableBookings(tableBooking.getBookingDateTime());
@@ -63,13 +77,13 @@ public class TableBookingService implements ITableBookingService {
         for (TableBooking tb : tableBookings) {
             peopleControl += tableBooking.getPeople();
         }
-        if (peopleControl > 1){
+        if (peopleControl > 0){
             if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
             {
-                throw new IllegalArgumentException("Sorry, try with a different time or date");
+               throw new IllegalArgumentException("Try another date");
+
             }
         }
-        return true;
     }
     private boolean isCorrectDate(TableBooking tableBooking){
      /*   Date now = Date.

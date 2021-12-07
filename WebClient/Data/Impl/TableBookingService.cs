@@ -44,18 +44,32 @@ namespace WebClient.Data.Impl
 
         public async Task<TableBooking> CreateTableBooking(TableBooking tableBooking)
         {
-            string orderAsJson = JsonSerializer.Serialize(tableBooking, options);
-            HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(uri + "/tableBookings", content);
+            HttpResponseMessage response;
             
-            if (response.IsSuccessStatusCode)
-            {
-                string orderAsJsonResponse = await response.Content.ReadAsStringAsync();
-                TableBooking resultTBooking = JsonSerializer.Deserialize<TableBooking>(orderAsJsonResponse, options);
-                Console.WriteLine($"CreateOrder in order service---->{orderAsJsonResponse}");
-                return resultTBooking;
-            }
-            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+                string orderAsJson = JsonSerializer.Serialize(tableBooking, options);
+                HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
+                try
+                {
+                    response = await client.PostAsync(uri + "/tableBookings", content);
+                    if 
+                        (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+                    }
+                    string  tbAsJsonResponse = await response.Content.ReadAsStringAsync();
+                    TableBooking resultTBooking = JsonSerializer.Deserialize<TableBooking>(tbAsJsonResponse, options);
+                    return resultTBooking;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw;
+                }
+              
+
+               
+                
+                
         }
 
         public async Task<TableBooking> UpdateTableBooking(TableBooking tableBooking)
