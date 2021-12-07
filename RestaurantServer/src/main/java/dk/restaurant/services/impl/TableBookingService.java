@@ -52,7 +52,7 @@ public class TableBookingService implements ITableBookingService {
 
     public void validateBooking(TableBooking tableBooking) {
         try {
-            //isValidPeople(tableBooking);
+            isValidPeople(tableBooking);
             isThereCapacity(tableBooking);
            // isCorrectDate(tableBooking);
         }
@@ -80,13 +80,13 @@ public class TableBookingService implements ITableBookingService {
         if (peopleControl > 0){
             if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
             {
-               throw new IllegalArgumentException("Try another date");
+               throw new IllegalArgumentException("Sorry, we are fully booked.Try another date");
 
             }
         }
     }
     private boolean isCorrectDate(TableBooking tableBooking){
-     /*   Date now = Date.
+    /* /Date now = Dat
         LocalDateTime max = now.plusDays(365);
 
         if (tableBooking.getBookingDateTime().before() || tableBooking.getBookingDateTime().isBefore(now)){

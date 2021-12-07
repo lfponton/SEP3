@@ -21,18 +21,8 @@ public class TableBookingsController {
 
     @PostMapping("/tableBookings")
     public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking) throws Exception{
-        TableBooking tableBooking1;
-
-
-            tableBooking1 = service.createTableBooking(tableBooking);
-         /*   if (tableBooking1 == null)
-            {
-                return ResponseEntity.badRequest().build();
-            }*/
+        TableBooking tableBooking1 = service.createTableBooking(tableBooking);
             return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
-
-
-
     }
 
 

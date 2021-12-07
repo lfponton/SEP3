@@ -71,7 +71,6 @@ public class TableBookingsClient implements ITableBookingsClient {
         TableBooking booking = new TableBooking();
         try
         {
-            System.out.println("patching client");
             out.println("Bookings");
             out.println("updateTableBooking");
             String send = gsonS.toJson(tableBooking);
