@@ -16,7 +16,7 @@
         Waiting for Order Confirmation...
     </button>
 }
-else if (order.Status.Equals("confirmed"))
+else if (status.Equals("confirmed"))
 {
     <p>Your order has been confirmed!</p>
     if (order.IsDelivery)
@@ -102,13 +102,27 @@ else if (order.Status.Equals("confirmed"))
     MatProgressBar progressBar;
     
     bool checked1 = true;
-    
+    private string status;
     
     protected override async Task OnInitializedAsync()
     {
         order = await OrderService.GetOrderAsync(OrderId);
+        status = order.Status;
+        await StartTimer();
     }
 
+    private async Task StartTimer()
+    {
+        var timer = new Timer(new TimerCallback(async _ =>
+        {
+            order = await OrderService.GetOrderAsync(OrderId);
+            status = order.Status;
+            if (status.Equals("confirmed"))
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        }), null, 1000, 1000);
+    }
     private async Task CheckOrderStatus()
     {
         
@@ -125,10 +139,6 @@ else if (order.Status.Equals("confirmed"))
         Console.WriteLine("Order is complete");
     }
     
-    
-    
-    
-
 
 }
         
