@@ -3,30 +3,40 @@
 @using WebClient.Data
 @inject ITableBookingService tableBookingService
 @inject NavigationManager navigationManager
-
-<h3 >Booking Confirmation</h3>
 <AuthorizeView Policy="Customer">
     
-    <div class="text-center">
-        <h3> <br/> @context.User.Identity.Name, <br> We are looking forward to seeing you! </h3>
-        <div class="text-center">
-            <p>Booking id: @tableBooking.TableBookingId</p>
-        </div>
-        <div class="text-center">
-            <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p>
-        </div>
-        <div class="text-center">
-            <p>Description: Table booking for @tableBooking.People people. <br/>The reservation is valid up to 15 minutes after the booked time<br/></p>
-            @if (tableBooking.Description is { } or "")
-            {
-                <p> Comments: @tableBooking.Description</p>
-            }
-
-        </div>
-        <div class="text-md-right">
-            <button @onclick="BackToMainPage">Back to home page</button>
-        </div>
-        @tableBooking.Description
+  
+    
+    <div class="container text-center">
+        <div class="card text-center py-3">
+            <div class="row">
+                <div class="offset-md-4 col-md-3 text-center">
+                    <div class="mb-5 mt-4">
+                        <div class="text-center">
+                            <h3> <br/> @context.User.Identity.Name, <br> We are looking forward to seeing you! </h3>
+                            <div class="text-center">
+                                <p>Booking id: @tableBooking.TableBookingId</p>
+                            </div>
+                            <div class="text-center">
+                                <p>Date: @tableBooking.BookingDateTime.ToLongDateString()</p>
+                            </div>
+                            <div class="text-center">
+                                <p>Description: Table booking for @tableBooking.People people. <br/>The reservation is valid up to 15 minutes after the booked time<br/></p>
+                                @if (tableBooking.Description is { } or "")
+                                {
+                                    <p> Comments: @tableBooking.Description</p>
+                                }
+                                            
+                            </div>
+                            <div class="text-center">
+                                <button @onclick="BackToMainPage">Back to home page</button>
+                            </div>
+                            
+                        </div>
+                                            
+                    </div>
+                </div>
+            </div></div>
     </div>
 </AuthorizeView>
 @code {
@@ -44,7 +54,7 @@
 
     private void BackToMainPage()
     {
-        navigationManager.NavigateTo("/Index");
+        navigationManager.NavigateTo("");
     }
 
 }
