@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
 using Radzen;
+using WebClient.Authentication;
 using WebClient.Data;
 using WebClient.Data.Impl;
 
@@ -41,7 +39,17 @@ namespace WebClient
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITableBookingService, TableBookingService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountService, AccountWebService>();
+            
+            services.AddAuthorization(options => {
+                options.AddPolicy("Employee",  a => 
+                    a.RequireAuthenticatedUser().RequireClaim(ClaimTypes.Role, Role.Employee.ToString()));
+            
+                options.AddPolicy("Customer",  a => 
+                    a.RequireAuthenticatedUser().RequireClaim(ClaimTypes.Role, Role.Customer.ToString()));
+
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

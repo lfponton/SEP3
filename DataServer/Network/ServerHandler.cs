@@ -76,6 +76,8 @@ namespace DataServer.Network
                     return new MenuItemsSelectionsHandler();
                 case "Bookings":
                     return new TableBookingsHandler();
+                case "Accounts":
+                    return new AccountsHandler();
                 default:
                     return null;
             }

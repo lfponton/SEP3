@@ -1,6 +1,6 @@
 ﻿namespace DataServer.Models
 {
-    public abstract class Person
+    public class Person
     {
         public long Id { get; set; }
         public string Email { get; set; }

@@ -32,12 +32,9 @@ namespace WebClient.Data.Impl
             {
                 string orderAsJsonResponse = await response.Content.ReadAsStringAsync();
                 Order resultOrder = JsonSerializer.Deserialize<Order>(orderAsJsonResponse, options);
-                Console.WriteLine($"CreateOrder in order service---->{orderAsJsonResponse}");
                 return resultOrder;
             }
             throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
-
-            
         }
 
         public async Task<List<Order>> GetOrdersAsync(string? status)

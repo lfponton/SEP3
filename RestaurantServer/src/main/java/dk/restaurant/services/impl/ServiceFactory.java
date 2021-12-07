@@ -41,4 +41,9 @@ public class ServiceFactory implements IServiceFactory
   {
     return new TableBookingService(clientFactory);
   }
+
+  @Override public IAccountsService getAccountsService()
+  {
+    return new AccountsService(clientFactory);
+  }
 }

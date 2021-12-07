@@ -1,19 +1,15 @@
 ﻿@page "/Login"
-@using WebClient.Data
-@using AuthenticationStateProvider = WebClient.Data.AuthenticationStateProvider
-
-@*@using AuthenticationStateProvider = Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider*@
+@using WebClient.Authentication
 
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-
-
+<AuthorizeView>
+    <NotAuthorized>
 <div class="d-flex justify-content-center align-items-center">
-    <div class="card w-50">
-        <h4 class="card-header">Login</h4>
-        <div class="card-body">
-            <NotAuthorized >
+        <div class="card w-50">
+            <h4 class="card-header">Login</h4>
+            <div class="card-body">
                 <div class="form-group">
                     <label>Email</label>
                     <input class="form-control" type="text" placeholder="Email" @bind-value="email"/>
@@ -25,16 +21,23 @@
                 <div style="color:red">@errorMessage</div>
                 <button class=" btn btn-primary mr-1" @onclick="PerformLogin">Login</button>
                 <NavLink href="/Register" class="btn btn-link">Register</NavLink>
-            </NotAuthorized>
+            </div>
         </div>
     </div>
-</div>
+</NotAuthorized>
+    <Authorized>
+        <a href="" @onclick="PerformLogout">
+            Log out
+        </a>
+    </Authorized>
+</AuthorizeView>
 
 @code {
     private string email;
     private string password;
     private string errorMessage;
 
+    // TODO: Missing to include error messages from server
     public async Task PerformLogin() {
         errorMessage = "";
         try {
@@ -46,5 +49,21 @@
         catch (Exception e) {
             errorMessage = e.Message;
         }
+        NavigationManager.NavigateTo("/");
     }
+
+    public async Task PerformLogout()
+    {
+        errorMessage = "";
+        email = "";
+        password = "";
+        try
+        {
+            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).Logout();
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
 }

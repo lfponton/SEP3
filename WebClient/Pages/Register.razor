@@ -1,10 +1,6 @@
 ﻿@page "/Register"
 @using WebClient.Data
-@using AuthenticationStateProvider = WebClient.Data.AuthenticationStateProvider
-@using DataServer.DataAccess
-@using DataServer.Models
-
-@*@using AuthenticationStateProvider = Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider*@
+@using WebClient.Authentication
 @inject NavigationManager NavigationManager
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -56,7 +52,7 @@
     public async Task PerformRegistration() {
         ErrorMessage = "";
         try {
-          await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateRegister(firstName,lastName,email, Password, ConfirmationPassword);
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).ValidateRegister(firstName,lastName,email, Password, ConfirmationPassword);
             email = "";
             Password = "";
             NavigationManager.NavigateTo("/Login");

@@ -8,4 +8,5 @@ public interface IClientFactory
   IOrderItemsClient getOrderItemsClient();
   IMenuItemsSelectionsClient getMenuItemsSelectionsClient();
   ITableBookingsClient getTableBookingsClient();
+  IAccountsClient getAccountsClient();
 }
