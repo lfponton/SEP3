@@ -1,7 +1,6 @@
 ﻿@page "/TakeAway"
 @using WebClient.Models
 @using WebClient.Data
-@using System.Security.Claims
 @inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
@@ -9,64 +8,70 @@
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
 @inject IAccountService AccountService
+@inject NotificationService NotificationService
 
 <div class="text-center">
     <h3>TakeAway</h3>
-<AuthorizeView Policy="Customer">
+    <AuthorizeView Policy="Customer">
         <Authorized>
             <h3>Hello @context.User.Identity.Name</h3>
-    @if (menus == null)
-    {
-        <p>No menus to show.</p>
-    }
-    else if (!menus.Any())
-    {
-        <button class="btn btn-primary" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-        </button>
-    }
-    else
-    {
-        customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
+            @if (menus == null)
+            {
+                <p>No menus to show.</p>
+            }
+            else if (!menus.Any())
+            {
+                <button class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            }
+            else
+            {
+                customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
 
-        @foreach (var menu in menus)
-        {
-            <RadzenCard Style="margin-bottom: 2%; height:15%;">
-                <div class="row">
-                    <div class="col-md-6">
-                        <b>@menu.Name</b>
-                        <div style="margin-top:1%">Menu Items:</div>
-                        @foreach (var selection in menu.MenusItemsSelections)
-                        {
-                            <p>@selection.MenuItem.Name x @selection.Quantity</p>
-                        }
-                        <br/>
-                        <b>Description</b>
-                        <p style="margin-top:1%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Type:</div>
-                        <b>@menu.Type</b>
-                        <div style="margin-top:20px">Price:</div>
-                        <b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", menu.Price)</b>
-                        <div style="margin-top:20px">Quantity: </div>
-                        <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
-                        <br/>
-                        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick=@(() => OnAddOrderItem(menu.MenuId))>Add to Order</button>
-                    </div>
+                @foreach (var menu in menus)
+                {
+                    <RadzenCard Style="margin-bottom: 2%; height:15%;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>@menu.Name</b>
+                                <div style="margin-top:1%">Menu Items:</div>
+                                @foreach (var selection in menu.MenusItemsSelections)
+                                {
+                                    <p>@selection.MenuItem.Name x @selection.Quantity</p>
+                                }
+                                <br/>
+                                <b>Description</b>
+                                <p style="margin-top:1%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div>Type:</div>
+                                <b>@menu.Type</b>
+                                <div style="margin-top:1%">Price:</div>
+                                <b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", menu.Price)</b>
+                                <div style="margin-top:1%">Quantity: </div>
+                                <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
+                                <br/>
+
+                                <RadzenButton Text="Add to Order" Style="margin-top:1%; width: 200px"
+                                              ButtonStyle="ButtonStyle.Success"
+                                              Click=@(args => ShowNotification(new NotificationMessage {Severity = NotificationSeverity.Success, Summary = "Added to the order", Detail = $"Order Price {price + menu.Price * quantity} DKK", Duration = 4000}, menu.MenuId))>
+                                </RadzenButton>
+
+                            </div>
+                        </div>
+                    </RadzenCard>
+                }
+
+                <p>Current Price @price</p>
+
+                <div class="text-center">
+                    <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
                 </div>
-            </RadzenCard>
-        }
-
-        <p>Current Price @price</p>
-
-        <div class="text-center">
-            <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
-        </div>
-    }
-       </Authorized>
-        </AuthorizeView>
+            }
+        </Authorized>
+    </AuthorizeView>
 </div>
 
 
@@ -96,7 +101,13 @@
         quantity = value;
     }
 
-    private async Task OnAddOrderItem(long menuId)
+    private void ShowNotification(NotificationMessage message, long menuId)
+    {
+        AddOrderItem(menuId);
+        NotificationService.Notify(message);
+    }
+
+    private void AddOrderItem(long menuId)
     {
     // TODO: To avoid having more orderItems created when the quantity of a Menu is changed, then check if the menuId already exists in an orderItem and if so update it.
         Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
@@ -110,7 +121,6 @@
         orderItems.Add(orderItem);
         order.OrderItems = orderItems;
     }
-
 
     private async Task Next()
     {
