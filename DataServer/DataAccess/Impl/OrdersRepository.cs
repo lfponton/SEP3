@@ -42,12 +42,12 @@ namespace DataServer.DataAccess.Impl
         {
             Order toUpdate = await context.Orders.FirstAsync(o => o.OrderId == order.OrderId);
             toUpdate.Customer = order.Customer;
-          //  toUpdate.OrderItems = order.OrderItems;
             toUpdate.Price = order.Price;
             toUpdate.Status = order.Status;
             toUpdate.DeliveryTime = order.DeliveryTime;
             toUpdate.OrderDateTime = order.OrderDateTime;
             toUpdate.DeliveryAddress = order.DeliveryAddress;
+            toUpdate.IsDelivery = order.IsDelivery;
             context.Update(toUpdate);
             return toUpdate;
         }
