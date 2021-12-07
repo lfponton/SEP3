@@ -7,6 +7,9 @@ import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +57,7 @@ public class TableBookingService implements ITableBookingService {
         try {
             isValidPeople(tableBooking);
             isThereCapacity(tableBooking);
-           // isCorrectDate(tableBooking);
+            isCorrectDate(tableBooking);
         }
         catch (Exception e)
         {
@@ -71,28 +74,32 @@ public class TableBookingService implements ITableBookingService {
     }
     private void isThereCapacity(TableBooking tableBooking) throws IllegalArgumentException{
         Restaurant restaurant = new Restaurant();
-        System.out.println(tableBooking.getBookingDateTime().toString());
         List<TableBooking> tableBookings = client.getTableBookings(tableBooking.getBookingDateTime());
         int peopleControl = 0;
         for (TableBooking tb : tableBookings) {
-            peopleControl += tableBooking.getPeople();
+            if (tb.getBookingDateTime().getTime() == tableBooking.getBookingDateTime().getTime())
+            {
+                peopleControl += tableBooking.getPeople();
+            }
         }
         if (peopleControl > 0){
             if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
             {
                throw new IllegalArgumentException("Sorry, we are fully booked.Try another date");
-
             }
         }
     }
     private boolean isCorrectDate(TableBooking tableBooking){
-    /* /Date now = Dat
-        LocalDateTime max = now.plusDays(365);
+       Date dateControl = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateControl);
+        calendar.add(Calendar.HOUR, 2);
+        dateControl = calendar.getTime();
 
-        if (tableBooking.getBookingDateTime().before() || tableBooking.getBookingDateTime().isBefore(now)){
-            throw new IllegalArgumentException("The date must be between today and 365 days after");
+        if (tableBooking.getBookingDateTime().before(dateControl)){
+
+            throw new IllegalArgumentException("Bookings need to be done at least 2 hs in advance and up to 365 days from now");
         }
-        return true;*/
         return true;
     }
 

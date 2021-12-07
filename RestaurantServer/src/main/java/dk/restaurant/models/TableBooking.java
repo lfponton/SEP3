@@ -23,17 +23,6 @@ public class TableBooking
   private Customer customer;
 
   @JsonProperty("bookingDateTime")
-
-  //@JsonFormat(pattern="^(\\d{2}/\\d{2}/\\d{4})|^(\\d{4}-\\d{2}-\\d{2})")
-  //@Temporal(TemporalType.DATE)
-  /*@Column(name = "local_date_time", columnDefinition = "TIMESTAMP")
-
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-  @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-*/
-
   private Date bookingDateTime;
   @JsonProperty("people")
   private int people;

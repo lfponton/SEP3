@@ -50,13 +50,11 @@ public class TableBookingsClient implements ITableBookingsClient {
         List<TableBooking> bookings = new ArrayList<>();
         try
         {
-            System.out.println("getbookingslient");
             out.println("Bookings");
             out.println("getTableBookings");
             String send = gson.toJson(bookingDate);
             out.println(send);
             String response = in.readLine();
-            System.out.println("getTableBookings"+response);
             bookings = gson.fromJson(response, new TypeToken<ArrayList<TableBooking>>() {}.getType());
 
         }
@@ -90,13 +88,11 @@ public class TableBookingsClient implements ITableBookingsClient {
         TableBooking booking = new TableBooking();
         try
         {
-            System.out.println("client" + tableBooking.getPeople());
             out.println("Bookings");
             out.println("createTableBooking");
             String send = gsonS.toJson(tableBooking);
             out.println(send);
             String response = in.readLine();
-            System.out.println("response");
             booking = gson.fromJson(response, TableBooking.class);
         }
         catch (IOException e)
