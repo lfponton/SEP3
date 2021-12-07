@@ -137,7 +137,9 @@ namespace WebClient.Authentication
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.FirstName));
+            claims.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claims.Add(new Claim(ClaimTypes.Role, Role.Customer.ToString()));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;
         }
@@ -146,7 +148,9 @@ namespace WebClient.Authentication
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.FirstName));
+            claims.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claims.Add(new Claim(ClaimTypes.Role, Role.Employee.ToString()));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;
         }
