@@ -57,7 +57,7 @@
                                 <div style="margin-top:1%">Price:</div>
                                 <b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", menu.Price)</b>
                                 <div style="margin-top:1%">Quantity: </div>
-                                <RadzenNumeric Style="width: 25%" TValue="int" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
+                                <RadzenNumeric Style="width: 25%" TValue="int" Min="0" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                                 <br/>
 
                                 <RadzenButton Text="Add to Order" Style="margin-top:1%; width: 200px"
@@ -75,8 +75,9 @@
                     </RadzenCard>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
+                    <button class="btn btn-success" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
                 </div>
+                
             }
         </Authorized>
     </AuthorizeView>
