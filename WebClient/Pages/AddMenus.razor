@@ -62,7 +62,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        addMenus = Seed();
+       // newMenu = await MenuWebService.CreateMenuAsync(newMenu);
+        newMenu = new Menu();
+
     }
 
     private AddMenus Seed()
@@ -91,8 +93,9 @@
 
     
 
-    private void Save()
+    private async Task Save()
     {
+       newMenu = await MenuWebService.CreateMenuAsync(newMenu);
         NavigationManager.NavigateTo("/AllMenus");
     }
 

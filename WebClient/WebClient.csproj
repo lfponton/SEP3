@@ -7,6 +7,7 @@
     <ItemGroup>
       <PackageReference Include="COFRS" Version="0.0.96-alpha" />
       <PackageReference Include="MatBlazor" Version="2.6.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.1" />
       <PackageReference Include="Radzen.Blazor" Version="3.11.12" />
     </ItemGroup>
 

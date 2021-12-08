@@ -23,8 +23,8 @@ else
             <th>Date</th>
             <th>People</th>
             <th>Customer</th>
+            <th>Table</th>
             <th>Description</th>
-
         </tr>
         </thead>
         <tbody>
@@ -34,11 +34,19 @@ else
                 <td>@booking.TableBookingId</td>
                 <td>@booking.BookingDateTime</td>
                 <td>@booking.People</td>
-                <td>@booking.Customer.FirstName @booking.Customer.LastName</td>
+                <td>
+                       @if (@booking.Customer != null)
+                                                       {
+                                                           @booking.Customer.FirstName 
+                                                           @booking.Customer.LastName
+                                                       }
+                </td>
+               
+                <td>@booking.Table.TableId</td>
                 <td>@booking.Description</td>
                 <td>
                     <button @onclick="@(() => EditBooking(booking))">
-                         Assign Table
+                         Edit
                     </button>
                 </td>
             </tr>
@@ -82,7 +90,7 @@ else
     }
     private void EditBooking(TableBooking booking)
     {
-        throw new NotImplementedException();
+        navigationManager.NavigateTo($"/EditBooking/{booking.TableBookingId}");
     }
     
     private void GoToSeeAllBookings()
@@ -90,7 +98,5 @@ else
       navigationManager.NavigateTo("/AllBookings");
         
     }
-
-
 }
 }
