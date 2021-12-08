@@ -30,7 +30,7 @@ namespace WebClient.Data.Impl
         public async Task<List<TableBooking>> GetBookings(DateTime bookingDateTime)
         {
             HttpResponseMessage response =
-                await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime.ToString()}");
+                await client.GetAsync($"{uri}/tableBookings?bookingDate={bookingDateTime}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
@@ -57,7 +57,6 @@ namespace WebClient.Data.Impl
                     {
                         var errorMessage = await response.Content.ReadAsStringAsync();
                         var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
-                        Console.WriteLine(exceptionResponse.Message);
                         throw new Exception($"{exceptionResponse.Message}");
                     }
                     tbAsJsonResponse = await response.Content.ReadAsStringAsync();
@@ -98,6 +97,8 @@ namespace WebClient.Data.Impl
             var tableBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
             return tableBooking;
         }
+
+        
     }
 
 
