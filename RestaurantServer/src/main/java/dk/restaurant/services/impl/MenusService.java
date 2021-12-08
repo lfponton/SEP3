@@ -15,7 +15,7 @@ public class MenusService implements IMenusService
     this.client = clientFactory.getMenusClient();
   }
 
-  @Override public List<Menu> getMenus()
+  @Override public List<Menu> getMenus(int name)
   {
     return client.getMenus();
   }

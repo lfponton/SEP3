@@ -2,13 +2,13 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.MenuItem;
+import dk.restaurant.models.OrderItem;
 import dk.restaurant.network.IClientFactory;
 import dk.restaurant.network.IMenuItemsClient;
 import dk.restaurant.services.IMenuItemsService;
 import dk.restaurant.services.IServiceFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,9 +22,18 @@ public class MenuItemsController {
     this.service = serviceFactory.getMenuItemsService();
   }
 
-  @GetMapping("/menuItems/{menuId}")
-  public List<MenuItem> GetMenuItems(@PathVariable int menuId) throws IOException
+
+  @GetMapping("/menuItems/{id}")
+  @ResponseBody
+  public List<MenuItem> getMenusItems(@PathVariable("id") int menuId)
   {
+
     return service.getMenuItems(menuId);
+  }
+  @PostMapping("/menuItems")
+  @ResponseStatus(HttpStatus.CREATED)
+  public MenuItem createMenuItem(@RequestBody MenuItem menuItem)
+  {
+    return service.createMenuItem(menuItem);
   }
 }

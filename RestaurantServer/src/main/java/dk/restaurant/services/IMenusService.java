@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IMenusService
 {
-  List<Menu> getMenus();
+  List<Menu> getMenus(int name);
   Menu createMenu(Menu menu);
 }

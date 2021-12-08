@@ -19,4 +19,9 @@ public class MenuItemsService implements IMenuItemsService
   {
     return client.getMenuItems(menuId);
   }
+
+  @Override
+  public MenuItem createMenuItem(MenuItem menuItem) {
+    return null;
+  }
 }

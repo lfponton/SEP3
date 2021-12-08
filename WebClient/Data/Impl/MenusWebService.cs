@@ -10,8 +10,8 @@ namespace WebClient.Data.Impl
 {
     public class MenusWebService : IMenusService
     {
-        private readonly HttpClient client;
-        private JsonSerializerOptions options;
+        private static HttpClient client;
+        private static JsonSerializerOptions options;
 
         public MenusWebService()
         {
@@ -33,7 +33,7 @@ namespace WebClient.Data.Impl
             return menus;
         }
 
-        public async Task<Menu> CreateMenuAsync(Menu menu)
+        public  async Task<Menu> CreateMenuAsync(Menu menu)
         {
             string menuAsJson = JsonSerializer.Serialize(menu, options);
             HttpContent content = new StringContent(menuAsJson, Encoding.UTF8, "application/json");
@@ -47,6 +47,48 @@ namespace WebClient.Data.Impl
 
             throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
 
+        }
+
+        Task<Menu> IMenusService.CreateMenu(Menu newMenu)
+        {
+            return CreateMenu(newMenu);
+        }
+
+        public async Task<Menu> GetMenuAsync(int menuId)
+        {
+            using HttpClient client = new HttpClient();
+            string menuAsJson = JsonSerializer.Serialize(menuId, options);
+            HttpContent content = new StringContent(menuAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync($"http://localhost:8080/menus", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string menuAsJsonResponse = await response.Content.ReadAsStringAsync();
+                Menu resultMenu = JsonSerializer.Deserialize<Menu>(menuAsJsonResponse, options);
+                return resultMenu;
+            }
+            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+        }
+
+        public static async Task<Menu> CreateMenu(Menu newMenu)
+        {
+           
+            string newMenuAsJson = JsonSerializer.Serialize(newMenu, options);
+            HttpContent content = new StringContent(newMenuAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menus", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string newMenuAsJsonResponse = await response.Content.ReadAsStringAsync();
+                Menu resultMenu = JsonSerializer.Deserialize<Menu>(newMenuAsJsonResponse, options);
+                return resultMenu;
+            }
+
+            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+
+        }
+
+        public static async Task<Menu> GetMenuAsync(object id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

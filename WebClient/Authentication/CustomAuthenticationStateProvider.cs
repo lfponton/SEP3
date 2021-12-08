@@ -62,7 +62,6 @@ namespace WebClient.Authentication
                 if (email.Trim().EndsWith("@restaurant.dk"))
                 {
                     Employee employee = await accountService.GetEmployeeAccountAsync(email, password);
-                    if (employee == null) throw new Exception("User not found");
                     identity = SetupClaimsForEmployee(employee);
                     string serializedData = JsonSerializer.Serialize(employee);
                     await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);
@@ -71,7 +70,6 @@ namespace WebClient.Authentication
                 else
                 {
                     Customer customer = await accountService.GetCustomerAccountAsync(email, password);
-                    if (customer == null) throw new Exception("User not found");
                     identity = SetupClaimsForCustomer(customer);
                     string serializedData = JsonSerializer.Serialize(customer);
                     await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);

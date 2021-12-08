@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dk.restaurant.models.Menu;
+import dk.restaurant.models.Order;
 import dk.restaurant.network.IMenusClient;
 
 import java.io.BufferedReader;
@@ -78,4 +79,23 @@ public class MenusClient implements IMenusClient
     }
     return gson.fromJson(response, Menu.class);
   }
+
+  @Override
+  public synchronized Menu getMenu(int menuId) {
+    String response = "";
+    try
+    {
+      out.println("Menu");
+      out.println("getMenu");
+      out.println(menuId);
+      response = in.readLine();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, Menu.class);
+  }
+
+
 }

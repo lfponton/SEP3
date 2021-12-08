@@ -8,5 +8,12 @@ namespace WebClient.Data
     {
         Task<List<Menu>> GetMenus();
         Task<Menu> CreateMenuAsync(Menu menu);
+
+        Task<Menu> CreateMenu(Menu newMenu);
+
+        Task<Menu> GetMenuAsync(int menuId);
+
+
+
     }
 }
