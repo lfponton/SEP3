@@ -1,6 +1,7 @@
 ﻿@page "/TakeAway"
 @using WebClient.Models
 @using WebClient.Data
+@using System.Linq
 @inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
@@ -15,6 +16,11 @@
     <AuthorizeView Policy="Customer">
         <Authorized>
             <h3>Hello @context.User.Identity.Name</h3>
+            <div class="d-flex justify-content-center align-items-center">
+                <RadzenCard Style="margin-bottom: 2%; height:15%;">
+                    <b>Current Order Price: @price DKK</b>
+                </RadzenCard>
+            </div>
             @if (menus == null)
             {
                 <p>No menus to show.</p>
@@ -55,17 +61,19 @@
                                 <br/>
 
                                 <RadzenButton Text="Add to Order" Style="margin-top:1%; width: 200px"
-                                              ButtonStyle="ButtonStyle.Success"
-                                              Click=@(args => ShowNotification(new NotificationMessage {Severity = NotificationSeverity.Success, Summary = "Added to the order", Detail = $"Order Price {price + menu.Price * quantity} DKK", Duration = 4000}, menu.MenuId))>
+                                              ButtonStyle="ButtonStyle.Info"
+                                              Click=@(args => ShowNotification(new NotificationMessage {Severity = NotificationSeverity.Info, Summary = "Added to the order", Duration = 4000}, menu))>
                                 </RadzenButton>
 
                             </div>
                         </div>
                     </RadzenCard>
                 }
-
-                <p>Current Price @price</p>
-
+                <div class="d-flex justify-content-center align-items-center">
+                    <RadzenCard Style="margin-bottom: 2%; height:15%;">
+                        <b>Current Order Price: @price DKK</b>
+                    </RadzenCard>
+                </div>
                 <div class="text-center">
                     <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
                 </div>
@@ -77,6 +85,7 @@
 
 @code {
     private IList<Menu> menus = new List<Menu>();
+    private IList<long> selectedMenusIds = new List<long>();
     private IList<OrderItem> orderItems = new List<OrderItem>();
     private Order order;
     private int quantity;
@@ -101,25 +110,36 @@
         quantity = value;
     }
 
-    private void ShowNotification(NotificationMessage message, long menuId)
+    private void ShowNotification(NotificationMessage message, Menu menu)
     {
-        AddOrderItem(menuId);
+        AddOrderItem(menu);
         NotificationService.Notify(message);
     }
 
-    private void AddOrderItem(long menuId)
+    private void AddOrderItem(Menu menu)
     {
-    // TODO: To avoid having more orderItems created when the quantity of a Menu is changed, then check if the menuId already exists in an orderItem and if so update it.
-        Menu menu = menus.FirstOrDefault(m => m.MenuId == menuId);
-        OrderItem orderItem = new OrderItem
+        if (!selectedMenusIds.Contains(menu.MenuId))
         {
-            MenuId = menuId,
-            Menu = menu,
-            Quantity = quantity
-        };
-        price += orderItem.Menu.Price * orderItem.Quantity;
-        orderItems.Add(orderItem);
-        order.OrderItems = orderItems;
+            OrderItem orderItem = new OrderItem
+            {
+                MenuId = menu.MenuId,
+                Menu = menu,
+                Quantity = quantity
+            };
+            price += orderItem.Menu.Price * orderItem.Quantity;
+            orderItems.Add(orderItem);
+            order.OrderItems = orderItems;
+            selectedMenusIds.Add(menu.MenuId);
+        }
+        else
+        {
+            OrderItem item = order.OrderItems.First(item => item.MenuId == menu.MenuId);
+            price -= item.Quantity * menu.Price;
+            price += quantity * menu.Price;
+            order.OrderItems.Remove(item);
+            item.Quantity = quantity;
+            order.OrderItems.Add(item);
+        }
     }
 
     private async Task Next()
