@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess.Impl;
+using DataServer.Models;
 using DataServer.Persistence;
 
 namespace DataServer.Network
@@ -45,6 +46,13 @@ namespace DataServer.Network
         {
             int menuId = Int32.Parse(args);
             return  JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.ReadMenuItemsAsync(menuId), options);
+        }
+        private async Task<string> CreateMenuItem(string args)
+        {
+            MenuItem menuItem = JsonSerializer.Deserialize<MenuItem>(args, options);
+            string jsonMenu = JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.CreateMenuItemAsync(menuItem), options);
+            await unitOfWork.Save();
+            return jsonMenu;
         }
     }
 }

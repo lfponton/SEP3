@@ -2,29 +2,16 @@
 @inject NavigationManager NavigationManager
 @using WebClient.Models
 @using Microsoft.AspNetCore.Mvc.Diagnostics
+@using WebClient.Data
+@using WebClient.Data.Impl
+@inject IMenusService MenusWebService
 
 <h3>ViewMenus</h3>
+ 
 <div class="text-center">
      <div class="text-center">
          <h3>All Menus</h3>
-         @if (menu.MenuItems != null)
-                {
-                    @foreach (var menuItem in menu.MenuItems)
-                    {
-                        <p>Menu Name: @menuItem.Name</p>
-                        <p>Quantity: @menuItem.Price</p>
-                        <p>MenuItems:</p>
-                        foreach (var selection in menuItem.MenusItemsSelections)
-                        {
-                            <p>MenuItem Name: @selection.MenuItem.Name</p>
-                            <p>Quantity: @selection.Price</p>
-                        }
-                    }
-                }
-                else
-                {
-                    <p>The selected menu has no menu items</p>
-                }
+        
 
          <div class="btn btn-outline-dark" style="margin-top:5%; margin-bottom: 5%" @onclick="AllMenus">AllMenus</div>
          </div>
@@ -41,13 +28,15 @@
 
 
 @code {
+    [Parameter]
+    public int MenuId { get; set; }
     private IList<Menu> menus = new List<Menu>();
-    private Menu menu;
+    private List<Menu> menu;
    
 
     protected override async Task OnInitializedAsync()
     {
-        menu = Seed();
+       
     }
 
     private void AllMenus()
@@ -67,11 +56,8 @@
 
     
 
-    private Menu Seed()
-    {
-        return menu;
-    }
-
+   
+    
 
 
 
