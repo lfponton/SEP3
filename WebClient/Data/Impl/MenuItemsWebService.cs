@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WebClient.Models;
+using WebClient.Data;
 
 namespace WebClient.Data.Impl
 {
@@ -33,12 +34,9 @@ namespace WebClient.Data.Impl
             return menus;
         }
 
-        public Task<IList<DataServer.Models.MenuItem>> GetMenuItem(int menuId)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public async Task<DataServer.Models.MenuItem> CreateMenuAsync(DataServer.Models.MenuItem menuItem)
+        public async Task<MenuItem> CreateMenuAsync(MenuItem menuItem)
         {
             string menuItemAsJson = JsonSerializer.Serialize(menuItem, options);
             HttpContent content = new StringContent(menuItemAsJson, Encoding.UTF8, "application/json");
