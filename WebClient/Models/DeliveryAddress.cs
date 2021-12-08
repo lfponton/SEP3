@@ -19,9 +19,12 @@ namespace WebClient.Models
         public string AddressNumber { get; set; }
         [Required, MaxLength(10)]
         public string Door { get; set; }
-        
 
 
+        public override string ToString()
+        {
+            return $"{StreetName} {AddressNumber} {Door}, {PostNumber} {City}";
+        }
     }
     
 

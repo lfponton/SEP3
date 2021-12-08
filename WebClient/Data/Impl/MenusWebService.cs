@@ -37,7 +37,7 @@ namespace WebClient.Data.Impl
         {
             string menuAsJson = JsonSerializer.Serialize(menu, options);
             HttpContent content = new StringContent(menuAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menus", content);
+            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menus/menus", content);
             if (response.IsSuccessStatusCode)
             {
                 string menuAsJsonResponse = await response.Content.ReadAsStringAsync();

@@ -44,21 +44,30 @@
         {
             <p>The selected order has no ordered items</p>
         }
-        <!-- INCLUDE DELIVERY ADDRESS -->
-        <!-- Needs input validation -->
-        <p>Delivery Time</p>
-        <RadzenDatePicker TValue="DateTime?" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" Change=@(args => OnChange(args))>
-        </RadzenDatePicker>
+        @if (order.IsDelivery)
+        {
+            <p>Delivery Address: </p>
+            <p>@order.DeliveryAddress.ToString()</p>
+        }
+        @if (order.Status == "pending")
+        {
+            <!-- Needs input validation -->
+            <p>Delivery Time</p>
+            <RadzenDatePicker TValue="DateTime?" ShowTime="true" TimeOnly="true" DateFormat="HH:mm" Change=@(args => OnChange(args))>
+            </RadzenDatePicker>
+        }
 
         <div>
-            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ConfirmOrder">Confirm</button>
+            @if (order.Status == "pending")
+            {
+                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ConfirmOrder">Confirm</button>
+            }
             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="CancelOrder">Cancel</button>
             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
         </div>
     }
+    
 </div>
-  }
-}
 
 @code {
 
@@ -77,14 +86,12 @@
 
     void OnChange(DateTime? value)
     {
-        // TODO: Check if this is working
         if (value != null)
         {
             order.DeliveryTime = (DateTime) value;
         }
     }
-
-    // TODO: Should set it to confirmed if it is pending, to completed if confirmed (or have different pages)
+    
     private async Task ConfirmOrder()
     {
         order.Status = "confirmed";
@@ -92,9 +99,10 @@
         NavigationManager.NavigateTo("PendingOrders");
     }
 
-    private void CancelOrder()
+    private async void CancelOrder()
     {
-    //TODO set order status to Cancelled
+        order.Status = "cancelled";
+        await OrderService.UpdateOrderAsync(order);
         NavigationManager.NavigateTo("PendingOrders");
     }
 

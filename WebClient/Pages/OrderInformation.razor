@@ -176,13 +176,7 @@
         NavigationManager.NavigateTo("/TakeAway");
     }
 
-    // Not sure we need the code below
-
-
-    public void getTotal(OrderItem Total)
-    {
-    // Total = int(Quantity * Price);
-    }
+    
 
 
     private async Task DeleteOrderItem(OrderItem orderItem)
@@ -190,20 +184,7 @@
         await OrderItemService.DeleteOrderItem(orderItem);
     }
 
-    decimal? testingNullableDecimal1 = 0m;
-    decimal? testingNullableDecimal2 = null;
-    decimal? testingNullableDecimal3 = null;
-    decimal? testingNullableDecimal4 = null;
-    decimal testingCurrency = 0m;
-
-    string ButtonState = "";
-
-    void Click(MouseEventArgs e)
-    {
-        ButtonState = "Clicked";
-        testingNullableDecimal1 += 1;
-        testingNullableDecimal2 += 100;
-    }
+    
 
     string value1 = "Credit card";
 

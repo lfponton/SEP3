@@ -27,7 +27,7 @@ else
             <th>Customer Name</th>
             <th>Date & Time</th>
             <th>Status</th>
-            <th>View</th>
+            <th>Mark as Completed</th>
         </tr>
         </thead>
         <tbody>
@@ -46,8 +46,8 @@ else
                 <td>@item.OrderDateTime</td>
                 <td>@item.Status</td>
                 <td>
-                    <button @onclick="@(() => ViewOrder(item.OrderId))">
-                        <i class="oi oi-eye" style="color:#1b6ec2"/>
+                    <button @onclick="@(() => ViewOrder(item))">
+                        <i class="oi oi-circle-check" style="color:#1b6ec2"/>
                     </button>
                 </td>
             </tr>
@@ -67,10 +67,11 @@ else
         confirmedOrders = await OrderService.GetOrdersAsync("confirmed");
     }
 
-    private void ViewOrder(long orderId)
+    private async Task ViewOrder(Order order)
     {
-    // TODO: Need to have a ViewConfirmedOrders page?
-        NavigationManager.NavigateTo($"ViewOrder/{orderId}");
+        order.Status = "completed";
+        await OrderService.UpdateOrderAsync(order);
+        confirmedOrders = await OrderService.GetOrdersAsync("confirmed");
     }
 
     private void Back()
