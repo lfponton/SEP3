@@ -29,6 +29,7 @@ else
             <th>Id</th>
             <th>Date</th>
             <th>People</th>
+            <th>Table</th>
             <th>Customer</th>
             <th>Description</th>
 
@@ -45,6 +46,7 @@ else
                 <td>@booking.TableBookingId</td>
                 <td>@booking.BookingDateTime</td>
                 <td>@booking.People</td>
+                <td>@booking.Table.TableId</td>
                 <td>
                     @if (@booking.Customer != null)
                     {
