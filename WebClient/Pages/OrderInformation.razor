@@ -5,121 +5,132 @@
 @inject IOrderItemsService OrderItemService
 @using MatBlazor
 @inject IOrderService OrderService
-<h3>Order Information</h3>
+@inject NotificationService NotificationService
 
-<p>Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
+<div class="text-center">
+    <h3>Order Information</h3>
 
-@if (order == null)
-{
-    <button class="btn btn-primary" type="button" disabled>
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
-    </button>
-}
-else
-{
-    <table class="table me-2">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Delete</th>
+    <p style="margin-bottom: 2%; margin-top: 2%">Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
 
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in order.OrderItems)
-        {
+    @if (order == null)
+    {
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    }
+    else
+    {
+        <table class="table me-2">
+            <thead>
             <tr>
-                <td>@item.Menu.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.Menu.Price</td>
-                <td>
-                    <button @onclick="@(() => DeleteOrderItem(item))">
-                        <i class="oi oi-trash" style="color:red"/>
-                    </button>
-                </td>
+                <th>Menu Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Remove</th>
+
             </tr>
-        }
-
-        <br/>
-        <br/>
-
-        <h4 class="total-to-pay" id="Total">Total to pay: @order.Price</h4>
-
-        <br>
-        </tbody>
-
-    </table>
-
-    <RadzenRadioButtonList @bind-Value=@value TValue="int" Change="@PickUpOrDelivery">
-        <Items>
-            <RadzenRadioButtonListItem Text="Delivery" Value="1"/>
-            <RadzenRadioButtonListItem Text="Pick-Up" Value="2"/>
-        </Items>
-    </RadzenRadioButtonList>
-
-    <EditForm Model="@deliveryAddress" hidden="@hideAddress" OnValidSubmit="@AddNewAddress">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
-
-        <div class="d-flex justify-content-center align-self-center">
-            <div class="card w-50" style=" border-right-width: 200px; border-color: whitesmoke; padding-left: 20px">
-                <h4 class="card-header">Address Information</h4>
-                <br/>
-
-                <div class="form-group">
-                    <label>City:</label> <br/>
-                    <InputText @bind-Value="deliveryAddress.City"/>
-                </div>
-                <div class="form-group">
-                    <label>Street Name:</label> <br/>
-                    <InputText @bind-Value="deliveryAddress.StreetName"/>
-                </div>
-                <div class="form-group">
-                    <label>Post Number</label> <br/>
-                    <InputText @bind-Value="deliveryAddress.PostNumber"/>
-                </div>
-                <div class="form-group">
-                    <label>Address Number</label> <br/>
-                    <InputText @bind-Value="deliveryAddress.AddressNumber"/>
-                </div>
-                <div class="form-group">
-                    <label>Door</label> <br/>
-                    <InputText @bind-Value="deliveryAddress.Door"/>
-                </div>
-
-                <p class="actions">
-                    <button class="btn btn-outline-dark" type="submit">Save</button>
-                </p>
-            </div>
+            </thead>
+            <tbody>
+            @foreach (var item in order.OrderItems)
+            {
+                <tr>
+                    <td>@item.Menu.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Menu.Price</td>
+                    <td>
+                        <button @onclick="@(() => DeleteOrderItem(item))">
+                            <i class="oi oi-trash" style="color:red"/>
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center align-items-center">
+            <RadzenCard Style="margin-bottom: 5%; height:15%;">
+                <b>Total Order Price: @order.Price DKK</b>
+            </RadzenCard>
         </div>
-    </EditForm>
 
-    <br/>
-    <p>
-        <MatSelectItem @bind-Value="@value1" Items="@value1Items"></MatSelectItem>
-    </p>
-    <p>
-        Payment method: @value1
-    </p>
+        <p>Would you like us to deliver the order, or would you prefer to pick it up at our restaurant?</p>
+        <RadzenRadioButtonList Style="margin-top: 2%; margin-bottom: 5%" @bind-Value=@value TValue="int" Change="@PickUpOrDelivery">
+            <Items>
+                <RadzenRadioButtonListItem Text="Delivery" Value="1"/>
+                <RadzenRadioButtonListItem Text="Pick-Up" Value="2"/>
+            </Items>
+        </RadzenRadioButtonList>
 
-    <br/>
+        <EditForm Model="@deliveryAddress" hidden="@hideAddress" OnValidSubmit="@AddNewAddress">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <p>Please select a delivery address:</p>
+            <div class="d-flex justify-content-center align-self-center">
+                <div class="card w-50">
+                    <h4 class="card-header">Address Information</h4>
+                    <br/>
 
-    <div class="alert">
-        <span class="oi oi-cart me-2" aria-hidden="true"></span>
+                    <div class="form-group">
+                        <label>City:</label> <br/>
+                        <InputText @bind-Value="deliveryAddress.City"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Street Name:</label> <br/>
+                        <InputText @bind-Value="deliveryAddress.StreetName"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Post Number</label> <br/>
+                        <InputText @bind-Value="deliveryAddress.PostNumber"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Address Number</label> <br/>
+                        <InputText @bind-Value="deliveryAddress.AddressNumber"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Door</label> <br/>
+                        <InputText @bind-Value="deliveryAddress.Door"/>
+                    </div>
+
+                    <p class="actions">
+                        <RadzenButton type="submit" Text="Add Address" Style="margin-top:1%; width: 200px"
+                                      ButtonStyle="ButtonStyle.Info"
+                                      Click=@(args => ShowNotification(new NotificationMessage {Severity = NotificationSeverity.Info, Summary = "Address Added", Duration = 4000}))>
+                        </RadzenButton>
+                    </p>
+                </div>
+            </div>
+        </EditForm>
 
 
-        <span class="text-nowrap">
-            <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
-        </span>
-    </div>
-    <div class="text-center">
-        <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 5%" @onclick="PlaceOrder">Place Order</button>
+        <!--
+        <p>
+            <MatSelectItem @bind-Value="@value1" Items="@value1Items"></MatSelectItem>
+        </p>
+        <p>
+            Payment method: @value1
+        </p>
 
-    </div>
-@code {
+        <br/>
+
+        <div class="alert">
+            <span class="oi oi-cart me-2" aria-hidden="true"></span>
+
+
+            <span class="text-nowrap">
+                <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
+            </span>
+        </div>
+        -->
+        <div class="text-center" style="margin-top: 2%; margin-bottom: 5%">
+            <button class="btn btn-success" @onclick="PlaceOrder">Place Order</button>
+            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+
+        </div>
+    }
+</div>
+
+@code
+{
 
     [Parameter]
     public long OrderId { get; set; }
@@ -145,6 +156,7 @@ else
     private void AddNewAddress()
     {
         order.DeliveryAddress = deliveryAddress;
+        Console.WriteLine(deliveryAddress);
     }
 
     private async Task PlaceOrder()
@@ -152,6 +164,16 @@ else
         order.Status = "pending";
         await OrderService.UpdateOrderAsync(order);
         NavigationManager.NavigateTo($"/OrderConfirmation/{order.OrderId}");
+    }
+
+    private void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/TakeAway");
     }
 
     // Not sure we need the code below
@@ -192,4 +214,4 @@ else
         "Cash",
     };
 
-}}
+}

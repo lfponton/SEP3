@@ -1,49 +1,96 @@
-﻿@using WebClient.Models
+﻿@page "/ManageBookings"
+@using WebClient.Models
 @using WebClient.Data.Impl
 @using WebClient.Data
+@inject ITableBookingService tableBookingService
+@inject NavigationManager navigationManager
+<h3>ManageBookings</h3>
+<h3>Today's bookings <br/> @today.ToLongDateString()</h3>
 
-<div class="text-center">
-    
-    <h3>ManageBookings</h3>
-    <!--Create Tables-->
-    <EditForm>
-        <div>Table ---> dropdownlist</div>
-        <div>Add tablebookings --->with date-time</div>
-    </EditForm>
-        <!--Assign bookings for tables-->
-      <EditForm>
-        <div>Table ---> dropdownlist</div>
-      <div>Add tablebookings --->with date-time</div>
-      </EditForm>
-  
+@if (tableBookings == null)
+{
+    <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+}
+else
+{
+    <table class="table me-2">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>People</th>
+            <th>Customer</th>
+            <th>Description</th>
 
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var booking in tableBookingsDisplay)
+        {
+            <tr>
+                <td>@booking.TableBookingId</td>
+                <td>@booking.BookingDateTime</td>
+                <td>@booking.People</td>
+                <td>@booking.Customer.FirstName @booking.Customer.LastName</td>
+                <td>@booking.Description</td>
+                <td>
+                    <button @onclick="@(() => EditBooking(booking))">
+                         Assign Table
+                    </button>
+                </td>
+            </tr>
+        }
 
+        <br/>
+        <br/>
 
+        <h4 >Total people today: @totalOfPeople</h4>
+        
+        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="GoToSeeAllBookings">See all bookings</button>
 
+        <br>
+        </tbody>
 
-
-
-
-
-
-
-
-
-</div>
-
-
-
+    </table>
 @code {
-   private List<Table> tables = new List<Table>();
-    private TableBooking tableBooking;
+    private List<TableBooking> tableBookings = new List<TableBooking>();
+    private List<TableBooking> tableBookingsDisplay = new List<TableBooking>();
+    private int totalOfPeople;
+    private DateTime today = DateTime.Today;
+        
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-      //  tables = await tableBookingService.GetTables();
+        tableBookings = await tableBookingService.GetBookings(today);
+        tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
+        TotalPeople(tableBookingsDisplay);
+    }
+
+    private void TotalPeople(List<TableBooking> tableBookingsDisplay)
+    {
+        totalOfPeople = 0;
+        if (tableBookingsDisplay !=null)
+        {
+            foreach (var booking in tableBookingsDisplay)
+            {
+                totalOfPeople += booking.People;
+            }
+        }
+    }
+    private void EditBooking(TableBooking booking)
+    {
+        throw new NotImplementedException();
     }
     
-    
-    
-    
+    private void GoToSeeAllBookings()
+    {
+      navigationManager.NavigateTo("/AllBookings");
+        
+    }
 
+
+}
 }

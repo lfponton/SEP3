@@ -21,7 +21,7 @@ namespace DataServer.DataAccess.Impl
             
             return await context.TableBookings.Include(tb => tb.Table)
                 .Include(tb=>tb.Customer)
-                .Where(tb=>tb.BookingDateTime.Date == bookingDateTime).ToListAsync();
+                .Where(tb=>tb.BookingDateTime.Month == bookingDateTime.Month).ToListAsync();
         }
 
         public async Task<TableBooking> UpdateTableBookingAsync(TableBooking tableBooking)

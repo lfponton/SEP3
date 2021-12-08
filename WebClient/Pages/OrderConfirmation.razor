@@ -7,6 +7,7 @@
 @inject IOrderService OrderService
 @inject NavigationManager NavigationManager
 
+<div class="text-center">
 <h3>Order Confirmation</h3>
 
 @if (order == null || order.Status.Equals("pending"))
@@ -28,7 +29,7 @@ else if (status.Equals("confirmed"))
         <p>Your order will be available for pick up at: @order.DeliveryTime.TimeOfDay</p>
     }
 }
-
+</div>
 <!--
 <div>
 

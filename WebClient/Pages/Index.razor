@@ -2,6 +2,11 @@
 @inject NavigationManager NavigationManager
 <div class="text-center">
     <h3>Restaurant</h3>
+    <AuthorizeView>
+        <NotAuthorized>
+            <h3>Hello! Please log in for full access.</h3>
+        </NotAuthorized>
+    </AuthorizeView>
     <AuthorizeView Policy="Employee">
         <Authorized>
             <h3>Hello @context.User.Identity.Name</h3>
@@ -17,16 +22,13 @@
                 <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="ManageMenus">Menus</button>
             </div>
         </Authorized>
-        <NotAuthorized>
-            <h3>Hello! Please log in for full access.</h3>
-        </NotAuthorized>
     </AuthorizeView>
 
     <AuthorizeView Policy="Customer">
         <Authorized>
             <h3>Hello @context.User.Identity.Name</h3>
             <h3>You are logged in</h3>
-            
+
             <div class="text-center">
                 <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="PlaceOrder">Place Order</button>
             </div>
@@ -45,7 +47,6 @@
 
     protected override void OnInitialized()
     {
-        
     }
 
     private void ManageOrders()
@@ -63,7 +64,7 @@
     {
         NavigationManager.NavigateTo("/ManageMenus");
     }
-    
+
     private void PlaceOrder()
     {
         NavigationManager.NavigateTo("/TakeAway");
