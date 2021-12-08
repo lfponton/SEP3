@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using DataServer.Models;
+using WebClient.Models;
 
 namespace WebClient.Data
 {
     public interface IMenuItemsService
     {
-        Task<IList<MenuItem>> GetMenuItem(int menuId);
+        Task<IList<MenuItem>> GetMenuItems(int menuId);
         Task<MenuItem> CreateMenuAsync(MenuItem menuItem);
 
     }
