@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebClient.Data.validationhandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl {
@@ -72,7 +73,11 @@ namespace WebClient.Data.Impl {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/employees/?email={email}&password={password}");
             if (!response.IsSuccessStatusCode)
-                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options);
+                throw new Exception($"{exceptionResponse.Message}");
+            }
             string result = await response.Content.ReadAsStringAsync();
             Employee employee = JsonSerializer.Deserialize<Employee>(result, options);
             return employee;
@@ -83,7 +88,11 @@ namespace WebClient.Data.Impl {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"{uri}/accounts/customers/?email={email}&password={password}");
             if (!response.IsSuccessStatusCode)
-                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options);
+                throw new Exception($"{exceptionResponse.Message}");
+            }
             string result = await response.Content.ReadAsStringAsync();
             Customer customer = JsonSerializer.Deserialize<Customer>(result, options);
             return customer;
