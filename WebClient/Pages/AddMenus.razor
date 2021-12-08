@@ -1,55 +1,65 @@
 ﻿@page "/AddMenus"
 @using WebClient.Models
+@using WebClient.Data.Impl
+@using WebClient.Data
 @inject NavigationManager NavigationManager
+@inject IMenusService MenuWebService
 <h3>AddMenus</h3>
-<div class="text-center">
-    <div class="card-body">
-            <div class="form-group">
-                <label>Name</label>
-                <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
-            </div>
+ <EditForm Model="newMenu" OnValidSubmit="CreateMenu" class="text-center">
+ <div class="text-center">
+     <div class="card-body">
+         <div class="form-group">
+             <label>Name</label>
+             <input class="form-control" type="text" placeholder="Name" @bind-value="@newMenu.Name"/>
+         </div>
 
-            <div class="form-group">
-                <label>Type</label>
-                <input class="form-control" type="text" placeholder="Type" @bind-value="Type"/>
-            </div>
+         <div class="form-group">
+             <label>Type</label>
+             <input class="form-control" type="text" placeholder="Type" @bind-value="@newMenu.Type"/>
+         </div>
 
-            <div class="form-group">
-                <label>Description</label>
-                <input class="form-control" type="text" placeholder="Description" @bind-value="Description"/>
-            </div>
+         <div class="form-group">
+             <label>Description</label>
+             <input class="form-control" type="text" placeholder="Description" @bind-value="@newMenu.Description"/>
+         </div>
 
-        <div class="form-group">
-            <label>Price</label>
-            <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
-        </div>
-        
+         <div class="form-group">
+             <label>Price</label>
+             <input class="form-control" type="text" placeholder="Price" @bind-value="@newMenu.Price"/>
+         </div>
+     </div>
+
+
        
-            <p>Menus</p>
-        </div>
-    
-    <p>Name:@Name</p>
-    <p>Type: @Type</p>
-    <p>Description: @Description</p>
-    <p>Price: @Price</p>
-
-    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
-    <button class=" btn btn-primary mr-1" @onclick="Save">Save</button>
+     <p>Menus</p>
 
 
-</div>
+     <p>Name:@newMenu.Name</p>
+     <p>Type: @newMenu.Type</p>
+     <p>Description: @newMenu.Description</p>
+     <p>Price: @newMenu.Price</p>
+
+     <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+     <button class=" btn btn-primary mr-1" @onclick="Save">Save</button>
+
+ </div>
+  </EditForm>
+ 
+  
 @code {
+
     [Parameter]
     public int Id { get; set; }
 
     private AddMenus addMenus;
-  
-    
+    private Menu newMenu = new Menu();
+    private string errorMessage;
+    private string ErrorMessage;
     private string Name;
-    private double Price;
     private string Type;
+    private decimal Price;
     private string Description;
-    
+
     protected override async Task OnInitializedAsync()
     {
         addMenus = Seed();
@@ -59,15 +69,32 @@
     {
         return addMenus;
     }
+
     private void Back()
     {
         NavigationManager.NavigateTo("/ViewMenus");
     }
 
+    private async Task CreateMenu()
+    {
+        try
+        {
+            newMenu = await MenusWebService.CreateMenu(newMenu);
+
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+
+        }
+    }
+
+    
 
     private void Save()
     {
         NavigationManager.NavigateTo("/AllMenus");
     }
 
+  
 }

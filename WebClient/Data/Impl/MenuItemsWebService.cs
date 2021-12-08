@@ -23,7 +23,7 @@ namespace WebClient.Data.Impl
             };
         }
         
-        public async Task<IList<MenuItem>> GetMenuItems(int menuId)
+        public async Task<IList<MenuItem>> GetMenuItems( int menuId)
         {
             HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/menuItems/{menuId}");
             if (!response.IsSuccessStatusCode)
