@@ -26,12 +26,18 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<TableBooking> UpdateTableBookingAsync(TableBooking tableBooking)
         {
+          
+            
             var toUpdate = await context.TableBookings
                 .Include(tb => tb.Table)
                 .FirstAsync(tb => tb.TableBookingId == tableBooking.TableBookingId);
             toUpdate.Customer = tableBooking.Customer;
             toUpdate.Description = tableBooking.Description;
             toUpdate.People = tableBooking.People;
+            toUpdate.Table = await context.Tables
+                .Include(t=>t.TableBookings)
+                .FirstAsync(t => t.TableId == tableBooking.Table.TableId);
+
             context.Update(toUpdate);
             return toUpdate;
 
