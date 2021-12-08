@@ -8,6 +8,6 @@ public interface IAccountsService
 {
   Employee createEmployeeAccount(Employee employee);
   Customer createCustomerAccount(Customer customer);
-  Employee getEmployeeAccount(String email, String password);
-  Customer getCustomerAccount(String email, String password);
+  Employee getEmployeeAccount(String email, String password) throws Exception;
+  Customer getCustomerAccount(String email, String password) throws Exception;
 }

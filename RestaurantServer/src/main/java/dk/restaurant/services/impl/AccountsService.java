@@ -28,35 +28,59 @@ public class AccountsService implements IAccountsService
 
   @Override public Employee getEmployeeAccount(String email, String password)
   {
-    Employee employee = client.getEmployeeAccount(email);
+    Employee employee = new Employee();
+    try
+    {
+      employee = client.getEmployeeAccount(email);
+      validateEmployee(employee, password);
+    } catch (Exception e)
+    {
+      throw e;
+    }
+    return employee;
+  }
 
-    if (employee == null) {
-      throw new NullPointerException("User not found");
+  private void validateEmployee(Employee employee, String password)
+  {
+    if (employee == null)
+    {
+      throw new IllegalArgumentException("User not found");
     }
     else
     {
-      if (employee.getPassword().equals(password))
+      if (!employee.getPassword().equals(password))
       {
-        return employee;
+        throw new IllegalArgumentException("Incorrect password");
       }
     }
-    return null;
   }
 
   @Override public Customer getCustomerAccount(String email, String password)
   {
-    Customer customer = client.getCustomerAccount(email);
+    Customer customer = new Customer();
+    try
+    {
+      customer = client.getCustomerAccount(email);
+      validateEmployee(customer, password);
+    } catch (Exception e)
+    {
+      throw e;
+    }
+    return customer;
+  }
 
-    if (customer == null) {
-      throw new NullPointerException("User not found");
+  private void validateEmployee(Customer customer, String password)
+  {
+    if (customer == null)
+    {
+      throw new IllegalArgumentException("User not found");
     }
     else
     {
-      if (customer.getPassword().equals(password))
+      if (!customer.getPassword().equals(password))
       {
-        return customer;
+        throw new IllegalArgumentException("Incorrect password");
       }
     }
-    return null;
   }
 }

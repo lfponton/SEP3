@@ -3,9 +3,11 @@ package dk.restaurant.controllers;
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Employee;
 import dk.restaurant.models.Person;
+import dk.restaurant.models.TableBooking;
 import dk.restaurant.services.IAccountsService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController public class AccountsController
@@ -17,18 +19,20 @@ import org.springframework.web.bind.annotation.*;
     this.service = serviceFactory.getAccountsService();
   }
 
-  @GetMapping("/accounts/employees") public Employee getEmployeeAccount(
+  @GetMapping("/accounts/employees") public ResponseEntity<Employee> getEmployeeAccount(
       @RequestParam(value = "email") String email,
-      @RequestParam(value = "password") String password)
+      @RequestParam(value = "password") String password) throws Exception
   {
-    return service.getEmployeeAccount(email, password);
+    Employee employee = service.getEmployeeAccount(email, password);
+    return new ResponseEntity<Employee>(employee, HttpStatus.OK);
   }
 
-  @GetMapping("/accounts/customers") public Customer getCustomerAccount(
+  @GetMapping("/accounts/customers") public ResponseEntity<Customer> getCustomerAccount(
       @RequestParam(value = "email") String email,
-      @RequestParam(value = "password") String password)
+      @RequestParam(value = "password") String password) throws Exception
   {
-    return service.getCustomerAccount(email, password);
+    Customer customer = service.getCustomerAccount(email, password);
+    return new ResponseEntity<Customer>(customer, HttpStatus.OK);
   }
 
   @PostMapping("/accounts/employees") @ResponseStatus(HttpStatus.CREATED) public Employee createEmployeeAccount(
