@@ -47,7 +47,7 @@ namespace DataServer.Network
             int menuId = Int32.Parse(args);
             return  JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.ReadMenuItemsAsync(menuId), options);
         }
-        private async Task<string> CreateMenuItem(string args)
+        private async Task<string> CreateMenuAsync(string args)
         {
             MenuItem menuItem = JsonSerializer.Deserialize<MenuItem>(args, options);
             string jsonMenu = JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.CreateMenuItemAsync(menuItem), options);
