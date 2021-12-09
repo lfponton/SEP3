@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">WebClient</a>
+    <a class="navbar-brand" href="">Fancy Restaurant</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,42 +7,66 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/TakeAway">
-                <span class="oi oi-plus" aria-hidden="true"></span> Take Away
-            </NavLink>
-        </li>
-          <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="/BookATable">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Book a Table
+        <AuthorizeView>
+            <NotAuthorized>
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            </NotAuthorized>
+        </AuthorizeView>
+        <AuthorizeView Policy="Customer">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/TakeAway">
+                    <span aria-hidden="true"></span> Take Away
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/BookATable">
+                    <span aria-hidden="true"></span> Book a Table
+                </NavLink>
+            </li>
+        </AuthorizeView>
+        <AuthorizeView Policy="Employee">
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/ManageBookings">
+                    <span aria-hidden="true"></span>Bookings
+                </NavLink>
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/ManageOrders">
+                    <span aria-hidden="true"></span>Orders
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/ManageMenus">
+                    <span aria-hidden="true"></span>Menus
+                </NavLink>
+            </li>
+        </AuthorizeView>
+        <AuthorizeView>
+            <NotAuthorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="/login">
+                        <span aria-hidden="true"></span> Login
                     </NavLink>
                 </li>
-        
-        <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="/OrderInformation">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Order Information
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="/Register">
+                        <span aria-hidden="true"></span> Register
                     </NavLink>
                 </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/login">
-                <span class="oi oi-plus" aria-hidden="true"></span> Login
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/Register">
-                <span class="oi oi-plus" aria-hidden="true"></span> Register
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
+                <li class="nav-item px-3">
                     <NavLink class="nav-link" href="/Account">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Account Page
+                        <span aria-hidden="true"></span> Account Page
                     </NavLink>
                 </li>
+            </NotAuthorized>
+        </AuthorizeView>
     </ul>
 </div>
 
