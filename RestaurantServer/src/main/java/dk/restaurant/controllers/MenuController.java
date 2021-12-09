@@ -32,9 +32,9 @@ public class MenuController {
 
     @GetMapping
     @RequestMapping(method = RequestMethod.GET)
-    public List<Menu> getMenus(@RequestParam(value="menuId", required = true) int menuId)
+    public List<Menu> getMenus()
     {
-        return service.getMenus(menuId);
+        return service.getMenus();
     }
 
 

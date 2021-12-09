@@ -43,10 +43,10 @@ namespace WebClient
             
             services.AddAuthorization(options => {
                 options.AddPolicy("Employee",  a => 
-                    a.RequireAuthenticatedUser().RequireClaim(ClaimTypes.Role, Role.Employee.ToString()));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", Role.Employee.ToString()));
             
                 options.AddPolicy("Customer",  a => 
-                    a.RequireAuthenticatedUser().RequireClaim(ClaimTypes.Role, Role.Customer.ToString()));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", Role.Customer.ToString()));
 
             });
             

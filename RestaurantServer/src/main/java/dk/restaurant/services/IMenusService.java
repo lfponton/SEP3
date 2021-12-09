@@ -8,4 +8,5 @@ public interface IMenusService
 {
   List<Menu> getMenus(int name);
   Menu createMenu(Menu menu);
+  List<Menu> getMenus();
 }

@@ -24,4 +24,9 @@ public class MenusService implements IMenusService
   {
     return client.createMenu(menu);
   }
+
+  @Override public List<Menu> getMenus()
+  {
+    return client.getMenus();
+  }
 }
