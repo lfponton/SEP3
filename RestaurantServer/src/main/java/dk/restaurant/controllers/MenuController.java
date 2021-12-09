@@ -1,6 +1,7 @@
 
 package dk.restaurant.controllers;
 
+import dk.restaurant.models.Customer;
 import dk.restaurant.models.Menu;
 import dk.restaurant.models.Order;
 import dk.restaurant.network.IClientFactory;
@@ -8,6 +9,7 @@ import dk.restaurant.network.IMenusClient;
 import dk.restaurant.services.IMenusService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,9 +34,10 @@ public class MenuController {
 
     @GetMapping
     @RequestMapping(method = RequestMethod.GET)
-    public List<Menu> getMenus()
+    public ResponseEntity<List<Menu>> getMenus()
     {
-        return service.getMenus();
+        List<Menu> menus = service.getMenus();
+        return new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
     }
 
 
