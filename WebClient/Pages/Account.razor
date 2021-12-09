@@ -1,15 +1,10 @@
 ﻿@page "/Account"
 @using WebClient.Models
-@using WebClient.Data
-@using System.ComponentModel.DataAnnotations
-@using DataServer.DataAccess
-@using WebClient.Data.Impl
-@using Customer = DataServer.Models.Customer
 @inject NavigationManager NavMng;
 @inject IAccountService AccountService;
 
 <h3>Account</h3>
- <AuthorizeView Policy="Customer" Context="customerContext">
+ <AuthorizeView Policy="Customer" Context="customerAuthContext">
         <Authorized>
         <EditForm Model="@customerToEdit" OnValidSubmit="@SaveCustomer">
             <DataAnnotationsValidator/>
@@ -54,7 +49,7 @@
         </EditForm>
          </Authorized>
             </AuthorizeView>
- <AuthorizeView Policy="Employee" Context="employeeContext">
+ <AuthorizeView Policy="Employee" Context="employeeAuthContext">
         <Authorized>
         <EditForm Model="@employeeToEdit" OnValidSubmit="@SaveEmployee">
             <DataAnnotationsValidator/>
@@ -101,14 +96,14 @@
             </AuthorizeView>
 
 @code {
-    private Models.Customer customerToEdit;
+    private Customer customerToEdit;
     private Employee employeeToEdit;
     private static string error = "";
 
     protected override async Task OnInitializedAsync()
     {
-
-
+        customerToEdit = new Customer();
+        employeeToEdit = new Employee();
     }
 
     private  async Task SaveCustomer()
