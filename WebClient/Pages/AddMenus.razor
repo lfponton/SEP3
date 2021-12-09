@@ -3,7 +3,7 @@
 @using WebClient.Data.Impl
 @using WebClient.Data
 @inject NavigationManager NavigationManager
-@inject IMenusService MenuWebService
+@inject IMenusService MenusWebService
 <h3>AddMenus</h3>
  <EditForm Model="newMenu" OnValidSubmit="CreateMenu" class="text-center">
  <div class="text-center">
@@ -81,7 +81,7 @@
     {
         try
         {
-            newMenu = await MenusWebService.CreateMenu(newMenu);
+            newMenu = await MenusWebService.CreateMenuAsync(newMenu);
 
         }
         catch (Exception e)
@@ -95,7 +95,7 @@
 
     private async Task Save()
     {
-       newMenu = await MenuWebService.CreateMenuAsync(newMenu);
+       newMenu = await MenusWebService.CreateMenuAsync(newMenu);
         NavigationManager.NavigateTo("/AllMenus");
     }
 

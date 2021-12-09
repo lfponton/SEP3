@@ -45,7 +45,7 @@ public class MenuController {
         return service.getMenus();
     }*/
 
-    @PostMapping("/menus")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Menu createMenu(@RequestBody Menu menu)
     {
