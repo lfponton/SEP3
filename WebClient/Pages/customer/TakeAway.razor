@@ -18,9 +18,10 @@
             <h3>Hello @context.User.Identity.Name</h3>
             <div class="d-flex justify-content-center align-items-center">
                 <RadzenCard Style="margin-bottom: 2%; height:15%;">
-                    <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", @price)</b>
+                    <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", price)</b>
                 </RadzenCard>
             </div>
+            <p>Receive a 10% discount for orders worth more than @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", 1000)</p>
             @if (menus == null)
             {
                 <p>No menus to show.</p>
@@ -70,7 +71,7 @@
                 }
                 <div class="d-flex justify-content-center align-items-center">
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">
-                        <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", @price)</b>
+                        <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", price)</b>
                     </RadzenCard>
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
@@ -107,6 +108,10 @@
                 <div class="text-center">
                     <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 2%" @onclick="Clear">Clear Order</button>
                 </div>
+                @if (price > 1000)
+                {
+                    <p>You will receive a 10% discount for this order.</p>
+                }
                 <div class="text-center">
                     <div style="color:red">@errorMessage</div>
                     <button class="btn btn-success" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
