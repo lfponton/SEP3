@@ -35,7 +35,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<IList<Order>> GetOrdersAsync(string status)
         {
-            return await context.Orders.Where(o => o.Status == status).ToListAsync();
+            return await context.Orders.Where(o => o.Status == status).Include(o => o.Customer).ToListAsync();
         }
 
         public async Task<Order> UpdateOrderAsync(Order order)
