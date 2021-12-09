@@ -12,11 +12,13 @@ import java.util.List;
 public class OrdersService implements IOrdersService
 {
   private IOrdersClient client;
-  private BigDecimal discount;
+  private BigDecimal tenPercentDiscount;
+  private BigDecimal fiftyPercentDiscount;
 
   public OrdersService(IClientFactory clientFactory) {
     this.client = clientFactory.getOrdersClient();
-    discount = new BigDecimal("0.9");
+    tenPercentDiscount = new BigDecimal("0.9");
+    fiftyPercentDiscount = new BigDecimal("0.5");
   }
 
   @Override public List<Order> getOrders(String status)
@@ -28,6 +30,7 @@ public class OrdersService implements IOrdersService
   {
     Order newOrder = new Order();
     checkForOrderPriceDiscount(order);
+    checkCustomerNumberOfOrders(order.getCustomer().getId(), order);
     try {
       newOrder = client.createOrder(order);
       checkMenusAmount(newOrder);
@@ -38,14 +41,29 @@ public class OrdersService implements IOrdersService
     return newOrder;
   }
 
+  private void checkCustomerNumberOfOrders(long customerId, Order newOrder)
+  {
+    int numberOfOrders = client.getCustomerOrders(customerId);
+    if (numberOfOrders % 10 == 0)
+    {
+      calculateDiscount(newOrder, fiftyPercentDiscount);
+    }
+  }
+
   private void checkForOrderPriceDiscount(Order newOrder)
   {
     if (newOrder.getStatus().equals("ordering") &&
         newOrder.getPrice().compareTo(new BigDecimal(1000)) > 0)
     {
-      BigDecimal discountedPrice = newOrder.getPrice().multiply(discount);
-      newOrder.setPrice(discountedPrice);
+      calculateDiscount(newOrder, tenPercentDiscount);
     }
+  }
+
+  private void calculateDiscount(Order newOrder, BigDecimal discount)
+  {
+    BigDecimal discountedPrice = newOrder.getPrice().multiply(
+        tenPercentDiscount);
+    newOrder.setPrice(discountedPrice);
   }
 
   private void checkMenusAmount(Order newOrder)

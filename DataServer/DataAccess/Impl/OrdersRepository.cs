@@ -11,15 +11,18 @@ namespace DataServer.DataAccess.Impl
     public class OrdersRepository : IOrdersRepository
     {
         private RestaurantDbContext context;
+
         public OrdersRepository(RestaurantDbContext context)
         {
             this.context = context;
         }
+
         public async Task<Order> CreateOrderAsync(Order order)
         {
             if (order.Customer != null)
             {
-                Customer customer = await context.Customers.FirstOrDefaultAsync(c => c.Email.Equals(order.Customer.Email));
+                Customer customer =
+                    await context.Customers.FirstOrDefaultAsync(c => c.Email.Equals(order.Customer.Email));
                 order.Customer = customer;
             }
 
@@ -27,7 +30,7 @@ namespace DataServer.DataAccess.Impl
             {
                 item.Menu = null;
             }
-            
+
             await context.Orders.AddAsync(order);
             await context.SaveChangesAsync();
             return order;
@@ -72,7 +75,12 @@ namespace DataServer.DataAccess.Impl
                 .ThenInclude(item => item.Menu)
                 .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
-        
-        
+
+        public async Task<int> GetCustomerOrders(long customerId)
+        {
+            List<Order> orders = await context.Orders.Where(o => o.Customer.Id == customerId)
+                .Where(o => o.Status.Equals("completed")).ToListAsync();
+            return orders.Count;
+        }
     }
 }

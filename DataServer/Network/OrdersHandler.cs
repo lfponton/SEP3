@@ -42,6 +42,8 @@ namespace DataServer.Network
                     return await CreateOrder(args);
                 case "updateOrder":
                     return await UpdateOrderAsync(args);
+                case "getCustomerOrders":
+                    return await GetCustomerOrders(args);
                 case "createOrderItem":
                     return await CreateOrderItem(args);
 
@@ -53,6 +55,12 @@ namespace DataServer.Network
                 default:
                     return "";
             }
+        }
+
+        private async Task<string> GetCustomerOrders(string args)
+        {
+            long customerId = Int64.Parse(args);
+            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetCustomerOrders(customerId), optionsWithoutConverter);
         }
 
         private async Task<string> UpdateOrderAsync(string args)
