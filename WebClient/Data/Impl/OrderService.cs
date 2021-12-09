@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebClient.Data.validationhandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
@@ -34,7 +35,9 @@ namespace WebClient.Data.Impl
                 Order resultOrder = JsonSerializer.Deserialize<Order>(orderAsJsonResponse, options);
                 return resultOrder;
             }
-            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+            throw new Exception($"{exceptionResponse.Message}");
         }
 
         public async Task<List<Order>> GetOrdersAsync(string? status)
