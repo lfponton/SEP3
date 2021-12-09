@@ -5,7 +5,10 @@
 @inject ITableBookingService tableBookingService
 @using MatBlazor
 
+
+
 <h3>All Bookings</h3>
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 
 
 @if (tableBookings == null)
@@ -62,7 +65,8 @@ else
         }
         </tbody>
         
-            </table>
+    </table>
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 
 @code {
     private List<TableBooking> tableBookings = new List<TableBooking>();
@@ -81,6 +85,10 @@ else
         filterDate = filterDate.AddDays(1).ToLocalTime();
         tableBookingsDisplay = await tableBookingService.GetBookings(filterDate);
         tableBookingsDisplay = tableBookingsDisplay.Where(tb => tb.BookingDateTime == filterDate).ToList();
+    }
+    private void Back()
+    {
+        navigationManager.NavigateTo("/ManageBookings");
     }
 
 }

@@ -3,6 +3,7 @@
 @using WebClient.Data
 @using MatBlazor
 @inject ITableBookingService tableBookingService
+@inject NavigationManager navigationManager
 <h3>Editing booking No. @tableBooking.TableBookingId</h3>
 <h4>@confirmationMessage</h4>
 
@@ -17,12 +18,12 @@ else
         <ValidationSummary/>
         <div class="form-group">
             Table:<br/>
-            <InputNumber @bind-Value="@tableBooking.Table.TableId"/>
+            <InputNumber Min="0" Max="10" @bind-Value="@tableBooking.Table.TableId"/>
         </div>
         <div class="form-group">
-                    People:<br/>
-                    <InputNumber @bind-Value="@tableBooking.People"/>
-                </div>
+            People:<br/>
+            <InputNumber @bind-Value="@tableBooking.People"/>
+        </div>
         <div class="form-group">
             Date:<br/>
             <MatDatePicker @bind-Value="@tableBooking.BookingDateTime" EnableTime="true" Enable24hours="true" Style="height: inherit"></MatDatePicker>
@@ -31,6 +32,7 @@ else
             <button class="btn btn-outline-dark" type="submit">Edit</button>
         </p>
     </EditForm>
+    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 }
 @code {
     [Parameter]
@@ -56,6 +58,11 @@ else
         {
             confirmationMessage=e.Message;
         }
+    }
+    
+    private void Back()
+    {
+        navigationManager.NavigateTo("/ManageBookings");
     }
 
 }
