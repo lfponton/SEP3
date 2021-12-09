@@ -27,7 +27,18 @@ public class TableBookingService implements ITableBookingService {
 
     @Override
     public TableBooking updateTableBooking(TableBooking tableBooking) {
-        return client.updateTableBooking(tableBooking);
+        TableBooking tableBooking1 = tableBooking;
+
+        try{
+            validateBooking(tableBooking);
+           tableBooking1= client.updateTableBooking(tableBooking);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        return tableBooking1;
+
     }
 
     @Override
