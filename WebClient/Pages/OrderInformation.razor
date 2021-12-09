@@ -3,14 +3,13 @@
 @inject NavigationManager NavigationManager
 @using WebClient.Data
 @inject IOrderItemsService OrderItemService
-@using MatBlazor
 @inject IOrderService OrderService
 @inject NotificationService NotificationService
 
 <div class="text-center">
     <h3>Order Information</h3>
 
-    <p style="margin-bottom: 2%; margin-top: 2%">Review your order. If you want to proceed to payment press "Place Order" else go back.</p>
+    <p style="margin-bottom: 2%; margin-top: 2%">Please, review your order:</p>
 
     @if (order == null)
     {
@@ -27,8 +26,6 @@
                 <th>Menu Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
-                <th>Remove</th>
-
             </tr>
             </thead>
             <tbody>
@@ -38,11 +35,6 @@
                     <td>@item.Menu.Name</td>
                     <td>@item.Quantity</td>
                     <td>@item.Menu.Price</td>
-                    <td>
-                        <button @onclick="@(() => DeleteOrderItem(item))">
-                            <i class="oi oi-trash" style="color:red"/>
-                        </button>
-                    </td>
                 </tr>
             }
             </tbody>
@@ -100,27 +92,7 @@
                 </div>
             </div>
         </EditForm>
-
-
-        <!--
-        <p>
-            <MatSelectItem @bind-Value="@value1" Items="@value1Items"></MatSelectItem>
-        </p>
-        <p>
-            Payment method: @value1
-        </p>
-
-        <br/>
-
-        <div class="alert">
-            <span class="oi oi-cart me-2" aria-hidden="true"></span>
-
-
-            <span class="text-nowrap">
-                <a target="_blank" class="font-weight-bold link-dark" href="/OrderConfirmation">Place Order</a>
-            </span>
-        </div>
-        -->
+        
         <div class="text-center" style="margin-top: 2%; margin-bottom: 5%">
             <button class="btn btn-success" @onclick="PlaceOrder">Place Order</button>
             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
@@ -156,7 +128,6 @@
     private void AddNewAddress()
     {
         order.DeliveryAddress = deliveryAddress;
-        Console.WriteLine(deliveryAddress);
     }
 
     private async Task PlaceOrder()
@@ -175,24 +146,5 @@
     {
         NavigationManager.NavigateTo("/TakeAway");
     }
-
-    
-
-
-    private async Task DeleteOrderItem(OrderItem orderItem)
-    {
-        await OrderItemService.DeleteOrderItem(orderItem);
-    }
-
-    
-
-    string value1 = "Credit card";
-
-    string[] value1Items = new[]
-    {
-        "Credit card",
-        "MobilPay",
-        "Cash",
-    };
 
 }

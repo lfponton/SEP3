@@ -80,7 +80,6 @@
     protected override async Task OnInitializedAsync()
     {
         order = await OrderService.GetOrderAsync(Id);
-        Console.WriteLine(order.ToString());
         orderType = order.IsDelivery ? "Delivery" : "Pick Up";
     }
 
