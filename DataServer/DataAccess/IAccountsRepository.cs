@@ -10,5 +10,8 @@ namespace DataServer.DataAccess
         Task<Employee> GetEmployeeAccountAsync(string email);
 
         Task UpdateCustomerAsync(Customer customer);
+        Task UpdateEmployeeAsync(Employee employee);
+        Task DeleteCustomer(long id);
+        Task DeleteEmployee(long id);
     }
 }

@@ -6,54 +6,103 @@
 @using WebClient.Data.Impl
 @using Customer = DataServer.Models.Customer
 @inject NavigationManager NavMng;
-@inject IAccountService service;
+@inject IAccountService AccountService;
 
 <h3>Account</h3>
-<EditForm Model="@customerToEdit" OnValidSubmit="@Save">
-<DataAnnotationsValidator/>
-<ValidationSummary/>
-<div class="container text-center">
-<div class="card text-center py-3">
-<div class="row">
-<div class="offset-md-3 col-md-3 text-center">
-<div class="mb-5 mt-4">
-    <label>First Name:</label>
-    <div class="form-group">
-        <InputText @bind-Value="customerToEdit.FirstName"/>
-    </div>
-</div><div class="mb-5">
-    <label>Last Name:</label>
-    <div class="form-group">
-        <InputText @bind-Value="customerToEdit.LastName"/>
-    </div>
-</div>
-<div class="mb-5">
-    <label>Email:</label>
-    <div class="form-group">
-        <InputText @bind-Value="customerToEdit.Email"/>
-    </div>
-</div>
-<div class="mb-5">
-                              <label>Password:</label>
-                              <div class="form-group">
-                                  <InputText @bind-Value="customerToEdit.Password"/>
-                              </div>
-                          </div>
-<div class="col-md-3"></div>
-    <p class="actions mx-auto">
-        <button class="btn btn-outline-dark" type="submit" @onclick="Save">Save</button>
-    </p>
-    <p class="actions mx-auto">
-        <button class="btn btn-outline-dark" type="submit" @onclick="Delete">delete</button>
-    </p>
-<label style="color: red">@error</label>
-</div>
-</div></div></div>
-</EditForm>
-
+ <AuthorizeView Policy="Customer">
+        <Authorized>
+        <EditForm Model="@customerToEdit" OnValidSubmit="@SaveCustomer">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="container text-center">
+                <div class="card text-center py-3">
+                    <div class="row">
+                        <div class="offset-md-3 col-md-3 text-center">
+                            <div class="mb-5 mt-4">
+                                <label>First Name:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="customerToEdit.FirstName"/>
+                                </div>
+                            </div><div class="mb-5">
+                                <label>Last Name:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="customerToEdit.LastName"/>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <label>Email:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="customerToEdit.Email"/>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <label>Password:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="customerToEdit.Password"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <p class="actions mx-auto">
+                                <button class="btn btn-outline-dark" type="submit" @onclick="SaveCustomer">Save</button>
+                            </p>
+                            <p class="actions mx-auto">
+                                <button class="btn btn-outline-dark" type="submit" @onclick="DeleteCustomer">delete</button>
+                            </p>
+                            <label style="color: red">@error</label>
+                        </div>
+                    </div></div></div>
+        </EditForm>
+         </Authorized>
+            </AuthorizeView>
+ <AuthorizeView Policy="Employee">
+        <Authorized>
+        <EditForm Model="@employeeToEdit" OnValidSubmit="@SaveEmployee">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="container text-center">
+                <div class="card text-center py-3">
+                    <div class="row">
+                        <div class="offset-md-3 col-md-3 text-center">
+                            <div class="mb-5 mt-4">
+                                <label>First Name:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="employeeToEdit.FirstName"/>
+                                </div>
+                            </div><div class="mb-5">
+                                <label>Last Name:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="employeeToEdit.LastName"/>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <label>Email:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="employeeToEdit.Email"/>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <label>Password:</label>
+                                <div class="form-group">
+                                    <InputText @bind-Value="employeeToEdit.Password"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <p class="actions mx-auto">
+                                <button class="btn btn-outline-dark" type="submit" @onclick="SaveEmployee">Save</button>
+                            </p>
+                            <p class="actions mx-auto">
+                                <button class="btn btn-outline-dark" type="submit" @onclick="DeleteEmployee">delete</button>
+                            </p>
+                            <label style="color: red">@error</label>
+                        </div>
+                    </div></div></div>
+        </EditForm>
+         </Authorized>
+            </AuthorizeView>
 
 @code {
     private Models.Customer customerToEdit;
+    private Employee employeeToEdit;
     private static string error = "";
 
     protected override async Task OnInitializedAsync()
@@ -62,14 +111,24 @@
 
     }
 
-    private  async Task Save()
+    private  async Task SaveCustomer()
     {
-        await service.UpdateCustomerAsync(customerToEdit);
+        await AccountService.UpdateCustomerAsync(customerToEdit);
         NavMng.NavigateTo("/");
     }
-    private  async Task Delete()
+    private  async Task DeleteCustomer()
     {
-        await service.DeleteCustomer(customerToEdit.Id);
+        await AccountService.DeleteCustomer(customerToEdit.Id);
+        NavMng.NavigateTo("/");
+    }
+    private  async Task SaveEmployee()
+    {
+        await AccountService.UpdateEmployeeAsync(employeeToEdit);
+        NavMng.NavigateTo("/");
+    }
+    private  async Task DeleteEmployee()
+    {
+        await AccountService.DeleteEmployee(employeeToEdit.Id);
         NavMng.NavigateTo("/");
     }
 

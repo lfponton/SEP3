@@ -8,8 +8,8 @@ using WebClient.Models;
 
 namespace WebClient.Data.Impl {
     public class AccountWebService : IAccountService{
-        private string uri = "http://localhost:8080";
-        private readonly HttpClient client;
+        private static string uri = "http://localhost:8080";
+        private static readonly HttpClient client;
         private JsonSerializerOptions options;
 
         private IAccountService accountServiceImplementation;
@@ -21,6 +21,23 @@ namespace WebClient.Data.Impl {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
+
+        //Get methods 
+        public async Task<T> GetAsync<T>(string email, string password) {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage responseMessage = await client.GetAsync($"{uri}/Customer?email={email}&password={password}");
+            string result = await responseMessage.Content.ReadAsStringAsync();
+            
+            if (!responseMessage.IsSuccessStatusCode)
+                throw new Exception(result);
+
+            T item = JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            return item;
+        }
+        
+        
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
@@ -81,22 +98,63 @@ namespace WebClient.Data.Impl {
             return customer;
         }
 
-        public async Task UpdateCustomerAsync(Customer customer)
+
+        //Post methods
+        
+        public async Task PostAsync<T>(T customer) {
+            using HttpClient client = new HttpClient();
+
+            string itemAsJson = JsonSerializer.Serialize(customer);
+            StringContent content = new StringContent(
+                itemAsJson, Encoding.UTF8, "application/Json");
+            HttpResponseMessage responseMessage = await client.PostAsync($"{uri}/accounts/customers", content);
+            string result = await responseMessage.Content.ReadAsStringAsync();
+            
+            if (!responseMessage.IsSuccessStatusCode)
+                throw new Exception(result);
+
+            T newItem = JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            }); 
+           // return newItem;
+        }
+
+        
+
+        public  async Task UpdateCustomerAsync(Customer customer)
         {
             string tbAsJson = JsonSerializer.Serialize(customer);
             HttpContent content = new StringContent(tbAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PatchAsync($"{uri}//Customer", content);
+            HttpResponseMessage response = await client.PatchAsync($"{uri}/accounts/customers", content);
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
             customer = JsonSerializer.Deserialize<Customer>(result);
         }
 
-        public async Task DeleteCustomer(long id)
+        public  async Task DeleteCustomer(long id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
-                    $"{uri}/Customer/{id}");
+                    $"{uri}/accounts/customers/{id}");
                 if(!response.IsSuccessStatusCode)
                     throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             }
+        public  async Task UpdateEmployeeAsync(Employee employee)
+        {
+            string tbAsJson = JsonSerializer.Serialize(employee);
+            HttpContent content = new StringContent(tbAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PatchAsync($"{uri}/accounts/employees", content);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            employee = JsonSerializer.Deserialize<Employee>(result);
+        }
+
+        public  async Task DeleteEmployee(long id)
+        {
+            HttpResponseMessage response = await client.DeleteAsync(
+                $"{uri}/accounts/employees/{id}");
+            if(!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+        }
     }}

@@ -25,6 +25,15 @@ namespace DataServer.DataAccess.Impl
             toUpdate.Password = customer.Password;
             context.Update(toUpdate);
         }
+        public async Task UpdateEmployeeAsync(Employee employee)
+        {
+            Employee toUpdate = await context.Employees.FirstAsync(c => c.Email == employee.Email);
+            toUpdate.Email = employee.Email;
+            toUpdate.FirstName = employee.FirstName;
+            toUpdate.LastName = employee.LastName;
+            toUpdate.Password = employee.Password;
+            context.Update(toUpdate);
+        }
 
         public async Task DeleteCustomer(long id)
         {
@@ -32,6 +41,14 @@ namespace DataServer.DataAccess.Impl
             if (toRemove != null)
             {
                 context.Customers.Remove(toRemove);
+            }
+        }
+        public async Task DeleteEmployee(long id)
+        {
+            Employee toRemove = await context.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            if (toRemove != null)
+            {
+                context.Employees.Remove(toRemove);
             }
         }
 
