@@ -10,7 +10,12 @@
 <h3>All Bookings</h3>
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 
-
+<AuthorizeView>
+    <NotAuthorized>
+        <h3>Please, login.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+<AuthorizeView Policy="Employee" Context="eContext">
 @if (tableBookings == null)
 {
     <button class="btn btn-primary" type="button" disabled>
@@ -21,10 +26,10 @@
 else
 {
     <EditForm Model="@filterDate" OnSubmit="FilterBookings">
-         <div class="form-group">
-             <MatDatePicker @bind-Value="@filterDate"  Style="height: inherit"></MatDatePicker>
-             <button class="btn btn-outline-dark" type="submit">Filter by day</button>
-             </div>
+        <div class="form-group">
+            <MatDatePicker @bind-Value="@filterDate" Style="height: inherit"></MatDatePicker>
+            <button class="btn btn-outline-dark" type="submit">Filter by day</button>
+        </div>
     </EditForm>
     <table class="table me-2">
         <thead>
@@ -41,7 +46,7 @@ else
         <tbody>
         @if (tableBookingsDisplay.Count.Equals(0))
         {
-            <b>Thes is no bookings for the specified date</b>   
+            <b>Thes is no bookings for the specified date</b>
         }
         @foreach (var booking in tableBookingsDisplay)
         {
@@ -64,9 +69,11 @@ else
 
         }
         </tbody>
-        
+
     </table>
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+}
+    </AuthorizeView>
 
 @code {
     private List<TableBooking> tableBookings = new List<TableBooking>();

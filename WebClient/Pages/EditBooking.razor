@@ -5,6 +5,12 @@
 @inject ITableBookingService tableBookingService
 @inject NavigationManager navigationManager
 <h3>Editing booking No. @tableBooking.TableBookingId</h3>
+<AuthorizeView Context="employeContext">
+    <NotAuthorized>
+        <h3>Please, login.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+<AuthorizeView Policy="Employee" Context="employeeContext">
 <h4>@confirmationMessage</h4>
 
 @if (@tableBooking == null)
@@ -34,6 +40,7 @@ else
     </EditForm>
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 }
+</AuthorizeView>
 @code {
     [Parameter]
     public long BookingId { get; set; }
