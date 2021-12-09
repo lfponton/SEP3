@@ -9,7 +9,7 @@
 @inject IAccountService AccountService;
 
 <h3>Account</h3>
- <AuthorizeView Policy="Customer">
+ <AuthorizeView Policy="Customer" Context="customerContext">
         <Authorized>
         <EditForm Model="@customerToEdit" OnValidSubmit="@SaveCustomer">
             <DataAnnotationsValidator/>
@@ -54,7 +54,7 @@
         </EditForm>
          </Authorized>
             </AuthorizeView>
- <AuthorizeView Policy="Employee">
+ <AuthorizeView Policy="Employee" Context="employeeContext">
         <Authorized>
         <EditForm Model="@employeeToEdit" OnValidSubmit="@SaveEmployee">
             <DataAnnotationsValidator/>
