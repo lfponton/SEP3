@@ -35,9 +35,6 @@
             else
             {
                 customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
-                string role = context.User.Claims.First(claim => claim.Type.Equals("Role")).Value;
-               
-
                 @foreach (var menu in menus)
                 {
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">

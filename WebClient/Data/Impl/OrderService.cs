@@ -53,7 +53,6 @@ namespace WebClient.Data.Impl
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
             Order order = JsonSerializer.Deserialize<Order>(result, options);
             return order;
         }

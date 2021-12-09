@@ -35,7 +35,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<IList<Order>> GetOrdersAsync(string status)
         {
-            return await context.Orders.Where(o => o.Status == status).ToListAsync();
+            return await context.Orders.Where(o => o.Status == status).Include(o => o.Customer).ToListAsync();
         }
 
         public async Task<Order> UpdateOrderAsync(Order order)
@@ -65,8 +65,10 @@ namespace DataServer.DataAccess.Impl
 
         public Task<Order> GetOrder(long orderId)
         {
-            return context.Orders.
-                Include(o => o.OrderItems)
+            return context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.DeliveryAddress)
+                .Include(o => o.OrderItems)
                 .ThenInclude(item => item.Menu)
                 .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
