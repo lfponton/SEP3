@@ -57,6 +57,7 @@ else
 }
 <div class="text-center">
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+<button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Refresh">Refresh Orders</button>
 </div>
 
 @code {
@@ -70,6 +71,11 @@ else
     private void ViewOrder(long orderId)
     {
         NavigationManager.NavigateTo($"ViewOrder/{orderId}");
+    }
+    
+    private async Task Refresh()
+    {
+        pendingOrders = await OrderService.GetOrdersAsync("pending");
     }
 
     private void Back()

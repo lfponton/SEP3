@@ -44,7 +44,7 @@
         {
             <p>The selected order has no ordered items</p>
         }
-        @if (false)
+        @if (order.IsDelivery)
         {
             <p>Delivery Address: </p>
             <p>@order.DeliveryAddress.ToString()</p>
@@ -80,7 +80,6 @@
     protected override async Task OnInitializedAsync()
     {
         order = await OrderService.GetOrderAsync(Id);
-        Console.WriteLine(order.ToString());
         orderType = order.IsDelivery ? "Delivery" : "Pick Up";
     }
 

@@ -18,9 +18,10 @@
             <h3>Hello @context.User.Identity.Name</h3>
             <div class="d-flex justify-content-center align-items-center">
                 <RadzenCard Style="margin-bottom: 2%; height:15%;">
-                    <b>Current Order Price: @price DKK</b>
+                    <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", price)</b>
                 </RadzenCard>
             </div>
+            <p>Receive a 10% discount for orders worth more than @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", 1000)</p>
             @if (menus == null)
             {
                 <p>No menus to show.</p>
@@ -35,9 +36,6 @@
             else
             {
                 customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
-                string role = context.User.Claims.First(claim => claim.Type.Equals("Role")).Value;
-               
-
                 @foreach (var menu in menus)
                 {
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">
@@ -57,7 +55,7 @@
                                 <div>Type:</div>
                                 <b>@menu.Type</b>
                                 <div style="margin-top:1%">Price:</div>
-                                <b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", menu.Price)</b>
+                                <b>@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", menu.Price)</b>
                                 <div style="margin-top:1%">Quantity: </div>
                                 <RadzenNumeric Style="width: 25%" TValue="int" Min="0" Change=@(args => OnSelectQuantity(args))></RadzenNumeric>
                                 <br/>
@@ -73,13 +71,51 @@
                 }
                 <div class="d-flex justify-content-center align-items-center">
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">
-                        <b>Current Order Price: @price DKK</b>
+                        <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", price)</b>
                     </RadzenCard>
                 </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    @if (!orderItems.Any())
+                    {
+                        <table class="table w-50">
+                            <thead>
+                            <th>Menu Name</th>
+                            <th>Quantity</th>
+                            </thead>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="table w-50">
+                            <thead>
+                            <tr>
+                                <th>Menu Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in orderItems)
+                            {
+                                <tr>
+                                    <td>@item.Menu.Name</td>
+                                    <td>@item.Quantity</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                </div>
                 <div class="text-center">
+                    <button class="btn btn-outline-dark" style="margin-top: 2%; margin-bottom: 2%" @onclick="Clear">Clear Order</button>
+                </div>
+                @if (price > 1000)
+                {
+                    <p>You will receive a 10% discount for this order.</p>
+                }
+                <div class="text-center">
+                    <div style="color:red">@errorMessage</div>
                     <button class="btn btn-success" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
                 </div>
-                
             }
         </Authorized>
     </AuthorizeView>
@@ -94,6 +130,7 @@
     private int quantity;
     private decimal price;
     private string customerEmail;
+    private string errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -107,7 +144,7 @@
             m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
         }
     }
-    
+
 
     private void OnSelectQuantity(dynamic value)
     {
@@ -146,17 +183,30 @@
         }
     }
 
+    private void Clear()
+    {
+        orderItems = new List<OrderItem>();
+    }
+    
     private async Task Next()
     {
         if (order.OrderItems.Any())
         {
-            order.Customer = new Customer {Email = customerEmail};
-            order.OrderDateTime = DateTime.Now;
-            order.Price = price;
-            order.Status = "ordering";
-            order.IsDelivery = true;
-            order = await OrderService.CreateOrder(order);
-            NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
+            errorMessage = "";
+            try
+            {
+                order.Customer = new Customer {Email = customerEmail};
+                order.OrderDateTime = DateTime.Now;
+                order.Price = price;
+                order.Status = "ordering";
+                order.IsDelivery = true;
+                order = await OrderService.CreateOrder(order);
+                NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+            }
         }
     }
 

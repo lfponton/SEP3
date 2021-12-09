@@ -34,7 +34,6 @@ namespace WebClient.Data.Impl
             };
             
             string orderItemAsJson = JsonSerializer.Serialize(orderItem, options);
-            Console.Write($"orderItemAsJson ------------------->{orderItemAsJson}");
             HttpContent content = new StringContent(orderItemAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(uri + "/orderItems", content);
             if (!response.IsSuccessStatusCode)
@@ -50,7 +49,6 @@ namespace WebClient.Data.Impl
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
             List<OrderItem> orderItems = JsonSerializer.Deserialize<List<OrderItem>>(result, options);
             return orderItems;        }
 

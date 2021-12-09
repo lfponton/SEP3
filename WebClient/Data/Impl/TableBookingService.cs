@@ -70,8 +70,13 @@ namespace WebClient.Data.Impl
             string tbAsJson = JsonSerializer.Serialize(tableBooking,options);
             HttpContent content = new StringContent(tbAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PatchAsync($"{uri}//tableBookings/{tableBooking.TableBookingId}", content);
-            if (!response.IsSuccessStatusCode)
-                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            if 
+                (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+                throw new Exception($"{exceptionResponse.Message}");
+            }
             string result = await response.Content.ReadAsStringAsync();
             var updatedBooking = JsonSerializer.Deserialize<TableBooking>(result, options);
             return updatedBooking;
