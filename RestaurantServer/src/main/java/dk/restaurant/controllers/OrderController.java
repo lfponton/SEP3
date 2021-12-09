@@ -1,17 +1,12 @@
 package dk.restaurant.controllers;
 
 import dk.restaurant.models.Order;
-import dk.restaurant.models.TableBooking;
-import dk.restaurant.network.IClientFactory;
-import dk.restaurant.network.IOrdersClient;
 import dk.restaurant.services.IOrdersService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -25,23 +20,26 @@ public class OrderController
   }
 
   @GetMapping(value = "/{orderId}")
-  public Order getOrder(@PathVariable("orderId") long orderId)
+  public ResponseEntity<Order> getOrder(@PathVariable("orderId") long orderId)
   {
-    return service.getOrder(orderId);
+    Order order = service.getOrder(orderId);
+    return new ResponseEntity<Order>(order, HttpStatus.OK);
   }
 
   @GetMapping
   @RequestMapping(method = RequestMethod.GET)
-  public List<Order> getOrders(@RequestParam(value="status", required = false) String status)
+  public ResponseEntity<List<Order>> getOrders(@RequestParam(value="status", required = false) String status)
   {
-    return service.getOrders(status);
+    List<Order> orders = service.getOrders(status);
+    return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Order createOrder(@RequestBody Order order)
+  public ResponseEntity<Order> createOrder(@RequestBody Order order)
   {
-    return service.createOrder(order);
+    Order newOrder = service.createOrder(order);
+    return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
   }
 
   @PatchMapping
