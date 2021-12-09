@@ -8,5 +8,7 @@ namespace DataServer.DataAccess
         Task<Person> CreateAccountAsync(Person person);
         Task<Customer> GetCustomerAccountAsync(string email);
         Task<Employee> GetEmployeeAccountAsync(string email);
+
+        Task UpdateCustomerAsync(Customer customer);
     }
 }

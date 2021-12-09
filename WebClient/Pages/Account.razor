@@ -64,12 +64,12 @@
 
     private  async Task Save()
     {
-        await AccountWebService.UpdateCustomerAsync(customerToEdit);
+        await service.UpdateCustomerAsync(customerToEdit);
         NavMng.NavigateTo("/");
     }
     private  async Task Delete()
     {
-        await AccountWebService.DeleteCustomer(customerToEdit.Id);
+        await service.DeleteCustomer(customerToEdit.Id);
         NavMng.NavigateTo("/");
     }
 

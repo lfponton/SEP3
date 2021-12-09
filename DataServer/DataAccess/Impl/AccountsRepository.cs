@@ -18,7 +18,7 @@ namespace DataServer.DataAccess.Impl
         }
         public async Task UpdateCustomerAsync(Customer customer)
         {
-            Customer toUpdate = await context.Customers.FirstAsync(c => c.Id == customer.Id);
+            Customer toUpdate = await context.Customers.FirstAsync(c => c.Email == customer.Email);
             toUpdate.Email = customer.Email;
             toUpdate.FirstName = customer.FirstName;
             toUpdate.LastName = customer.LastName;

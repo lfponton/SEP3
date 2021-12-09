@@ -8,8 +8,8 @@ using WebClient.Models;
 
 namespace WebClient.Data.Impl {
     public class AccountWebService : IAccountService{
-        private static string uri = "http://localhost:8080";
-        private static readonly HttpClient client;
+        private string uri = "http://localhost:8080";
+        private readonly HttpClient client;
         private JsonSerializerOptions options;
 
         private IAccountService accountServiceImplementation;
@@ -21,23 +21,6 @@ namespace WebClient.Data.Impl {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-
-        //Get methods 
-        public async Task<T> GetAsync<T>(string email, string password) {
-            using HttpClient client = new HttpClient();
-            HttpResponseMessage responseMessage = await client.GetAsync($"{uri}/Customer?email={email}&password={password}");
-            string result = await responseMessage.Content.ReadAsStringAsync();
-            
-            if (!responseMessage.IsSuccessStatusCode)
-                throw new Exception(result);
-
-            T item = JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-            return item;
-        }
-        
-        
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
@@ -98,39 +81,7 @@ namespace WebClient.Data.Impl {
             return customer;
         }
 
-
-        //Post methods
-        
-        public async Task PostAsync<T>(T customer) {
-            using HttpClient client = new HttpClient();
-
-            string itemAsJson = JsonSerializer.Serialize(customer);
-            StringContent content = new StringContent(
-                itemAsJson, Encoding.UTF8, "application/Json");
-            HttpResponseMessage responseMessage = await client.PostAsync($"{uri}/Customer", content);
-            string result = await responseMessage.Content.ReadAsStringAsync();
-            
-            if (!responseMessage.IsSuccessStatusCode)
-                throw new Exception(result);
-
-            T newItem = JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }); 
-           // return newItem;
-        }
-
-        Task IAccountService.UpdateCustomerAsync(Customer customer)
-        {
-            return accountServiceImplementation.UpdateCustomerAsync(customer);
-        }
-
-        Task IAccountService.DeleteCustomer(long id)
-        {
-            return accountServiceImplementation.DeleteCustomer(id);
-        }
-
-
-        public static async Task UpdateCustomerAsync(Customer customer)
+        public async Task UpdateCustomerAsync(Customer customer)
         {
             string tbAsJson = JsonSerializer.Serialize(customer);
             HttpContent content = new StringContent(tbAsJson, Encoding.UTF8, "application/json");
@@ -141,7 +92,7 @@ namespace WebClient.Data.Impl {
             customer = JsonSerializer.Deserialize<Customer>(result);
         }
 
-        public static async Task DeleteCustomer(long id)
+        public async Task DeleteCustomer(long id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
                     $"{uri}/Customer/{id}");
