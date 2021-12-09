@@ -4,6 +4,8 @@
 @using MatBlazor
 @inject ITableBookingService tableBookingService
 @inject NavigationManager navigationManager
+@inject NotificationService NotificationService
+
 <h3>Editing booking No. @tableBooking.TableBookingId</h3>
 <AuthorizeView Context="employeContext">
     <NotAuthorized>
@@ -34,9 +36,11 @@ else
             Date:<br/>
             <MatDatePicker @bind-Value="@tableBooking.BookingDateTime" EnableTime="true" Enable24hours="true" Style="height: inherit"></MatDatePicker>
         </div>
-        <p class="actions">
-            <button class="btn btn-outline-dark" type="submit">Edit</button>
-        </p>
+       
+         <RadzenButton type="submit" Text="Edit" Style="margin-bottom: 20px; width: 200px"
+                            ButtonStyle="ButtonStyle.Info"/>
+        
+        
     </EditForm>
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 }
@@ -60,12 +64,16 @@ else
         {
           await tableBookingService.UpdateTableBooking(tableBooking);
             confirmationMessage = "Booking has been successfully edited";
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = confirmationMessage, Duration = 4000 });
         }
         catch (Exception e)
         {
             confirmationMessage=e.Message;
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = confirmationMessage, Duration = 4000 });
+
         }
     }
+    
     
     private void Back()
     {
