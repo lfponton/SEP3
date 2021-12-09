@@ -12,12 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="Pages\ConfirmedOrders.razor">
-        <DependentUpon>CompletedOrders.razor</DependentUpon>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\DataServer\DataServer.csproj" />
     </ItemGroup>
 
