@@ -44,7 +44,7 @@
         {
             <p>The selected order has no ordered items</p>
         }
-        @if (false)
+        @if (order.IsDelivery)
         {
             <p>Delivery Address: </p>
             <p>@order.DeliveryAddress.ToString()</p>

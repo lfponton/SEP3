@@ -65,8 +65,10 @@ namespace DataServer.DataAccess.Impl
 
         public Task<Order> GetOrder(long orderId)
         {
-            return context.Orders.
-                Include(o => o.OrderItems)
+            return context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.DeliveryAddress)
+                .Include(o => o.OrderItems)
                 .ThenInclude(item => item.Menu)
                 .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
