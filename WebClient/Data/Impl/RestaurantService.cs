@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebClient.Data.validationhandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
@@ -23,7 +24,14 @@ namespace WebClient.Data.Impl
         public async Task<Restaurant> GetRestaurant()
         {
             HttpResponseMessage response = await client.GetAsync($"{uri}/restaurant");
-            if (!response.IsSuccessStatusCode) throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+       
+            if 
+                (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+                throw new Exception($"{exceptionResponse.Message}");
+            }
             string result = await response.Content.ReadAsStringAsync();
             Restaurant restaurant = JsonSerializer.Deserialize<Restaurant>(result, options);
             return restaurant;        }
