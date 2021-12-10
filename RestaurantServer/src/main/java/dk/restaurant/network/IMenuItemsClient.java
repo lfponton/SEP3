@@ -9,4 +9,5 @@ public interface IMenuItemsClient
 {
   List<MenuItem> getMenuItems(int menuId);
   MenuItem createMenuItem(MenuItem menuItem);
+  MenuItem getMenuItem(int menuItemId);
 }

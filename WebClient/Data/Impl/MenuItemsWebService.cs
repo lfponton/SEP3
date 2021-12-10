@@ -29,8 +29,8 @@ namespace WebClient.Data.Impl
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
-            List<MenuItem> menus = JsonSerializer.Deserialize<List<MenuItem>>(result, options);
-            return menus;
+            List<MenuItem> menusItems = JsonSerializer.Deserialize<List<MenuItem>>(result, options);
+            return menusItems;
         }
 
         
@@ -39,7 +39,7 @@ namespace WebClient.Data.Impl
         {
             string menuItemAsJson = JsonSerializer.Serialize(menuItem, options);
             HttpContent content = new StringContent(menuItemAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menuItems/menuItems", content);
+            HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menuItems/", content);
             if (response.IsSuccessStatusCode)
             {
                 string menuItemAsJsonResponse = await response.Content.ReadAsStringAsync();
