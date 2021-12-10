@@ -40,6 +40,7 @@ namespace WebClient
             services.AddScoped<ITableBookingService, TableBookingService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IAccountService, AccountWebService>();
+            services.AddScoped<IRestaurantService, RestaurantService>();
             
             services.AddAuthorization(options => {
                 options.AddPolicy("Employee",  a => 
