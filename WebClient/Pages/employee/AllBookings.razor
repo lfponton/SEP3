@@ -91,12 +91,14 @@ else
     {
         filterDate = filterDate.AddDays(1).ToLocalTime();
         tableBookingsDisplay = await tableBookingService.GetBookings(filterDate);
-        tableBookingsDisplay = tableBookingsDisplay.Where(tb => tb.BookingDateTime == filterDate).ToList();
+        filterDate = filterDate.AddDays(-1).ToLocalTime();
+        tableBookingsDisplay = tableBookingsDisplay.Where(tb => tb.BookingDateTime.Date == filterDate.Date).ToList();
+
     }
     private void Back()
     {
         navigationManager.NavigateTo("/ManageBookings");
     }
 
-}
+
 }

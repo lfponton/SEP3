@@ -19,6 +19,7 @@ namespace DataServer.DataAccess.Impl
 
         public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
+            Console.WriteLine(menuItem.ToString());
             await context.MenuItems.AddAsync(menuItem);
             return menuItem;
         }

@@ -1,42 +1,65 @@
 ﻿@page "/AddMenuItems"
 @using WebClient.Models
+@using WebClient.Data.Impl
+@using WebClient.Data
 @inject NavigationManager NavigationManager
+@inject IMenuItemsService MenuItemsWebService
 <h3>AddMenuItems</h3>
-<div class="text-center">
-   
-    <div class="card-body">
-        <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
-        </div>
 
-        <div class="form-group">
-            <label>Price</label>
-            <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
+<EditForm Model="newMenuItem" OnValidSubmit="CreateMenuItemAsync" class="text-center">
+    <div class="text-center">
+   
+        <div class="card-body">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
+            </div>
+            <p>MenuItems</p>
         </div>
-        <p>MenuItems</p>
+    
+        <p>Name:@newMenuItem.Name</p>
+        <p>Price: @newMenuItem.Price</p>
+    
+        <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
+        <button class=" btn btn-primary mr-1" @onclick="Save">Save></button>
+
     </div>
-    
-    <p>Name:@Name</p>
-    <p>Price: @Price</p>
-    
-    <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
-    <button class=" btn btn-primary mr-1" @onclick="Save">Save></button>
-        
-    
-</div>
+</EditForm>
+
 @code {
     [Parameter]
     public int Id { get; set; }
 
     private AddMenuItems addMenuItems;
+    private MenuItem newMenuItem = new MenuItem();
+    private string errorMessage;
+    private string ErrorMessage;
+    
     
     private string Name;
     private double Price;
 
     protected override async Task OnInitializedAsync()
     {
-        addMenuItems = Seed();
+        newMenuItem = new MenuItem();
+    }
+
+    private async Task CreateMenuItemAsync()
+    {
+        try
+        {
+            newMenuItem = await MenuItemsWebService.CreateMenuItemAsync(newMenuItem);
+
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
     }
 
     private AddMenuItems Seed()
@@ -49,8 +72,9 @@
     }
 
 
-    private void Save()
+    private async Task Save()
     {
+        newMenuItem = await MenuItemsWebService.CreateMenuItemAsync(newMenuItem);
         NavigationManager.NavigateTo("/AllMenuItems");
     }
 
