@@ -3,6 +3,7 @@ package dk.restaurant.network.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import dk.restaurant.models.Menu;
 import dk.restaurant.models.MenuItem;
 import dk.restaurant.models.OrderItem;
 import dk.restaurant.network.IMenuItemsClient;
@@ -72,6 +73,25 @@ public class MenuItemsClient implements IMenuItemsClient
     }
     return gson.fromJson(response, MenuItem.class);
   }
+
+  @Override
+  public MenuItem getMenuItem(int menuItemId) {
+    String response = "";
+    try
+    {
+      out.println("MenuItem");
+      out.println("getMenuItem");
+      out.println(menuItemId);
+      response = in.readLine();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return gson.fromJson(response, MenuItem.class);
+  }
+
+
 
 
 

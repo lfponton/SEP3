@@ -36,6 +36,12 @@ namespace DataServer.DataAccess.Impl
 
             return menuItems;
         }
+        public async Task<List<MenuItem>> GetMenuItemsAsync()
+        {
+            return await context.MenuItems.Include(menuItems => menuItems.MenuItemsSelections)
+                .ThenInclude(selection => selection.MenuItem)
+                .ToListAsync();
+        }
 
         public async Task DeleteMenuItemAsync(long menuItemsId)
         {

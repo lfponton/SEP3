@@ -42,10 +42,11 @@ public class MenuController {
 
 
 
-    /*@GetMapping(value="/{menuId}")
+   /* @GetMapping(value="/{menuId}")
     public List<Menu> getMenus() throws IOException
     {
-        return service.getMenus();
+
+        return service.getMenus(getMenu(menuId));
     }*/
 
     @PostMapping

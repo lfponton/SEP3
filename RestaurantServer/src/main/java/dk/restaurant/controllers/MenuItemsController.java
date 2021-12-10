@@ -25,7 +25,7 @@ public class MenuItemsController {
 
   @GetMapping("/menuItems/{id}")
   @ResponseBody
-  public List<MenuItem> getMenusItems(@PathVariable("id") int menuId)
+  public List<MenuItem> getMenuItems(@PathVariable("id") int menuId)
   {
 
     return service.getMenuItems(menuId);
