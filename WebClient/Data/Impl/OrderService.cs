@@ -71,5 +71,15 @@ namespace WebClient.Data.Impl
             var updatedOrder = JsonSerializer.Deserialize<Order>(result, options);
             return updatedOrder;
         }
+
+        public async Task<int> GetCustomerOrders(string email)
+        {
+            HttpResponseMessage response = await client.GetAsync($"{uri}/orders/customer/?email={email}");
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
+            string result = await response.Content.ReadAsStringAsync();
+            int numberOfOrders = JsonSerializer.Deserialize<int>(result, options);
+            return numberOfOrders;
+        }
     }
 }

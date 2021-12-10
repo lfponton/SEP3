@@ -10,5 +10,5 @@ public interface IOrdersClient
   Order createOrder(Order order);
   Order getOrder(long orderId);
   Order updateOrder(Order order);
-  int getCustomerOrders(long customerId);
+  int getCustomerOrders(String email);
 }

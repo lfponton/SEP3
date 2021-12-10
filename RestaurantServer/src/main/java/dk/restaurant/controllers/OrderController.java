@@ -34,6 +34,14 @@ public class OrderController
     return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
   }
 
+  @GetMapping("/customer")
+  public ResponseEntity<String> getCustomerOrders(@RequestParam(value="email") String email)
+  {
+    int numberOfOrders = service.getCustomerOrders(email);
+    String response = Integer.toString(numberOfOrders);
+    return new ResponseEntity<String>(response, HttpStatus.OK);
+  }
+
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<Order> createOrder(@RequestBody Order order) throws Exception

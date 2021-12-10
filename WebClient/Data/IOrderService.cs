@@ -10,5 +10,6 @@ namespace WebClient.Data
         Task<List<Order>> GetOrdersAsync(string? status);
         Task<Order> GetOrderAsync(long orderId);
         Task<Order> UpdateOrderAsync(Order order);
+        Task<int> GetCustomerOrders(string email);
     }
 }
