@@ -25,7 +25,7 @@
         <p>Price: @newMenuItem.Price</p>
     
         <button class=" btn btn-primary mr-1" @onclick="Back">Back</button>
-        <button class=" btn btn-primary mr-1" @onclick="Save">Save></button>
+        <button type="submit" class=" btn btn-primary mr-1">Save></button>
 
     </div>
 </EditForm>
@@ -39,9 +39,6 @@
     private string errorMessage;
     private string ErrorMessage;
     
-    
-    private string Name;
-    private double Price;
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,7 +50,7 @@
     {
         try
         {
-            newMenuItem = await MenuItemsWebService.CreateMenuItemAsync(newMenuItem);
+           await MenuItemsWebService.CreateMenuItemAsync(newMenuItem);
 
         }
         catch (Exception e)
