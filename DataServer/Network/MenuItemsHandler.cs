@@ -37,7 +37,7 @@ namespace DataServer.Network
             {
                 case "getMenuItems":
                     return await GetMenuItems(args);
-                case "createOrderItem":
+                case "createMenuItem":
                     return await CreateMenuItem(args);
                 default:
                     return "";
@@ -52,6 +52,7 @@ namespace DataServer.Network
         private async Task<string> CreateMenuItem(string args)
         {
             MenuItem menuItem = JsonSerializer.Deserialize<MenuItem>(args, options);
+            Console.WriteLine(menuItem.ToString());
             await unitOfWork.MenuItemsRepository.CreateMenuItemAsync(menuItem);
             await unitOfWork.Save();
             return JsonSerializer.Serialize(menuItem, optionsWithoutConverter);

@@ -61,7 +61,7 @@ public class MenuItemsClient implements IMenuItemsClient
 
     try
     {
-      out.println("MenuItem");
+      out.println("MenuItems");
       out.println("createMenuItem");
       String send = gson.toJson(menuItem);
       out.println(send);

@@ -1,23 +1,23 @@
 package dk.restaurant.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItem
+public class MenuItem implements Serializable
 {
   private int menuItemId;
   private String name;
   private BigDecimal price;
-  private List<Menu> menus;
+  private List<MenuItemsSelection> menusSelections;
 
   public MenuItem(int menuItemId, String name, BigDecimal price,
-      List<Menu> menus)
+      List<MenuItemsSelection> menuItemsSelections)
   {
     this.menuItemId = menuItemId;
     this.name = name;
     this.price = price;
-    this.menus = menus;
+    this.menusSelections = menuItemsSelections;
   }
 
   public MenuItem()
@@ -44,14 +44,15 @@ public class MenuItem
     this.name = name;
   }
 
-  public List<Menu> getMenus()
+  public List<MenuItemsSelection> getMenusSelections()
   {
-    return menus;
+    return menusSelections;
   }
 
-  public void setMenus(List<Menu> menus)
+  public void setMenusSelections(
+      List<MenuItemsSelection> menusSelections)
   {
-    this.menus = menus;
+    this.menusSelections = menusSelections;
   }
 
   public BigDecimal getPrice()
