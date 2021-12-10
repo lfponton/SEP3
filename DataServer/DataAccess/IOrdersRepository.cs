@@ -12,6 +12,6 @@ namespace DataServer.DataAccess
         Task<Order> UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Order order);
         Task<Order> GetOrder(long orderId);
-        Task<int> GetCustomerOrders(long customerId);
+        Task<int> GetCustomerOrders(string email);
     }
 }

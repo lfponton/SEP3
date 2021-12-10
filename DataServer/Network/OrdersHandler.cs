@@ -59,8 +59,8 @@ namespace DataServer.Network
 
         private async Task<string> GetCustomerOrders(string args)
         {
-            long customerId = Int64.Parse(args);
-            return JsonSerializer.Serialize(await unitOfWork.OrdersRepository.GetCustomerOrders(customerId), optionsWithoutConverter);
+            string email = args;
+            return (await unitOfWork.OrdersRepository.GetCustomerOrders(email)).ToString();
         }
 
         private async Task<string> UpdateOrderAsync(string args)

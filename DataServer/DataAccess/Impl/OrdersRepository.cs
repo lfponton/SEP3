@@ -76,9 +76,9 @@ namespace DataServer.DataAccess.Impl
                 .FirstOrDefaultAsync(order => order.OrderId == orderId);
         }
 
-        public async Task<int> GetCustomerOrders(long customerId)
+        public async Task<int> GetCustomerOrders(string email)
         {
-            List<Order> orders = await context.Orders.Where(o => o.Customer.Id == customerId)
+            List<Order> orders = await context.Orders.Where(o => o.Customer.Email == email)
                 .Where(o => o.Status.Equals("completed")).ToListAsync();
             return orders.Count;
         }

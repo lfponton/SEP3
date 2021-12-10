@@ -54,27 +54,34 @@ namespace DataServer
             await using var restaurantDbContext = new RestaurantDbContext();
             IUnitOfWork unitOfWork = new UnitOfWork(restaurantDbContext);
             Menu menu = await restaurantDbContext.Menus.FirstOrDefaultAsync(m => m.MenuId == 1);
-            await CreateOrderWithCustomerAndStatus(unitOfWork.OrdersRepository, menu);
+            //await CreateOrderWithCustomerAndStatus(unitOfWork.OrdersRepository, menu);
             await unitOfWork.Save();
         }
 
-        private async Task CreateOrderWithCustomerAndStatus(IOrdersRepository ordersRepository, Menu menu)
+        public async Task SeedNumberOfCustomerOrdersByStatus(int numberOfOrders, string status)
+        {
+            await using var restaurantDbContext = new RestaurantDbContext();
+            IUnitOfWork unitOfWork = new UnitOfWork(restaurantDbContext);
+            
+            var customer = await restaurantDbContext.Customers.FirstOrDefaultAsync(c => c.Email.Equals("a"));
+            Menu menu = await restaurantDbContext.Menus.FirstOrDefaultAsync(m => m.MenuId == 1);
+
+            for (int i = 0; i < numberOfOrders; i++)
+            {
+                await CreateOrderWithCustomerAndStatus(unitOfWork.OrdersRepository, menu, customer, status);
+            }
+            await unitOfWork.Save();
+        }
+        private async Task CreateOrderWithCustomerAndStatus(IOrdersRepository ordersRepository, Menu menu, Customer customer, string status)
         {
             var order = new Order
             {
+                Customer = customer,
                 OrderDateTime = DateTime.Now,
                 DeliveryTime = DateTime.Now,
-                OrderItems = new List<OrderItem>()
-                {
-                    new OrderItem()
-                    {
-                        Menu = menu,
-                        Quantity = 5,
-                        Price = 1000
-                    }
-                },
-                Price = 300,
-                Status = "pending"
+                IsDelivery = false,
+                Price = 1000,
+                Status = status
             };
             await ordersRepository.CreateOrderAsync(order);
         }

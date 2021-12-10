@@ -30,7 +30,7 @@ public class OrdersService implements IOrdersService
   {
     Order newOrder = new Order();
     checkForOrderPriceDiscount(order);
-    checkCustomerNumberOfOrders(order.getCustomer().getId(), order);
+    checkCustomerNumberOfOrders(order.getCustomer().getEmail(), order);
     try {
       newOrder = client.createOrder(order);
       checkMenusAmount(newOrder);
@@ -41,9 +41,9 @@ public class OrdersService implements IOrdersService
     return newOrder;
   }
 
-  private void checkCustomerNumberOfOrders(long customerId, Order newOrder)
+  private void checkCustomerNumberOfOrders(String email, Order newOrder)
   {
-    int numberOfOrders = client.getCustomerOrders(customerId);
+    int numberOfOrders = client.getCustomerOrders(email);
     if (numberOfOrders % 10 == 0)
     {
       calculateDiscount(newOrder, fiftyPercentDiscount);
@@ -62,7 +62,7 @@ public class OrdersService implements IOrdersService
   private void calculateDiscount(Order newOrder, BigDecimal discount)
   {
     BigDecimal discountedPrice = newOrder.getPrice().multiply(
-        tenPercentDiscount);
+        discount);
     newOrder.setPrice(discountedPrice);
   }
 
@@ -91,5 +91,10 @@ public class OrdersService implements IOrdersService
   @Override public Order updateOrder(Order order)
   {
     return client.updateOrder(order);
+  }
+
+  @Override public int getCustomerOrders(String email)
+  {
+    return client.getCustomerOrders(email);
   }
 }

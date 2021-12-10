@@ -16,6 +16,8 @@
     <AuthorizeView Policy="Customer">
         <Authorized>
             <h3>Hello @context.User.Identity.Name</h3>
+            @{ customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value; }
+            <p>Number of orders: @numberOfOrders</p>
             <div class="d-flex justify-content-center align-items-center">
                 <RadzenCard Style="margin-bottom: 2%; height:15%;">
                     <b>Current Order Price: @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:C}", price)</b>
@@ -35,7 +37,11 @@
             }
             else
             {
-                customerEmail = context.User.Claims.First(claim => claim.Type.Equals("Email")).Value;
+                if (numberOfOrders % 10 == 0)
+                {
+                    <p>You have accummulated 10 orders! You will get a 50% discount on this order.</p>
+                }
+                
                 @foreach (var menu in menus)
                 {
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">
@@ -112,6 +118,10 @@
                 {
                     <p>You will receive a 10% discount for this order.</p>
                 }
+                if (numberOfOrders % 10 == 0)
+                {
+                    <p>You have accummulated 10 orders! You will get a 50% discount on this order.</p>
+                }
                 <div class="text-center">
                     <div style="color:red">@errorMessage</div>
                     <button class="btn btn-success" style="margin-top: 2%; margin-bottom: 5%" @onclick="Next">Proceed to Payment</button>
@@ -131,6 +141,7 @@
     private decimal price;
     private string customerEmail;
     private string errorMessage;
+    private int numberOfOrders;
 
     protected override async Task OnInitializedAsync()
     {
@@ -143,6 +154,8 @@
         {
             m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
         }
+
+        numberOfOrders = await OrderService.GetCustomerOrders(customerEmail);
     }
 
 
