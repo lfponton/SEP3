@@ -10,7 +10,7 @@ public class Restaurant {
     private List<Table> tables;
 
     public Restaurant() {
-        this.capacity = 10;
+
     }
 
     public int getCapacity() {
