@@ -78,6 +78,8 @@ namespace DataServer.Network
                     return new TableBookingsHandler();
                 case "Accounts":
                     return new AccountsHandler();
+                case "Restaurant":
+                    return new RestaurantHandler();
                 default:
                     return null;
             }

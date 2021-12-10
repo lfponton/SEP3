@@ -4,72 +4,76 @@
 @using WebClient.Data
 @inject ITableBookingService tableBookingService
 @inject NavigationManager navigationManager
+@inject IRestaurantService restaurantService;
 <h3>ManageBookings</h3>
-<h3>Today's bookings <br/> @today.ToLongDateString()</h3>
+
   <AuthorizeView>
          <NotAuthorized>
              <h3>Please, login.</h3>
          </NotAuthorized>
      </AuthorizeView>
-<AuthorizeView Policy="Employee" Context="emplContext">
-    
-
-@if (!tableBookings.Any())
-{
-    <button class="btn btn-primary" type="button" disabled>
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
-    </button>
-}
-else
-{
-    <table class="table me-2">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>People</th>
-            <th>Customer</th>
-            <th>Table</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var booking in tableBookingsDisplay)
-        {
+<AuthorizeView Policy="Employee" Context="eContext">
+    <div class="d-flex justify-content-around">
+        <h3>Today's bookings <br/> @today.ToLongDateString()</h3>
+        <b>Restaurant capacity: @restaurant.Capacity</b>
+        <button>Set</button>
+</div>
+    @if (!tableBookings.Any())
+    {
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    }
+    else
+    {
+        <table class="table me-2" style="background-color: honeydew; padding: 2em">
+            <thead>
             <tr>
-                <td>@booking.TableBookingId</td>
-                <td>@booking.BookingDateTime</td>
-                <td>@booking.People</td>
-                <td>
-                    @if (@booking.Customer != null)
-                    {
-                        @booking.Customer.FirstName 
-                        @booking.Customer.LastName
-                    }
-                </td>
-               
-                <td>@booking.Table.TableId</td>
-                <td>@booking.Description</td>
-                <td>
-                    <button @onclick="@(() => EditBooking(booking))">
-                        Edit
-                    </button>
-                </td>
+                <th>Id</th>
+                <th>Date</th>
+                <th>People</th>
+                <th>Customer</th>
+                <th>Table</th>
+                <th>Description</th>
             </tr>
-        }
+            </thead>
+            <tbody>
+            @foreach (var booking in tableBookingsDisplay)
+            {
+                <tr>
+                    <td>@booking.TableBookingId</td>
+                    <td>@booking.BookingDateTime</td>
+                    <td>@booking.People</td>
+                    <td>
+                        @if (@booking.Customer != null)
+                        {
+                            @booking.Customer.FirstName
+                            @booking.Customer.LastName
+                        }
+                    </td>
 
-        <br/>
-        <br/>
+                    <td>@booking.Table.TableId</td>
+                    <td>@booking.Description</td>
+                    <td>
+                        <button @onclick="@(() => EditBooking(booking))">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
 
-        <h4 >Total people today: @totalOfPeople</h4>
-        
-        <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="GoToSeeAllBookings">See all bookings</button>
+            <br/>
+            <br/>
 
-        <br>
-        </tbody>
+            <h4 >Total people today: @totalOfPeople</h4>
 
-    </table>
+            <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="GoToSeeAllBookings">See all bookings</button>
+
+            <br>
+            </tbody>
+
+        </table>
     }
 </AuthorizeView>
     
@@ -78,11 +82,13 @@ else
     private List<TableBooking> tableBookingsDisplay = new List<TableBooking>();
     private int totalOfPeople;
     private DateTime today = DateTime.Today;
+    private Restaurant restaurant =new Restaurant();
 
 
     protected override async Task OnInitializedAsync()
     {
         tableBookings = await tableBookingService.GetBookings(today);
+        restaurant = await restaurantService.GetRestaurant();
         tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
         TotalPeople(tableBookingsDisplay);
     }
@@ -109,5 +115,7 @@ else
         navigationManager.NavigateTo("/AllBookings");
 
     }
+
+   
 
 }

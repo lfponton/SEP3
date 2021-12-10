@@ -15,6 +15,7 @@ namespace DataServer.DataAccess.Impl
         private IOrderItemsRepository orderItemsRepository;
         private IMenuItemsSelectionsRepository menuItemsSelectionsRepository;
         private ITableBookingsRepository tableBookingsRepository;
+        private IRestaurantRepository restaurantRepository;
 
         public UnitOfWork(RestaurantDbContext context)
         {
@@ -100,6 +101,20 @@ namespace DataServer.DataAccess.Impl
                 return tableBookingsRepository;
             }
         }
+
+        public IRestaurantRepository RestaurantRepository
+        {
+            get
+            {
+                if (restaurantRepository == null)
+                {
+                    restaurantRepository = new RestaurantRepository(context);
+                }
+
+                return restaurantRepository;
+            }
+        }
+
 
         public async Task Save()
         {

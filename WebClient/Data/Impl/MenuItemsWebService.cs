@@ -35,7 +35,7 @@ namespace WebClient.Data.Impl
 
         
 
-        public async Task<MenuItem> CreateMenuAsync(MenuItem menuItem)
+        public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
             string menuItemAsJson = JsonSerializer.Serialize(menuItem, options);
             HttpContent content = new StringContent(menuItemAsJson, Encoding.UTF8, "application/json");
@@ -50,6 +50,8 @@ namespace WebClient.Data.Impl
             throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
 
         }
+        
+        
 
         public Task DeleteMenuItem(long menuItemId)
         {

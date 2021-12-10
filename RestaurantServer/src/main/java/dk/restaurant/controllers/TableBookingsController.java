@@ -22,7 +22,7 @@ public class TableBookingsController {
     @PostMapping("/tableBookings")
     public ResponseEntity<TableBooking> createTableBooking(@RequestBody TableBooking tableBooking) throws Exception{
         TableBooking tableBooking1 = service.createTableBooking(tableBooking);
-            return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
+        return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
     }
 
 
@@ -51,10 +51,6 @@ public class TableBookingsController {
     public ResponseEntity<TableBooking> updateTableBooking(@PathVariable("tableBookingId") Long tableBookingId, @RequestBody TableBooking tableBooking)
     {
         TableBooking tableBooking1 = service.updateTableBooking(tableBooking);
-        if (tableBooking1 == null)
-        {
-            return ResponseEntity.badRequest().build();
-        }
         return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
     }
 }

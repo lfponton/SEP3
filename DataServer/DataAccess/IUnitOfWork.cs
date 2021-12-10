@@ -12,6 +12,7 @@ namespace DataServer.DataAccess.Impl
         IOrderItemsRepository OrderItemsRepository { get; }
         IMenuItemsSelectionsRepository MenuItemsSelectionsRepository { get; }
         ITableBookingsRepository TableBookingsRepository { get; }
+        IRestaurantRepository RestaurantRepository { get; }
         Task Save();
 
     }

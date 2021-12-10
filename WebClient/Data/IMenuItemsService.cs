@@ -8,7 +8,7 @@ namespace WebClient.Data
     public interface IMenuItemsService
     {
         Task<IList<MenuItem>> GetMenuItems(int menuId);
-        Task<MenuItem> CreateMenuAsync(MenuItem menuItem);
+        Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem);
 
     }
 }

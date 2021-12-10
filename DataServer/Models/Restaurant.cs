@@ -8,5 +8,9 @@ namespace DataServer.Models
         public int Capacity { get; set; }
         public List<Table> Tables { get; set; }
 
+        public Restaurant()
+        {
+            Tables = new List<Table>();
+        }
     }
 }

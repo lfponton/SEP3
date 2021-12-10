@@ -46,4 +46,9 @@ public class ServiceFactory implements IServiceFactory
   {
     return new AccountsService(clientFactory);
   }
+
+  @Override
+  public IRestaurantService getRestaurantService() {
+    return new RestaurantService(clientFactory);
+  }
 }
