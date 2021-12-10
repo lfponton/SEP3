@@ -30,20 +30,12 @@ public class TableBookingsController {
     @GetMapping("/tableBookings")
     public ResponseEntity<List<TableBooking>> getTableBookings(@RequestParam(required = false) Date bookingDate) {
         List<TableBooking> tableBookings = service.getTableBookings(bookingDate);
-        if (tableBookings == null)
-        {
-            return ResponseEntity.badRequest().build();
-        }
         return new ResponseEntity<List<TableBooking>>(tableBookings, HttpStatus.OK);
     }
     @GetMapping("/tableBookings/{tableBookingId}")
     public ResponseEntity<TableBooking> getBookingById(@PathVariable("tableBookingId") Long tableBookingId)
     {
         TableBooking tableBooking1 = service.getBookingById(tableBookingId);
-        if (tableBooking1 == null)
-        {
-            return ResponseEntity.badRequest().build();
-        }
         return new ResponseEntity<TableBooking>(tableBooking1, HttpStatus.OK);
     }
 

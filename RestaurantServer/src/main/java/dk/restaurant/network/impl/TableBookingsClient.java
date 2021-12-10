@@ -24,21 +24,12 @@ public class TableBookingsClient implements ITableBookingsClient {
     private PrintWriter out;
     private BufferedReader in;
     private Gson gson;
-    private Gson gsonS;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
     public TableBookingsClient() {
         try {
             socket = new Socket(HOST, PORT);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
             gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-            gsonS = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>(){
-                @Override
-                public JsonElement serialize(LocalDateTime localDateTime, Type type, JsonSerializationContext jsonSerializationContext) {
-                    return new JsonPrimitive(localDateTime.format(FORMATTER));
-                }
-            }).create();
         } catch (
                 IOException e) {
             e.printStackTrace();
@@ -71,7 +62,7 @@ public class TableBookingsClient implements ITableBookingsClient {
         {
             out.println("Bookings");
             out.println("updateTableBooking");
-            String send = gsonS.toJson(tableBooking);
+            String send = gson.toJson(tableBooking);
             out.println(send);
             String response = in.readLine();
             booking = gson.fromJson(response, TableBooking.class);
@@ -90,7 +81,7 @@ public class TableBookingsClient implements ITableBookingsClient {
         {
             out.println("Bookings");
             out.println("createTableBooking");
-            String send = gsonS.toJson(tableBooking);
+            String send = gson.toJson(tableBooking);
             out.println(send);
             String response = in.readLine();
             booking = gson.fromJson(response, TableBooking.class);
