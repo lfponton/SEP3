@@ -2,9 +2,12 @@
 @using WebClient.Models
 @using WebClient.Data.Impl
 @using WebClient.Data
+@using System.Threading
 @inject ITableBookingService tableBookingService
 @inject NavigationManager navigationManager
 @inject IRestaurantService restaurantService;
+@inject NotificationService NotificationService
+
 <h3>ManageBookings</h3>
 
   <AuthorizeView>
@@ -88,10 +91,13 @@
     protected override async Task OnInitializedAsync()
     {
         tableBookings = await tableBookingService.GetBookings(today);
+
         restaurant = await restaurantService.GetRestaurant();
+        await Timer();
         tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
         TotalPeople(tableBookingsDisplay);
     }
+    
 
     private void TotalPeople(List<TableBooking> tableBookingsDisplay)
     {
@@ -114,6 +120,20 @@
     {
         navigationManager.NavigateTo("/AllBookings");
 
+    }
+    private async Task Timer()
+    {
+        List<TableBooking> tableBookingsControl = new List<TableBooking>();
+        var timer = new Timer(new TimerCallback(async _ =>
+        {
+            tableBookingsControl = await tableBookingService.GetBookings(today);
+
+            if (tableBookingsControl.Count > tableBookings.Count)
+            {
+                tableBookings = tableBookingsControl;
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "New Booking!", Duration = 100000 });
+            }
+        }), null, 40000, 40000);
     }
 
    
