@@ -6,18 +6,18 @@
 @inject IMenuItemsService MenuItemsWebService
 <h3>AddMenuItems</h3>
 
-<EditForm Model="newMenuItem" OnValidSubmit="CreateMenuItemAsync" class="text-center">
+<EditForm Model="newMenuItem" OnValidSubmit="CreateMenuItem" class="text-center">
     <div class="text-center">
    
         <div class="card-body">
             <div class="form-group">
                 <label>Name</label>
-                <input class="form-control" type="text" placeholder="Name" @bind-value="Name"/>
+                <input class="form-control" type="text" placeholder="Name" @bind-value="@newMenuItem.Name"/>
             </div>
 
             <div class="form-group">
                 <label>Price</label>
-                <input class="form-control" type="text" placeholder="Price" @bind-value="Price"/>
+                <input class="form-control" type="text" placeholder="Price" @bind-value="@newMenuItem.Price"/>
             </div>
             <p>MenuItems</p>
         </div>
@@ -33,7 +33,7 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int MenuItemId { get; set; }
 
     private AddMenuItems addMenuItems;
     private MenuItem newMenuItem = new MenuItem();
@@ -49,7 +49,7 @@
         newMenuItem = new MenuItem();
     }
 
-    private async Task CreateMenuItemAsync()
+    private async Task CreateMenuItem()
     {
         try
         {
