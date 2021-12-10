@@ -43,4 +43,9 @@ public class ClientFactory implements IClientFactory
     return new AccountsClient();
   }
 
+  @Override
+  public IRestaurantClient getRestaurantClient() {
+    return new RestaurantClient();
+  }
+
 }

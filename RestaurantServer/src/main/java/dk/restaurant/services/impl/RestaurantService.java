@@ -15,6 +15,7 @@ public class RestaurantService implements IRestaurantService {
 
     @Override
     public Restaurant getRestaurant() {
+        System.out.println("here service");
         return client.getRestaurant() ;
     }
 }
