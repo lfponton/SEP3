@@ -39,12 +39,11 @@ public class RestaurantClient implements IRestaurantClient {
         String response = "";
         try
         {
-            System.out.println("restaurant client");
             out.println("Restaurant");
             out.println("getRestaurant");
             out.println("");
             response = in.readLine();
-            System.out.println("response" + response);
+
 
         }
         catch (Exception e)

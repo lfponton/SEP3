@@ -57,7 +57,6 @@ namespace WebClient.Data.Impl
         {
             throw new NotImplementedException();
         }
-
-        
+       
     }
 }

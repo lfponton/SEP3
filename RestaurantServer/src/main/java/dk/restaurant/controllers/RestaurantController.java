@@ -24,7 +24,7 @@ private IRestaurantService service;
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Restaurant> getRestaurant()
     {
-        System.out.println("here");
+
         Restaurant restaurant = service.getRestaurant();
         return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
     }
