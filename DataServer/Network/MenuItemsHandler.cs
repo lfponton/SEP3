@@ -37,6 +37,8 @@ namespace DataServer.Network
             {
                 case "getMenuItems":
                     return await GetMenuItems(args);
+                case "createOrderItem":
+                    return await CreateMenuItem(args);
                 default:
                     return "";
             }
@@ -47,12 +49,12 @@ namespace DataServer.Network
             int menuId = Int32.Parse(args);
             return  JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.ReadMenuItemsAsync(menuId), options);
         }
-        private async Task<string> CreateMenuAsync(string args)
+        private async Task<string> CreateMenuItem(string args)
         {
             MenuItem menuItem = JsonSerializer.Deserialize<MenuItem>(args, options);
-            string jsonMenu = JsonSerializer.Serialize(await unitOfWork.MenuItemsRepository.CreateMenuItemAsync(menuItem), options);
+            await unitOfWork.MenuItemsRepository.CreateMenuItemAsync(menuItem);
             await unitOfWork.Save();
-            return jsonMenu;
+            return JsonSerializer.Serialize(menuItem, optionsWithoutConverter);
         }
     }
 }
