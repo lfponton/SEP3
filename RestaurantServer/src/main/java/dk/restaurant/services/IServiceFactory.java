@@ -9,4 +9,5 @@ public interface IServiceFactory
   IMenuItemsSelectionsService getMenuItemsSelectionsService();
   ITableBookingService getTableBookingsService();
   IAccountsService getAccountsService();
+  IRestaurantService getRestaurantService();
 }

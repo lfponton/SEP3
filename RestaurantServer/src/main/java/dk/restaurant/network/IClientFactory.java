@@ -9,4 +9,5 @@ public interface IClientFactory
   IMenuItemsSelectionsClient getMenuItemsSelectionsClient();
   ITableBookingsClient getTableBookingsClient();
   IAccountsClient getAccountsClient();
+  IRestaurantClient getRestaurantClient();
 }
