@@ -82,12 +82,13 @@
     private List<TableBooking> tableBookingsDisplay = new List<TableBooking>();
     private int totalOfPeople;
     private DateTime today = DateTime.Today;
-    private Restaurant restaurant;
+    private Restaurant restaurant =new Restaurant();
 
 
     protected override async Task OnInitializedAsync()
     {
         tableBookings = await tableBookingService.GetBookings(today);
+        restaurant = await restaurantService.GetRestaurant();
         tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
         TotalPeople(tableBookingsDisplay);
     }
@@ -115,9 +116,6 @@
 
     }
 
-    private async Task GetRestaurantCapacity()
-    {
-        restaurant = await restaurantService.GetRestaurant();
-    }
+   
 
 }
