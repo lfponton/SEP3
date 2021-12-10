@@ -3,21 +3,21 @@ package dk.restaurant.services.impl;
 import dk.restaurant.models.Restaurant;
 import dk.restaurant.models.TableBooking;
 import dk.restaurant.network.IClientFactory;
+import dk.restaurant.network.IRestaurantClient;
 import dk.restaurant.network.ITableBookingsClient;
 import dk.restaurant.services.ITableBookingService;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class TableBookingService implements ITableBookingService {
     private ITableBookingsClient client;
+    private IRestaurantClient restaurantClient;
 
     public TableBookingService(IClientFactory clientFactory) {
         this.client = clientFactory.getTableBookingsClient();
+        this.restaurantClient = clientFactory.getRestaurantClient();
     }
 
     @Override
@@ -27,17 +27,17 @@ public class TableBookingService implements ITableBookingService {
 
     @Override
     public TableBooking updateTableBooking(TableBooking tableBooking) {
-        TableBooking tableBooking1 = tableBooking;
+
 
         try{
             validateBooking(tableBooking);
-           tableBooking1= client.updateTableBooking(tableBooking);
+           tableBooking= client.updateTableBooking(tableBooking);
         }
         catch (Exception e)
         {
-            throw e;
+         throw e;
         }
-        return tableBooking1;
+        return tableBooking;
 
     }
 
@@ -66,9 +66,9 @@ public class TableBookingService implements ITableBookingService {
 
     public void validateBooking(TableBooking tableBooking) {
         try {
-            isValidPeople(tableBooking);
-            isThereCapacity(tableBooking);
-            isCorrectDate(tableBooking);
+            checkPeople(tableBooking);
+            checkCapacity(tableBooking);
+            checkDate(tableBooking);
         }
         catch (Exception e)
         {
@@ -76,22 +76,26 @@ public class TableBookingService implements ITableBookingService {
         }
     }
 
-    private boolean isValidPeople(TableBooking tableBooking) {
+    private void checkPeople(TableBooking tableBooking) {
         if (tableBooking.getPeople() < 1 || tableBooking.getPeople() > 20) {
             throw new IllegalArgumentException("Only bookings from 1 to 20 people are accepted at the web site. For bigger events, please contact us");
         }
-            return true;
     }
-    private void isThereCapacity(TableBooking tableBooking) throws IllegalArgumentException{
-        Restaurant restaurant = new Restaurant();
+    private void checkCapacity(TableBooking tableBooking) throws IllegalArgumentException{
+        Restaurant restaurant = restaurantClient.getRestaurant();
         List<TableBooking> tableBookings = client.getTableBookings(tableBooking.getBookingDateTime());
+
         int peopleControl = 0;
+
         for (TableBooking tb : tableBookings) {
             if (tb.getBookingDateTime().getTime() == tableBooking.getBookingDateTime().getTime())
             {
                 peopleControl += tableBooking.getPeople();
+
             }
         }
+
+
         if (peopleControl > 0){
             if ((peopleControl + tableBooking.getPeople()) > restaurant.getCapacity())
             {
@@ -99,7 +103,7 @@ public class TableBookingService implements ITableBookingService {
             }
         }
     }
-    private boolean isCorrectDate(TableBooking tableBooking){
+    private void checkDate(TableBooking tableBooking){
        Date dateControl = Calendar.getInstance().getTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateControl);
@@ -110,7 +114,7 @@ public class TableBookingService implements ITableBookingService {
 
             throw new IllegalArgumentException("Bookings need to be done at least 2 hs in advance and up to 365 days from now");
         }
-        return true;
+
     }
 
 
