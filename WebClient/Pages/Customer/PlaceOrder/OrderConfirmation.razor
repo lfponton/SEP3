@@ -1,5 +1,4 @@
 ﻿@page "/OrderConfirmation/{OrderId:long}"
-@using MatBlazor
 @using WebClient.Data
 @using WebClient.Models
 @using System.Threading
@@ -35,16 +34,7 @@ else if (status.Equals("confirmed"))
     
     [Parameter]
     public long OrderId { get; set; }
-
     private Order order;
-    private OrderItem orderItems;
-    private string Name;
-    private decimal Price;
-    private int Quantity;
-    private Order Total;
-    MatProgressBar progressBar;
-    
-    bool checked1 = true;
     private string status;
     
     protected override async Task OnInitializedAsync()
