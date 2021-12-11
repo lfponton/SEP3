@@ -23,11 +23,6 @@ public class ClientFactory implements IClientFactory
     return new MenuItemsClient();
   }
 
-  @Override public IOrderItemsClient getOrderItemsClient()
-  {
-    return new OrderItemsClient();
-  }
-
   @Override public IMenuItemsSelectionsClient getMenuItemsSelectionsClient()
   {
     return new MenuItemsSelectionsClient();

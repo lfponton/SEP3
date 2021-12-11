@@ -12,7 +12,6 @@ namespace DataServer.DataAccess.Impl
         private IAddressRepository addressRepository;
         private IMenusRepository menusRepository;
         private IMenuItemsRepository menuItemsRepository;
-        private IOrderItemsRepository orderItemsRepository;
         private IMenuItemsSelectionsRepository menuItemsSelectionsRepository;
         private ITableBookingsRepository tableBookingsRepository;
         private IRestaurantRepository restaurantRepository;
@@ -66,14 +65,6 @@ namespace DataServer.DataAccess.Impl
             }
 
             return menuItemsRepository;
-        } }
-        public IOrderItemsRepository OrderItemsRepository { get {
-            if (orderItemsRepository == null)
-            {
-                orderItemsRepository = new OrderItemsRepository(context);
-            }
-
-            return orderItemsRepository;
         } }
 
         public IMenuItemsSelectionsRepository MenuItemsSelectionsRepository
