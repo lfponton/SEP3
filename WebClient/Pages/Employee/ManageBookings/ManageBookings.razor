@@ -94,9 +94,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        tableBookings = await tableBookingService.GetBookings(today);
+        tableBookings = await tableBookingService.GetBookingsAsync(today);
 
-        restaurant = await restaurantService.GetRestaurant();
+        restaurant = await restaurantService.GetRestaurantAsync();
         await Timer();
         tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
         TotalPeople(tableBookingsDisplay);
@@ -130,7 +130,7 @@
         List<TableBooking> tableBookingsControl = new List<TableBooking>();
         var timer = new Timer(new TimerCallback(async _ =>
         {
-            tableBookingsControl = await tableBookingService.GetBookings(today);
+            tableBookingsControl = await tableBookingService.GetBookingsAsync(today);
 
             if (tableBookingsControl.Count > tableBookings.Count)
             {

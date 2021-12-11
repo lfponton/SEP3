@@ -86,18 +86,7 @@ namespace DataServer
             await ordersRepository.CreateOrderAsync(order);
         }
 
-
-        private async Task CreateOrderItem(IOrderItemsRepository orderItemsRepository, Menu menu1)
-        {
-            var orderItem = new OrderItem
-            {
-                Menu = menu1,
-                Quantity = 5,
-                Price = 1000
-            };
-
-            await orderItemsRepository.CreateOrderItemAsync(orderItem);
-        }
+        
 
         // ONLY FOR TESTING
         

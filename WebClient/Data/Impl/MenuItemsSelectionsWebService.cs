@@ -20,15 +20,16 @@ namespace WebClient.Data.Impl
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-        
-        public async Task<IList<MenuItemsSelection>> GetMenuItemsSelections(long menuId)
+
+        public async Task<IList<MenuItemsSelection>> GetMenuItemsSelectionsAsync(long menuId)
         {
             HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/menuItemsSelections/{menuId}");
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             string result = await response.Content.ReadAsStringAsync();
             Console.WriteLine(result);
-            List<MenuItemsSelection> menusItemsSelections = JsonSerializer.Deserialize<List<MenuItemsSelection>>(result, options);
+            List<MenuItemsSelection> menusItemsSelections =
+                JsonSerializer.Deserialize<List<MenuItemsSelection>>(result, options);
             return menusItemsSelections;
         }
     }

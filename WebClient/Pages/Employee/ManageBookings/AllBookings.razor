@@ -85,14 +85,14 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        tableBookings = await tableBookingService.GetBookings(selectedDate);
+        tableBookings = await tableBookingService.GetBookingsAsync(selectedDate);
         tableBookingsDisplay = tableBookings;
     }
 
     private async Task FilterBookings()
     {
         filterDate = filterDate.AddDays(1).ToLocalTime();
-        tableBookingsDisplay = await tableBookingService.GetBookings(filterDate);
+        tableBookingsDisplay = await tableBookingService.GetBookingsAsync(filterDate);
         filterDate = filterDate.AddDays(-1).ToLocalTime();
         tableBookingsDisplay = tableBookingsDisplay.Where(tb => tb.BookingDateTime.Date == filterDate.Date).ToList();
 

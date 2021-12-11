@@ -9,7 +9,6 @@ namespace DataServer.DataAccess.Impl
         IAddressRepository AddressRepository { get; }
         IMenusRepository MenusRepository { get; }
         IMenuItemsRepository MenuItemsRepository { get; }
-        IOrderItemsRepository OrderItemsRepository { get; }
         IMenuItemsSelectionsRepository MenuItemsSelectionsRepository { get; }
         ITableBookingsRepository TableBookingsRepository { get; }
         IRestaurantRepository RestaurantRepository { get; }

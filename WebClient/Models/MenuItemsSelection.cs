@@ -9,7 +9,7 @@ namespace WebClient.Models
         public long MenuItemId { get; set; }
         public MenuItem MenuItem { get; set; }
         public int Quantity { get; set; }
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Currency)] 
         public decimal Price { get; set; }
     }
 }

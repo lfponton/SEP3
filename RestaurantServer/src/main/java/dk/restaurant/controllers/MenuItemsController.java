@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/menuItems")
 public class MenuItemsController {
   private IMenuItemsService service;
 
@@ -23,17 +24,18 @@ public class MenuItemsController {
   }
 
 
-  @GetMapping("/menuItems/{id}")
+  @GetMapping("/{menuItemId}")
   @ResponseBody
-  public List<MenuItem> getMenuItems(@PathVariable("id") int menuId)
+  public List<MenuItem> getMenuItems(@PathVariable("menuItemId") int menuItemId)
   {
 
-    return service.getMenuItems(menuId);
+    return service.getMenuItems(menuItemId);
   }
-  @PostMapping("/menuItems")
+  @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public MenuItem createMenuItem(@RequestBody MenuItem menuItem)
   {
+    System.out.println(menuItem.getName() + menuItem.getMenuItemId() + menuItem.getPrice());
     return service.createMenuItem(menuItem);
   }
 }

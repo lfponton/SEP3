@@ -1,11 +1,10 @@
-﻿@page "/TakeAway"
+﻿@page "/PlaceOrder"
 @using WebClient.Models
 @using WebClient.Data
 @using System.Linq
 @inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
-@inject IOrderItemsService OrderItemsService;
 @inject IOrderService OrderService;
 @inject NavigationManager NavigationManager;
 @inject IAccountService AccountService
@@ -148,14 +147,14 @@
         order = new Order
         {
         };
-        menus = await MenusService.GetMenus();
+        menus = await MenusService.GetMenusAsync();
 
         foreach (var m in menus)
         {
-            m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelections(m.MenuId);
+            m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelectionsAsync(m.MenuId);
         }
 
-        numberOfOrders = await OrderService.GetCustomerOrders(customerEmail);
+        numberOfOrders = await OrderService.GetCustomerOrdersAsync(customerEmail);
     }
 
 
@@ -213,7 +212,7 @@
                 order.Price = price;
                 order.Status = "ordering";
                 order.IsDelivery = true;
-                order = await OrderService.CreateOrder(order);
+                order = await OrderService.CreateOrderAsync(order);
                 NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
             }
             catch (Exception e)

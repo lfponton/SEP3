@@ -27,11 +27,6 @@ public class ServiceFactory implements IServiceFactory
     return new MenuItemsService(clientFactory);
   }
 
-  @Override public IOrderItemsService getOrderItemsService()
-  {
-    return new OrderItemsService(clientFactory);
-  }
-
   @Override public IMenuItemsSelectionsService getMenuItemsSelectionsService()
   {
     return new MenuItemsSelectionsService(clientFactory);

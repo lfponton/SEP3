@@ -2,18 +2,18 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WebClient.Data.validationhandler;
+using WebClient.Data.ValidationHandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
 {
-    public class RestaurantService:IRestaurantService
+    public class RestaurantWebService : IRestaurantService
     {
         private readonly HttpClient client;
         private JsonSerializerOptions options;
         private string uri = "http://localhost:8080";
 
-        public RestaurantService()
+        public RestaurantWebService()
         {
             client = new HttpClient();
             options = new JsonSerializerOptions()
@@ -21,19 +21,22 @@ namespace WebClient.Data.Impl
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-        public async Task<Restaurant> GetRestaurant()
+
+        public async Task<Restaurant> GetRestaurantAsync()
         {
             HttpResponseMessage response = await client.GetAsync($"{uri}/restaurant");
-       
-            if 
+
+            if
                 (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+                var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options);
                 throw new Exception($"{exceptionResponse.Message}");
             }
+
             string result = await response.Content.ReadAsStringAsync();
             Restaurant restaurant = JsonSerializer.Deserialize<Restaurant>(result, options);
-            return restaurant;        }
+            return restaurant;
+        }
     }
 }

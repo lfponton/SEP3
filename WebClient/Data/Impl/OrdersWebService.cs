@@ -4,18 +4,18 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WebClient.Data.validationhandler;
+using WebClient.Data.ValidationHandler;
 using WebClient.Models;
 
 namespace WebClient.Data.Impl
 {
-    public class OrderService : IOrderService
+    public class OrderWebService : IOrderService
     {
         private readonly HttpClient client;
         private JsonSerializerOptions options;
         private string uri = "http://localhost:8080";
 
-        public OrderService()
+        public OrderWebService()
         {
             client = new HttpClient();
             options = new JsonSerializerOptions()
@@ -24,7 +24,7 @@ namespace WebClient.Data.Impl
             };
         }
 
-        public async Task<Order> CreateOrder(Order order)
+        public async Task<Order> CreateOrderAsync(Order order)
         {
             string orderAsJson = JsonSerializer.Serialize(order, options);
             HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
@@ -35,8 +35,9 @@ namespace WebClient.Data.Impl
                 Order resultOrder = JsonSerializer.Deserialize<Order>(orderAsJsonResponse, options);
                 return resultOrder;
             }
+
             var errorMessage = await response.Content.ReadAsStringAsync();
-            var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options); 
+            var exceptionResponse = JsonSerializer.Deserialize<ExceptionResponse>(errorMessage, options);
             throw new Exception($"{exceptionResponse.Message}");
         }
 
@@ -62,7 +63,7 @@ namespace WebClient.Data.Impl
 
         public async Task<Order> UpdateOrderAsync(Order order)
         {
-            string orderAsJson = JsonSerializer.Serialize(order,options);
+            string orderAsJson = JsonSerializer.Serialize(order, options);
             HttpContent content = new StringContent(orderAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PatchAsync($"{uri}/orders/", content);
             if (!response.IsSuccessStatusCode)
@@ -72,7 +73,7 @@ namespace WebClient.Data.Impl
             return updatedOrder;
         }
 
-        public async Task<int> GetCustomerOrders(string email)
+        public async Task<int> GetCustomerOrdersAsync(string email)
         {
             HttpResponseMessage response = await client.GetAsync($"{uri}/orders/customer/?email={email}");
             if (!response.IsSuccessStatusCode)

@@ -71,7 +71,7 @@
             newTableBooking.BookingDateTime = inputDateTime;
             newTableBooking.Customer = new Customer() {Email = customerEmail};
             newTableBooking.Table.TableId = 1;
-            newTableBooking = await tableBookingService.CreateTableBooking(newTableBooking);
+            newTableBooking = await tableBookingService.CreateTableBookingAsync(newTableBooking);
             navigationManager.NavigateTo($"/BookingConfirmation/{newTableBooking.TableBookingId}");
             
         } 

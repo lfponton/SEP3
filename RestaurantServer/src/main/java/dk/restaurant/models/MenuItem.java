@@ -9,7 +9,7 @@ public class MenuItem implements Serializable
   private int menuItemId;
   private String name;
   private BigDecimal price;
-  private List<MenuItemsSelection> menusSelections;
+  private List<MenuItemsSelection> menuItemsSelections;
 
   public MenuItem(int menuItemId, String name, BigDecimal price,
       List<MenuItemsSelection> menuItemsSelections)
@@ -17,7 +17,7 @@ public class MenuItem implements Serializable
     this.menuItemId = menuItemId;
     this.name = name;
     this.price = price;
-    this.menusSelections = menuItemsSelections;
+    this.menuItemsSelections = menuItemsSelections;
   }
 
   public MenuItem()
@@ -44,15 +44,15 @@ public class MenuItem implements Serializable
     this.name = name;
   }
 
-  public List<MenuItemsSelection> getMenusSelections()
+  public List<MenuItemsSelection> getMenuItemsSelections()
   {
-    return menusSelections;
+    return menuItemsSelections;
   }
 
-  public void setMenusSelections(
-      List<MenuItemsSelection> menusSelections)
+  public void setMenuItemsSelections(
+      List<MenuItemsSelection> menuItemsSelections)
   {
-    this.menusSelections = menusSelections;
+    this.menuItemsSelections = menuItemsSelections;
   }
 
   public BigDecimal getPrice()

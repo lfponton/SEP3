@@ -44,14 +44,6 @@ namespace DataServer.Network
                     return await UpdateOrderAsync(args);
                 case "getCustomerOrders":
                     return await GetCustomerOrders(args);
-                case "createOrderItem":
-                    return await CreateOrderItem(args);
-
-                case "getOrderItems":
-                    return await GetOrderItems(args);
-
-                case "deleteOrderItem":
-                    return await DeleteOrderItem(args);
                 default:
                     return "";
             }
@@ -88,27 +80,6 @@ namespace DataServer.Network
             await unitOfWork.OrdersRepository.CreateOrderAsync(order);
             await unitOfWork.Save();
             return JsonSerializer.Serialize(order, optionsWithoutConverter);
-        }
-
-        private async Task<string> CreateOrderItem(string args)
-        {
-            OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
-            await unitOfWork.OrderItemsRepository.CreateOrderItemAsync(orderItem);
-            await unitOfWork.Save();
-            return JsonSerializer.Serialize(orderItem, optionsWithoutConverter);
-        }
-
-        private async Task<string> GetOrderItems(string args)
-        {
-            int orderId = Int32.Parse(args);
-            return JsonSerializer.Serialize(await unitOfWork.OrderItemsRepository.GetOrderItemsAsync(orderId), optionsWithoutConverter);
-        }
-
-        private async Task<string> DeleteOrderItem(string args)
-        {
-            OrderItem orderItem = JsonSerializer.Deserialize<OrderItem>(args, options);
-            await unitOfWork.OrderItemsRepository.DeleteOrderItemAsync(orderItem);
-            return args;
         }
     }
 }

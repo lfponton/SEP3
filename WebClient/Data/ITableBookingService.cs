@@ -7,10 +7,9 @@ namespace WebClient.Data
 {
     public interface ITableBookingService
     {
-        Task<List<TableBooking>> GetBookings(DateTime bookingDateTime);
-        Task<Table> GetTables();
-        Task<TableBooking> CreateTableBooking(TableBooking tableBooking);
-        Task<TableBooking> UpdateTableBooking(TableBooking tableBooking);
-        Task<TableBooking> GetBookingById(long tableBookingId);
+        Task<List<TableBooking>> GetBookingsAsync(DateTime bookingDateTime);
+        Task<TableBooking> CreateTableBookingAsync(TableBooking tableBooking);
+        Task<TableBooking> UpdateTableBookingAsync(TableBooking tableBooking);
+        Task<TableBooking> GetBookingByIdAsync(long tableBookingId);
     }
 }
