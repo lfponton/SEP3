@@ -12,7 +12,6 @@ namespace DataServer.Models
         public DateTime OrderDateTime { get; set; }
         public DateTime DeliveryTime { get; set; }
         public decimal Price { get; set; }
-        //[JsonIgnore]
         public IList<OrderItem> OrderItems { get; set; }
         public Customer Customer { get; set; }
         public string Status { get; set; }
@@ -21,15 +20,6 @@ namespace DataServer.Models
         public Order()
         {
             OrderItems = new List<OrderItem>();
-        }
-        
-        // TESTING
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
         }
 
     }

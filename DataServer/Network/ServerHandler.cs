@@ -3,8 +3,6 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using DataServer.DataAccess;
 
 namespace DataServer.Network
 {

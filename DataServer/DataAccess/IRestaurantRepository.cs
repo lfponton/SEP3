@@ -1,8 +1,7 @@
-﻿using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataServer.Models;
 
-namespace DataServer.DataAccess.Impl
+namespace DataServer.DataAccess
 {
     public interface IRestaurantRepository
     {

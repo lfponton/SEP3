@@ -13,15 +13,6 @@ namespace DataServer.Models
         public Menu Menu { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        
-        // TESTING
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-        }
-    
+
     }
 }

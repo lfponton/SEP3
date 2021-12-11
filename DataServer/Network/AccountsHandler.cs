@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
 using DataServer.DataAccess.Impl;
 using DataServer.Models;

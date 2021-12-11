@@ -12,7 +12,6 @@ namespace DataServer.Network
         private IUnitOfWork unitOfWork;
 
         private JsonSerializerOptions options;
-        private JsonSerializerOptions optionsWithoutConverter;
 
         public MenuItemsSelectionsHandler()
         {
@@ -23,11 +22,6 @@ namespace DataServer.Network
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             options.Converters.Add(new DateTimeConverter());
-
-            optionsWithoutConverter = new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
         }
 
         public async Task<string> ProcessClientRequestType(string requestType, string args)
