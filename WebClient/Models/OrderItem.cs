@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebClient.Models
 {
@@ -14,7 +12,6 @@ namespace WebClient.Models
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public int Quantity { get; set; }
 
-        [DataType(DataType.Currency)] 
-        public decimal Price { get; set; }
+        [DataType(DataType.Currency)] public decimal Price { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Models
+﻿namespace WebClient.Models
 {
     public enum Role {
         Customer,

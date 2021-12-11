@@ -1,6 +1,5 @@
 ﻿@page "/ManageBookings"
 @using WebClient.Models
-@using WebClient.Data.Impl
 @using WebClient.Data
 @using System.Threading
 @inject ITableBookingService tableBookingService
@@ -10,17 +9,17 @@
 
 <h3 class="text-center">ManageBookings</h3>
 
-  <AuthorizeView>
-         <NotAuthorized>
-             <h3>Please, login.</h3>
-         </NotAuthorized>
-     </AuthorizeView>
+<AuthorizeView>
+    <NotAuthorized>
+        <h3>Please, login.</h3>
+    </NotAuthorized>
+</AuthorizeView>
 <AuthorizeView Policy="Employee" Context="eContext">
-    
-        <div></div>
-        <h3>Today's bookings <br/> @today.ToLongDateString()</h3>
-        
-  
+
+    <div></div>
+    <h3>Today's bookings <br/> @today.ToLongDateString()</h3>
+
+
     @if (!tableBookings.Any())
     {
         <button class="btn btn-primary" type="button" disabled>
@@ -68,13 +67,13 @@
 
             <br/>
             <br/>
-<div class="d-flex justify-content-around">
-            <h4 >Total people today: @totalOfPeople</h4>
-            <div>
-                        <b>Restaurant capacity: @restaurant.Capacity</b>
-                        <button>Set</button>
-                    </div>
-</div>
+            <div class="d-flex justify-content-around">
+                <h4 >Total people today: @totalOfPeople</h4>
+                <div>
+                    <b>Restaurant capacity: @restaurant.Capacity</b>
+                    <button>Set</button>
+                </div>
+            </div>
             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="GoToSeeAllBookings">See all bookings</button>
 
             <br>
@@ -83,13 +82,13 @@
         </table>
     }
 </AuthorizeView>
-    
+
 @code {
     private List<TableBooking> tableBookings = new List<TableBooking>();
     private List<TableBooking> tableBookingsDisplay = new List<TableBooking>();
     private int totalOfPeople;
     private DateTime today = DateTime.Today;
-    private Restaurant restaurant =new Restaurant();
+    private Restaurant restaurant = new Restaurant();
 
 
     protected override async Task OnInitializedAsync()
@@ -101,7 +100,7 @@
         tableBookingsDisplay = tableBookings.Where(tb => tb.BookingDateTime.Date == today.Date).ToList();
         TotalPeople(tableBookingsDisplay);
     }
-    
+
 
     private void TotalPeople(List<TableBooking> tableBookingsDisplay)
     {
@@ -123,8 +122,8 @@
     private void GoToSeeAllBookings()
     {
         navigationManager.NavigateTo("/AllBookings");
-
     }
+
     private async Task Timer()
     {
         List<TableBooking> tableBookingsControl = new List<TableBooking>();
@@ -135,11 +134,11 @@
             if (tableBookingsControl.Count > tableBookings.Count)
             {
                 tableBookings = tableBookingsControl;
-                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "New Booking!", Duration = 100000 });
+                NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Error, Summary = "New Booking!", Duration = 100000});
             }
         }), null, 40000, 40000);
     }
 
-   
+
 
 }

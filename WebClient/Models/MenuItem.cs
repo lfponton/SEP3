@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace WebClient.Models
 {

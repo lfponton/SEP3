@@ -6,9 +6,8 @@
 @using MatBlazor
 
 
-
 <h3 class="text-center">All Bookings</h3>
-    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+<button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 
 <AuthorizeView>
     <NotAuthorized>
@@ -16,73 +15,71 @@
     </NotAuthorized>
 </AuthorizeView>
 <AuthorizeView Policy="Employee" Context="eContext">
-@if (tableBookings == null)
-{
-    <button class="btn btn-primary" type="button" disabled>
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
-    </button>
-}
-else
-{
-    
-    <EditForm Model="@filterDate" OnSubmit="FilterBookings">
-        <div class="form-group">
-            <MatDatePicker @bind-Value="@filterDate" Style="height: inherit"></MatDatePicker>
-            <button class="btn btn-outline-dark" type="submit">Filter by day</button>
+    @if (tableBookings == null)
+    {
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    }
+    else
+    {
+        <EditForm Model="@filterDate" OnSubmit="FilterBookings">
+            <div class="form-group">
+                <MatDatePicker @bind-Value="@filterDate" Style="height: inherit"></MatDatePicker>
+                <button class="btn btn-outline-dark" type="submit">Filter by day</button>
+            </div>
+        </EditForm>
+        <div class="pre-scrollable" style="height: 70em">
+            <table class="table me-2"style="background-color: white; padding: 3em">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>People</th>
+                    <th>Table</th>
+                    <th>Customer</th>
+                    <th>Description</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                @if (tableBookingsDisplay.Count.Equals(0))
+                {
+                    <b>Thes is no bookings for the specified date</b>
+                }
+                @foreach (var booking in tableBookingsDisplay)
+                {
+                    <tr>
+                        <td>@booking.TableBookingId</td>
+                        <td>@booking.BookingDateTime</td>
+                        <td>@booking.People</td>
+                        <td>@booking.Table.TableId</td>
+                        <td>
+                            @if (@booking.Customer != null)
+                            {
+                                @booking.Customer.FirstName
+                                @booking.Customer.LastName
+                            }
+
+                        </td>
+                        <td>@booking.Description</td>
+                    </tr>
+                    <br>
+                }
+                </tbody>
+
+            </table>
         </div>
-    </EditForm>
-    <div class="pre-scrollable" style="height: 70em">
-    <table class="table me-2"style="background-color: white; padding: 3em">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>People</th>
-            <th>Table</th>
-            <th>Customer</th>
-            <th>Description</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        @if (tableBookingsDisplay.Count.Equals(0))
-        {
-            <b>Thes is no bookings for the specified date</b>
-        }
-        @foreach (var booking in tableBookingsDisplay)
-        {
-            <tr>
-                <td>@booking.TableBookingId</td>
-                <td>@booking.BookingDateTime</td>
-                <td>@booking.People</td>
-                <td>@booking.Table.TableId</td>
-                <td>
-                    @if (@booking.Customer != null)
-                    {
-                        @booking.Customer.FirstName
-                        @booking.Customer.LastName
-                    }
-
-                </td>
-                <td>@booking.Description</td>
-            </tr>
-            <br>
-
-        }
-        </tbody>
-
-    </table></div>
-
-}
-    </AuthorizeView>
+    }
+</AuthorizeView>
 
 @code {
     private List<TableBooking> tableBookings = new List<TableBooking>();
     private List<TableBooking> tableBookingsDisplay = new List<TableBooking>();
-     private DateTime selectedDate = DateTime.Today;
-     private DateTime filterDate = DateTime.Today;
-    
+    private DateTime selectedDate = DateTime.Today;
+    private DateTime filterDate = DateTime.Today;
+
     protected override async Task OnInitializedAsync()
     {
         tableBookings = await tableBookingService.GetBookingsAsync(selectedDate);
@@ -95,8 +92,8 @@ else
         tableBookingsDisplay = await tableBookingService.GetBookingsAsync(filterDate);
         filterDate = filterDate.AddDays(-1).ToLocalTime();
         tableBookingsDisplay = tableBookingsDisplay.Where(tb => tb.BookingDateTime.Date == filterDate.Date).ToList();
-
     }
+
     private void Back()
     {
         navigationManager.NavigateTo("/ManageBookings");

@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
-using Models;
 using WebClient.Data;
 using WebClient.Models;
 
@@ -45,7 +44,6 @@ namespace WebClient.Authentication
                 {
                     identity = SetupClaimsForEmployee((Employee) cachedUser);
                 }
-                
             }
 
             ClaimsPrincipal cachedClaimsPrincipal = new ClaimsPrincipal(identity);

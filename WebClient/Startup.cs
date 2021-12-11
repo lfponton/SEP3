@@ -1,15 +1,14 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Models;
 using Radzen;
 using WebClient.Authentication;
 using WebClient.Data;
 using WebClient.Data.Impl;
+using WebClient.Models;
 
 namespace WebClient
 {

@@ -7,61 +7,64 @@
 @inject NotificationService NotificationService
 
 <h3 class="text-center offset-md-4 col-md-3">Editing booking No. @tableBooking.TableBookingId</h3>
- <div class="container text-center">
- <div class="card text-center py-3">
-     <div class="row">
-         <div class="offset-md-4 col-md-3 text-center">
-             <div class="mb-5 mt-4">
-                 <div class="text-center">
-                     <AuthorizeView Context="employeContext">
-                         <NotAuthorized>
-                             <h3>Please, login.</h3>
-                         </NotAuthorized>
-                     </AuthorizeView>
-                     <AuthorizeView Policy="Employee" Context="employeeContext">
+<div class="container text-center">
+    <div class="card text-center py-3">
+        <div class="row">
+            <div class="offset-md-4 col-md-3 text-center">
+                <div class="mb-5 mt-4">
+                    <div class="text-center">
+                        <AuthorizeView Context="employeContext">
+                            <NotAuthorized>
+                                <h3>Please, login.</h3>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                        <AuthorizeView Policy="Employee" Context="employeeContext">
 
-                         @if (@tableBooking == null)
-                         {
-                             <em>Not found</em>
-                         }
-                         else
-                         {
-                             <EditForm Model="@tableBooking" OnValidSubmit="Edit">
-                                 <DataAnnotationsValidator/>
-                                 <ValidationSummary/>
-                                 <div class="form-group">
-                                     Table:<br/>
-                                     <InputNumber style="width: 100%" Min="0" Max="100" @bind-Value="@tableBooking.Table.TableId"/>
-                                 </div>
-                                 <div class="form-group">
-                                     People:<br/>
-                                     <InputNumber style="width: 100%" @bind-Value="@tableBooking.People"/>
-                                 </div>
-                                 <div class="form-group" >
-                                     Date:<br/>
-                                     <MatDatePicker @bind-Value="@tableBooking.BookingDateTime" EnableTime="true" Enable24hours="true" Style="width: 100%"></MatDatePicker>
-                                 </div>
-       
-                                 <RadzenButton type="submit" Text="Edit" Style="margin-bottom: 20px; width: 100%"
-                                               ButtonStyle="ButtonStyle.Info"/>
-        
-        
-                             </EditForm>
-                             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
-                         }
-                     </AuthorizeView>
-                 </div>
-             </div>
-         </div></div>
- </div>
- </div>
+                            @if (@tableBooking == null)
+                            {
+                                <em>Not found</em>
+                            }
+                            else
+                            {
+                                <EditForm Model="@tableBooking" OnValidSubmit="Edit">
+                                    <DataAnnotationsValidator/>
+                                    <ValidationSummary/>
+                                    <div class="form-group">
+                                        Table:<br/>
+                                        <InputNumber style="width: 100%" Min="0" Max="100" @bind-Value="@tableBooking.Table.TableId"/>
+                                    </div>
+                                    <div class="form-group">
+                                        People:<br/>
+                                        <InputNumber style="width: 100%" @bind-Value="@tableBooking.People"/>
+                                    </div>
+                                    <div class="form-group">
+                                        Date:<br/>
+                                        <MatDatePicker @bind-Value="@tableBooking.BookingDateTime" EnableTime="true" Enable24hours="true" Style="width: 100%"></MatDatePicker>
+                                    </div>
+
+                                    <RadzenButton type="submit" Text="Edit" Style="margin-bottom: 20px; width: 100%"
+                                                  ButtonStyle="ButtonStyle.Info"/>
+
+
+                                </EditForm>
+                                <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+                            }
+                        </AuthorizeView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
+
     [Parameter]
     public long BookingId { get; set; }
 
     private TableBooking tableBooking = new TableBooking();
     private string confirmationMessage = "";
-    
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,19 +75,18 @@
     {
         try
         {
-          await tableBookingService.UpdateTableBookingAsync(tableBooking);
+            await tableBookingService.UpdateTableBookingAsync(tableBooking);
             confirmationMessage = "Booking has been successfully edited";
-            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = confirmationMessage, Duration = 4000 });
+            NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Success, Summary = confirmationMessage, Duration = 4000});
         }
         catch (Exception e)
         {
-            confirmationMessage=e.Message;
-            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = confirmationMessage, Duration = 4000 });
-
+            confirmationMessage = e.Message;
+            NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Error, Summary = confirmationMessage, Duration = 4000});
         }
     }
-    
-    
+
+
     private void Back()
     {
         navigationManager.NavigateTo("/ManageBookings");
