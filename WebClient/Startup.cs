@@ -35,11 +35,11 @@ namespace WebClient
             services.AddScoped<IMenusService, MenusWebService>();
             services.AddScoped<IMenuItemsService, MenuItemsWebService>();
             services.AddScoped<IMenuItemsSelectionsService, MenuItemsSelectionsWebService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<ITableBookingService, TableBookingService>();
+            services.AddScoped<IOrderService, OrderWebService>();
+            services.AddScoped<ITableBookingService, TableBookingsWebService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IAccountService, AccountWebService>();
-            services.AddScoped<IRestaurantService, RestaurantService>();
+            services.AddScoped<IRestaurantService, RestaurantWebService>();
             
             services.AddAuthorization(options => {
                 options.AddPolicy("Employee",  a => 

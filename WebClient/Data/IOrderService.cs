@@ -6,10 +6,10 @@ namespace WebClient.Data
 {
     public interface IOrderService
     {
-        Task<Order> CreateOrder(Order order);
+        Task<Order> CreateOrderAsync(Order order);
         Task<List<Order>> GetOrdersAsync(string? status);
         Task<Order> GetOrderAsync(long orderId);
         Task<Order> UpdateOrderAsync(Order order);
-        Task<int> GetCustomerOrders(string email);
+        Task<int> GetCustomerOrdersAsync(string email);
     }
 }

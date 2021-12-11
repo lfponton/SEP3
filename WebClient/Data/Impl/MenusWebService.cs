@@ -22,7 +22,7 @@ namespace WebClient.Data.Impl
             };
         }
 
-        public async Task<List<Menu>> GetMenus()
+        public async Task<List<Menu>> GetMenusAsync()
         {
             HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/menus");
             if (!response.IsSuccessStatusCode)
@@ -32,7 +32,7 @@ namespace WebClient.Data.Impl
             return menus;
         }
 
-        public  async Task<Menu> CreateMenuAsync(Menu menu)
+        public async Task<Menu> CreateMenuAsync(Menu menu)
         {
             string menuAsJson = JsonSerializer.Serialize(menu, options);
             HttpContent content = new StringContent(menuAsJson, Encoding.UTF8, "application/json");
@@ -45,23 +45,6 @@ namespace WebClient.Data.Impl
             }
 
             throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
-
         }
-
-        public async Task<Menu> GetMenuAsync(int menuId)
-        {
-            using HttpClient client = new HttpClient();
-            string menuAsJson = JsonSerializer.Serialize(menuId, options);
-            HttpContent content = new StringContent(menuAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync($"http://localhost:8080/menus", content);
-            if (response.IsSuccessStatusCode)
-            {
-                string menuAsJsonResponse = await response.Content.ReadAsStringAsync();
-                Menu resultMenu = JsonSerializer.Deserialize<Menu>(menuAsJsonResponse, options);
-                return resultMenu;
-            }
-            throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
-        }
-
     }
 }

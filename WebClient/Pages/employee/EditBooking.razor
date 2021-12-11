@@ -65,14 +65,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        tableBooking = await tableBookingService.GetBookingById(BookingId);
+        tableBooking = await tableBookingService.GetBookingByIdAsync(BookingId);
     }
 
     private async Task Edit()
     {
         try
         {
-          await tableBookingService.UpdateTableBooking(tableBooking);
+          await tableBookingService.UpdateTableBookingAsync(tableBooking);
             confirmationMessage = "Booking has been successfully edited";
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = confirmationMessage, Duration = 4000 });
         }

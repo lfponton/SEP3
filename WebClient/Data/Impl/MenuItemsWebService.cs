@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WebClient.Models;
-using WebClient.Data;
 
 namespace WebClient.Data.Impl
 {
@@ -22,8 +21,8 @@ namespace WebClient.Data.Impl
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-        
-        public async Task<IList<MenuItem>> GetMenuItems( int menuItemId)
+
+        public async Task<IList<MenuItem>> GetMenuItemsAsync(int menuItemId)
         {
             HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/menuItems/{menuItemId}");
             if (!response.IsSuccessStatusCode)
@@ -33,7 +32,6 @@ namespace WebClient.Data.Impl
             return menusItems;
         }
 
-        
 
         public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
@@ -50,15 +48,6 @@ namespace WebClient.Data.Impl
             }
 
             throw new Exception($"Error,{response.StatusCode},{response.ReasonPhrase}");
-
         }
-        
-        
-
-        public Task DeleteMenuItem(long menuItemId)
-        {
-            throw new NotImplementedException();
-        }
-       
     }
 }

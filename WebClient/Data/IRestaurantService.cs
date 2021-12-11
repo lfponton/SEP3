@@ -5,6 +5,6 @@ namespace WebClient.Data
 {
     public interface IRestaurantService
     {
-        public Task<Restaurant> GetRestaurant();
+        public Task<Restaurant> GetRestaurantAsync();
     }
 }

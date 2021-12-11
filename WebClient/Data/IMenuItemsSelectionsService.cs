@@ -6,6 +6,6 @@ namespace WebClient.Data
 {
     public interface IMenuItemsSelectionsService
     {
-        Task<IList<MenuItemsSelection>> GetMenuItemsSelections(long menuId);
+        Task<IList<MenuItemsSelection>> GetMenuItemsSelectionsAsync(long menuId);
     }
 }

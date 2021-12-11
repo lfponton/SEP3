@@ -1,4 +1,4 @@
-﻿namespace WebClient.Data.validationhandler
+﻿namespace WebClient.Data.ValidationHandler
 {
     public class ExceptionResponse
     {

@@ -6,12 +6,7 @@ namespace WebClient.Data
 {
     public interface IMenusService
     {
-        Task<List<Menu>> GetMenus();
+        Task<List<Menu>> GetMenusAsync();
         Task<Menu> CreateMenuAsync(Menu menu);
-
-        Task<Menu> GetMenuAsync(int menuId);
-
-
-
     }
 }
