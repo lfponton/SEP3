@@ -40,7 +40,7 @@
                 {
                     <p>You have accummulated 10 orders! You will get a 50% discount on this order.</p>
                 }
-                
+
                 @foreach (var menu in menus)
                 {
                     <RadzenCard Style="margin-bottom: 2%; height:15%;">
@@ -199,7 +199,7 @@
     {
         orderItems = new List<OrderItem>();
     }
-    
+
     private async Task Next()
     {
         if (order.OrderItems.Any())
@@ -219,6 +219,10 @@
             {
                 errorMessage = e.Message;
             }
+        }
+        else
+        {
+            NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Error, Summary = "No Menus Selected", Duration = 4000});
         }
     }
 

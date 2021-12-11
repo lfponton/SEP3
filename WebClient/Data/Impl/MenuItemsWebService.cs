@@ -36,13 +36,11 @@ namespace WebClient.Data.Impl
         public async Task<MenuItem> CreateMenuItemAsync(MenuItem menuItem)
         {
             string menuItemAsJson = JsonSerializer.Serialize(menuItem, options);
-            Console.WriteLine(menuItemAsJson);
             HttpContent content = new StringContent(menuItemAsJson, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync("http://localhost:8080/menuItems", content);
             if (response.IsSuccessStatusCode)
             {
                 string menuItemAsJsonResponse = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(menuItemAsJsonResponse);
                 MenuItem resultMenuItem = JsonSerializer.Deserialize<MenuItem>(menuItemAsJsonResponse, options);
                 return resultMenuItem;
             }
