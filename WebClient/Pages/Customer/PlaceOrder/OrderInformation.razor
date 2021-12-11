@@ -131,9 +131,16 @@
 
     private async Task PlaceOrder()
     {
-        order.Status = "pending";
-        await OrderService.UpdateOrderAsync(order);
-        NavigationManager.NavigateTo($"/OrderConfirmation/{order.OrderId}");
+        if (order.IsDelivery && order.DeliveryAddress == null)
+        {
+            NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Error, Summary = "No Delivery Address", Duration = 4000});
+        }
+        else
+        {
+            order.Status = "pending";
+            await OrderService.UpdateOrderAsync(order);
+            NavigationManager.NavigateTo($"/OrderConfirmation/{order.OrderId}");
+        }
     }
 
     private void ShowNotification(NotificationMessage message)
