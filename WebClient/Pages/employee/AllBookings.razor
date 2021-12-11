@@ -7,7 +7,7 @@
 
 
 
-<h3>All Bookings</h3>
+<h3 class="text-center">All Bookings</h3>
     <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
 
 <AuthorizeView>
@@ -25,13 +25,15 @@
 }
 else
 {
+    
     <EditForm Model="@filterDate" OnSubmit="FilterBookings">
         <div class="form-group">
             <MatDatePicker @bind-Value="@filterDate" Style="height: inherit"></MatDatePicker>
             <button class="btn btn-outline-dark" type="submit">Filter by day</button>
         </div>
     </EditForm>
-    <table class="table me-2">
+    <div class="pre-scrollable" style="height: 70em">
+    <table class="table me-2"style="background-color: white; padding: 3em">
         <thead>
         <tr>
             <th>Id</th>
@@ -70,8 +72,8 @@ else
         }
         </tbody>
 
-    </table>
-    <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="Back">Back</button>
+    </table></div>
+
 }
     </AuthorizeView>
 

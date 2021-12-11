@@ -8,7 +8,7 @@
 @inject IRestaurantService restaurantService;
 @inject NotificationService NotificationService
 
-<h3>ManageBookings</h3>
+<h3 class="text-center">ManageBookings</h3>
 
   <AuthorizeView>
          <NotAuthorized>
@@ -16,11 +16,11 @@
          </NotAuthorized>
      </AuthorizeView>
 <AuthorizeView Policy="Employee" Context="eContext">
-    <div class="d-flex justify-content-around">
+    
+        <div></div>
         <h3>Today's bookings <br/> @today.ToLongDateString()</h3>
-        <b>Restaurant capacity: @restaurant.Capacity</b>
-        <button>Set</button>
-</div>
+        
+  
     @if (!tableBookings.Any())
     {
         <button class="btn btn-primary" type="button" disabled>
@@ -30,7 +30,7 @@
     }
     else
     {
-        <table class="table me-2" style="background-color: white; padding: 2em">
+        <table class="table me-2" style="background-color: white; padding: 3em">
             <thead>
             <tr>
                 <th>Id</th>
@@ -68,9 +68,13 @@
 
             <br/>
             <br/>
-
+<div class="d-flex justify-content-around">
             <h4 >Total people today: @totalOfPeople</h4>
-
+            <div>
+                        <b>Restaurant capacity: @restaurant.Capacity</b>
+                        <button>Set</button>
+                    </div>
+</div>
             <button class="btn btn-outline-dark" style="margin-top: 5%; margin-bottom: 5%" @onclick="GoToSeeAllBookings">See all bookings</button>
 
             <br>
