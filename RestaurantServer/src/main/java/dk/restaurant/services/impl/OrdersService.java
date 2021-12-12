@@ -44,7 +44,7 @@ public class OrdersService implements IOrdersService
   private void checkCustomerNumberOfOrders(String email, Order newOrder)
   {
     int numberOfOrders = client.getCustomerOrders(email);
-    if (numberOfOrders % 10 == 0)
+    if (numberOfOrders != 0 && numberOfOrders % 10 == 0)
     {
       calculateDiscount(newOrder, fiftyPercentDiscount);
     }
