@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using DataServer.Models;
 
 namespace DataServer.Models
 {
@@ -17,10 +14,10 @@ namespace DataServer.Models
         public string Status { get; set; }
         public bool IsDelivery { get; set; }
         public DeliveryAddress DeliveryAddress { get; set; }
+
         public Order()
         {
             OrderItems = new List<OrderItem>();
         }
-
     }
 }

@@ -1,8 +1,6 @@
-﻿using System.Text.Json;
-
-namespace DataServer.Models
+﻿namespace DataServer.Models
 {
-    public class Employee : Person
+    public class Employee : User
     {
     }
 }

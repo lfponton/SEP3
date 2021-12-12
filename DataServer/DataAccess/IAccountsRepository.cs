@@ -5,7 +5,7 @@ namespace DataServer.DataAccess
 {
     public interface IAccountsRepository
     {
-        Task<Person> CreateAccountAsync(Person person);
+        Task<User> CreateAccountAsync(User user);
         Task<Customer> GetCustomerAccountAsync(string email);
         Task<Employee> GetEmployeeAccountAsync(string email);
 

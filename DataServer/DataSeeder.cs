@@ -92,7 +92,7 @@ namespace DataServer
         
         private static async Task CreateCustomer(IAccountsRepository accountsRepository)
         {
-            Person customer = new Customer
+            User customer = new Customer
             {
                 Email = "hello@gmail.com",
                 FirstName = "Bill",

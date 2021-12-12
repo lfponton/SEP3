@@ -52,34 +52,34 @@ namespace DataServer.DataAccess.Impl
             }
         }
 
-        public async Task<Person> CreateAccountAsync(Person person)
+        public async Task<User> CreateAccountAsync(User user)
         {
-            if (person.GetType() == typeof(Customer))
+            if (user.GetType() == typeof(Customer))
             {
                 var customer = new Customer()
                 {
-                    Email = person.Email,
-                    FirstName = person.FirstName,
-                    LastName = person.LastName,
-                    Password = person.Password
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Password = user.Password
                 };
                 await context.Customers.AddAsync(customer);
                 return customer;
             }
-            if (person.GetType() == typeof(Employee))
+            if (user.GetType() == typeof(Employee))
             {
                 var employee = new Employee()
                 {
-                    Email = person.Email,
-                    FirstName = person.FirstName,
-                    LastName = person.LastName,
-                    Password = person.Password
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Password = user.Password
                 };
                 await context.Employees.AddAsync(employee);
                 return employee;
             }
 
-            return person;
+            return user;
         }
 
         public async Task<Customer> GetCustomerAccountAsync(string email)

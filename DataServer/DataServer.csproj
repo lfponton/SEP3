@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <Folder Include="DataAccess\Authentication" />
+      <Folder Include="Migrations" />
     </ItemGroup>
 
 </Project>
