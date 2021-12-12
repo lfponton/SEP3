@@ -2,10 +2,8 @@ package dk.restaurant.services.impl;
 
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Employee;
-import dk.restaurant.models.Person;
 import dk.restaurant.network.IAccountsClient;
 import dk.restaurant.network.IClientFactory;
-import dk.restaurant.network.IMenuItemsSelectionsClient;
 import dk.restaurant.services.IAccountsService;
 
 public class AccountsService implements IAccountsService

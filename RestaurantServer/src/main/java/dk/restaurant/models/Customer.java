@@ -1,10 +1,8 @@
 package dk.restaurant.models;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 
-public class Customer extends Person implements Serializable
+public class Customer extends User implements Serializable
 {
   public Customer()
   {

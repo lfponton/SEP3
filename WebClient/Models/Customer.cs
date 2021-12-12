@@ -1,6 +1,6 @@
 ﻿namespace WebClient.Models
 {
-    public class Customer : Person
+    public class Customer : User
     {
     }
 }

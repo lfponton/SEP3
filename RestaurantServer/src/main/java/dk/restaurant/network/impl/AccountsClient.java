@@ -2,10 +2,9 @@ package dk.restaurant.network.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Employee;
-import dk.restaurant.models.Person;
+import dk.restaurant.models.User;
 import dk.restaurant.network.IAccountsClient;
 
 import java.io.BufferedReader;
@@ -39,7 +38,7 @@ public class AccountsClient implements IAccountsClient
 
   }
 
-  @Override public synchronized Person getAccount()
+  @Override public synchronized User getAccount()
   {
     out.println("Accounts");
     String response = "";
@@ -54,7 +53,7 @@ public class AccountsClient implements IAccountsClient
       e.printStackTrace();
     }
 
-    return gson.fromJson(response, Person.class);
+    return gson.fromJson(response, User.class);
   }
 
   @Override public Employee createEmployeeAccount(Employee employee)

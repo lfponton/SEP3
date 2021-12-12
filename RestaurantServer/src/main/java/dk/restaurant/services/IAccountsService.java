@@ -2,7 +2,6 @@ package dk.restaurant.services;
 
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Employee;
-import dk.restaurant.models.Person;
 
 public interface IAccountsService
 {

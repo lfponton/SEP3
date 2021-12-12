@@ -1,7 +1,7 @@
 package dk.restaurant.models;
 
 
-public class Person
+public class User
 {
   private long id;
   public String email;
@@ -9,7 +9,7 @@ public class Person
   private String lastName;
   private String password;
 
-  public Person(long id, String email, String firstName, String lastName, String password) {
+  public User(long id, String email, String firstName, String lastName, String password) {
     this.id = id;
     this.email = email;
     this.firstName = firstName;
@@ -17,7 +17,7 @@ public class Person
     this.password = password;
   }
 
-  public Person()
+  public User()
   {
   }
 

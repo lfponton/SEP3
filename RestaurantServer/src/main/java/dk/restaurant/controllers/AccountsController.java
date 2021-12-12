@@ -2,8 +2,6 @@ package dk.restaurant.controllers;
 
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Employee;
-import dk.restaurant.models.Person;
-import dk.restaurant.models.TableBooking;
 import dk.restaurant.services.IAccountsService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;

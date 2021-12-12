@@ -14,7 +14,7 @@ namespace WebClient.Authentication
     {
         private readonly IJSRuntime jsRuntime;
         private readonly IAccountService accountService;
-        private Person cachedUser;
+        private User cachedUser;
 
         public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IAccountService accountService)
         {
@@ -30,7 +30,7 @@ namespace WebClient.Authentication
                 string userAsJson = await jsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
-                    var tmp = JsonSerializer.Deserialize<Person>(userAsJson);
+                    var tmp = JsonSerializer.Deserialize<User>(userAsJson);
                     await ValidateLogin(tmp.Email, tmp.Password);
                 }
             }
