@@ -28,7 +28,6 @@ public class OrdersServiceTest
   public void setUp() {
     clientFactory = new MockClientFactory();
     orderClient = clientFactory.getOrdersClient();
-    orderClient.seed();
     ordersService = new OrdersService(clientFactory);
   }
 
