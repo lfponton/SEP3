@@ -56,7 +56,7 @@ public class MenuItemsClient implements IMenuItemsClient
   }
 
   @Override
-  public MenuItem createMenuItem(MenuItem menuItem) {
+  public synchronized MenuItem createMenuItem(MenuItem menuItem) {
     String response = "";
 
     try
@@ -75,7 +75,7 @@ public class MenuItemsClient implements IMenuItemsClient
   }
 
   @Override
-  public MenuItem getMenuItem(int menuItemId) {
+  public synchronized MenuItem getMenuItem(int menuItemId) {
     String response = "";
     try
     {

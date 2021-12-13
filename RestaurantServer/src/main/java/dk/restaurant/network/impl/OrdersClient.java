@@ -84,7 +84,7 @@ public class OrdersClient implements IOrdersClient
     return gson.fromJson(response, Order.class);
   }
 
-  @Override public Order getOrder(long orderId)
+  @Override public synchronized Order getOrder(long orderId)
   {
     String response = "";
     try
@@ -101,7 +101,7 @@ public class OrdersClient implements IOrdersClient
     return gson.fromJson(response, Order.class);
   }
 
-  @Override public Order updateOrder(Order order)
+  @Override public synchronized Order updateOrder(Order order)
   {
     String response = "";
     try
@@ -119,7 +119,7 @@ public class OrdersClient implements IOrdersClient
     return gson.fromJson(response, Order.class);
   }
 
-  @Override public int getCustomerOrders(String email)
+  @Override public synchronized int getCustomerOrders(String email)
   {
     String response = "";
     try

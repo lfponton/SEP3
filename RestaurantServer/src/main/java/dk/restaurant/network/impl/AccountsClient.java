@@ -56,7 +56,7 @@ public class AccountsClient implements IAccountsClient
     return gson.fromJson(response, User.class);
   }
 
-  @Override public Employee createEmployeeAccount(Employee employee)
+  @Override public synchronized Employee createEmployeeAccount(Employee employee)
   {
     out.println("Accounts");
     String response = "";
@@ -74,7 +74,7 @@ public class AccountsClient implements IAccountsClient
     return gson.fromJson(response, Employee.class);
   }
 
-  @Override public Customer createCustomerAccount(Customer customer)
+  @Override public synchronized Customer createCustomerAccount(Customer customer)
   {
     out.println("Accounts");
     String response = "";
@@ -92,7 +92,7 @@ public class AccountsClient implements IAccountsClient
     return gson.fromJson(response, Customer.class);
   }
 
-  @Override public Employee getEmployeeAccount(String email)
+  @Override public synchronized Employee getEmployeeAccount(String email)
   {
     out.println("Accounts");
     String response = "";
@@ -110,7 +110,7 @@ public class AccountsClient implements IAccountsClient
     return gson.fromJson(response, Employee.class);
   }
 
-  @Override public Customer getCustomerAccount(String email)
+  @Override public synchronized Customer getCustomerAccount(String email)
   {
     out.println("Accounts");
     String response = "";

@@ -94,7 +94,7 @@ public class TableBookingsClient implements ITableBookingsClient {
     }
 
     @Override
-    public TableBooking getBookingById(Long tableBookingId) {
+    public synchronized TableBooking getBookingById(Long tableBookingId) {
         TableBooking booking = new TableBooking();
         try
         {

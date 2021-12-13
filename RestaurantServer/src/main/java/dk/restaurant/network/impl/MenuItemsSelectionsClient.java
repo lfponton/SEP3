@@ -39,7 +39,7 @@ public class MenuItemsSelectionsClient implements IMenuItemsSelectionsClient
     }
 
   }
-  @Override public List<MenuItemsSelection> getMenuItemsSelections(long menuId)
+  @Override public synchronized List<MenuItemsSelection> getMenuItemsSelections(long menuId)
   {
     out.println("MenuItemsSelections");
     List<MenuItemsSelection> menuItemsSelection = new ArrayList<>();
