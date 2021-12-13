@@ -1,6 +1,6 @@
 ﻿@page "/ViewOrder/{Id:long}"
 @inject NavigationManager NavigationManager
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
 @using WebClient.Models
 @using WebClient.Data
@@ -84,7 +84,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        order = await OrderService.GetOrderAsync(Id);
+        order = await ordersService.GetOrderAsync(Id);
         orderType = order.IsDelivery ? "Delivery" : "Pick Up";
         if (order.OrderItems != null)
         {
@@ -106,14 +106,14 @@
     private async Task ConfirmOrder()
     {
         order.Status = "confirmed";
-        await OrderService.UpdateOrderAsync(order);
+        await ordersService.UpdateOrderAsync(order);
         NavigationManager.NavigateTo("PendingOrders");
     }
 
     private async void CancelOrder()
     {
         order.Status = "cancelled";
-        await OrderService.UpdateOrderAsync(order);
+        await ordersService.UpdateOrderAsync(order);
         NavigationManager.NavigateTo("PendingOrders");
     }
 

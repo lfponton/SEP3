@@ -1,6 +1,6 @@
 ﻿@page "/PendingOrders"
 @inject NavigationManager NavigationManager
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @using WebClient.Models
 @using WebClient.Data
 <div class="text-center">
@@ -65,7 +65,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        pendingOrders = await OrderService.GetOrdersAsync("pending");
+        pendingOrders = await ordersService.GetOrdersAsync("pending");
     }
 
     private void ViewOrder(long orderId)
@@ -75,7 +75,7 @@ else
     
     private async Task Refresh()
     {
-        pendingOrders = await OrderService.GetOrdersAsync("pending");
+        pendingOrders = await ordersService.GetOrdersAsync("pending");
     }
 
     private void Back()

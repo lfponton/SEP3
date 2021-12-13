@@ -1,6 +1,6 @@
 ﻿@page "/CompletedOrders"
 @inject NavigationManager NavigationManager
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @using WebClient.Models
 @using WebClient.Data
 <div class="text-center">
@@ -64,7 +64,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        completedOrders = await OrderService.GetOrdersAsync("completed");
+        completedOrders = await ordersService.GetOrdersAsync("completed");
     }
 
     private void ViewOrder(long orderId)

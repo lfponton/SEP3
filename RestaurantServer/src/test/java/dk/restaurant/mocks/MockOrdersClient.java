@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MockOrderClient implements IOrdersClient
+public class MockOrdersClient implements IOrdersClient
 {
   private int numberOfCustomersOrders;
 
-  public MockOrderClient()
+  public MockOrdersClient()
   {
   }
 

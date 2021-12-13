@@ -1,6 +1,6 @@
 ﻿@page "/ConfirmedOrders"
 @inject NavigationManager NavigationManager
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @using WebClient.Models
 @using WebClient.Data
 <div class="text-center">
@@ -64,14 +64,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        confirmedOrders = await OrderService.GetOrdersAsync("confirmed");
+        confirmedOrders = await ordersService.GetOrdersAsync("confirmed");
     }
 
     private async Task ViewOrder(Order order)
     {
         order.Status = "completed";
-        await OrderService.UpdateOrderAsync(order);
-        confirmedOrders = await OrderService.GetOrdersAsync("confirmed");
+        await ordersService.UpdateOrderAsync(order);
+        confirmedOrders = await ordersService.GetOrdersAsync("confirmed");
     }
 
     private void Back()

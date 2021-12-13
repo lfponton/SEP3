@@ -2,7 +2,7 @@
 @using WebClient.Data
 @using WebClient.Models
 @using System.Threading
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @inject NavigationManager NavigationManager
 
 <div class="text-center">
@@ -39,7 +39,7 @@ else if (status.Equals("confirmed"))
     
     protected override async Task OnInitializedAsync()
     {
-        order = await OrderService.GetOrderAsync(OrderId);
+        order = await ordersService.GetOrderAsync(OrderId);
         status = order.Status;
         await StartTimer();
     }
@@ -48,7 +48,7 @@ else if (status.Equals("confirmed"))
     {
         var timer = new Timer(new TimerCallback(async _ =>
         {
-            order = await OrderService.GetOrderAsync(OrderId);
+            order = await ordersService.GetOrderAsync(OrderId);
             status = order.Status;
             if (status.Equals("confirmed"))
             {

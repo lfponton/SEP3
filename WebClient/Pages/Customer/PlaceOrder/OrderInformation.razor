@@ -2,7 +2,7 @@
 @using WebClient.Models
 @inject NavigationManager NavigationManager
 @using WebClient.Data
-@inject IOrderService OrderService
+@inject IOrdersService ordersService
 @inject NotificationService NotificationService
 
 <div class="text-center">
@@ -113,7 +113,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        order = await OrderService.GetOrderAsync(OrderId);
+        order = await ordersService.GetOrderAsync(OrderId);
         hideAddress = false;
         deliveryAddress = new DeliveryAddress();
     }
@@ -138,7 +138,7 @@
         else
         {
             order.Status = "pending";
-            await OrderService.UpdateOrderAsync(order);
+            await ordersService.UpdateOrderAsync(order);
             NavigationManager.NavigateTo($"/OrderConfirmation/{order.OrderId}");
         }
     }

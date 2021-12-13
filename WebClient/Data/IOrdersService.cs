@@ -4,7 +4,7 @@ using WebClient.Models;
 
 namespace WebClient.Data
 {
-    public interface IOrderService
+    public interface IOrdersService
     {
         Task<Order> CreateOrderAsync(Order order);
         Task<List<Order>> GetOrdersAsync(string? status);

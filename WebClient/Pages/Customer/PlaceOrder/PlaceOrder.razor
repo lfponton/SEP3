@@ -5,7 +5,7 @@
 @inject IMenusService MenusService;
 @inject IMenuItemsService MenuItemsWebService;
 @inject IMenuItemsSelectionsService MenuItemsSelectionsService
-@inject IOrderService OrderService;
+@inject IOrdersService ordersService;
 @inject NavigationManager NavigationManager;
 @inject IAccountService AccountService
 @inject NotificationService NotificationService
@@ -154,7 +154,7 @@
             m.MenusItemsSelections = await MenuItemsSelectionsService.GetMenuItemsSelectionsAsync(m.MenuId);
         }
 
-        numberOfOrders = await OrderService.GetCustomerOrdersAsync(customerEmail);
+        numberOfOrders = await ordersService.GetCustomerOrdersAsync(customerEmail);
     }
 
 
@@ -212,7 +212,7 @@
                 order.Price = price;
                 order.Status = "ordering";
                 order.IsDelivery = true;
-                order = await OrderService.CreateOrderAsync(order);
+                order = await ordersService.CreateOrderAsync(order);
                 NavigationManager.NavigateTo($"/OrderInformation/{order.OrderId}");
             }
             catch (Exception e)

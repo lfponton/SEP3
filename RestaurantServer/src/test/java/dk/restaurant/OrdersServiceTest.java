@@ -1,7 +1,7 @@
 package dk.restaurant;
 
 import dk.restaurant.mocks.MockClientFactory;
-import dk.restaurant.mocks.MockOrderClient;
+import dk.restaurant.mocks.MockOrdersClient;
 import dk.restaurant.models.Customer;
 import dk.restaurant.models.Order;
 import dk.restaurant.models.OrderItem;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThrows;
 public class OrdersServiceTest
 {
   private MockClientFactory clientFactory;
-  private MockOrderClient orderClient;
+  private MockOrdersClient orderClient;
   private IOrdersService ordersService;
 
   @Before

@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-public class OrderController
+public class OrdersController
 {
   private IOrdersService service;
 
-  public OrderController(IServiceFactory serviceFactory)
+  public OrdersController(IServiceFactory serviceFactory)
   {
     this.service = serviceFactory.getOrdersService();
   }

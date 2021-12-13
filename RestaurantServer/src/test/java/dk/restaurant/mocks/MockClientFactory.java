@@ -1,22 +1,21 @@
 package dk.restaurant.mocks;
 
 import dk.restaurant.network.*;
-import dk.restaurant.network.impl.*;
 import org.apache.commons.lang3.NotImplementedException;
 
 public class MockClientFactory implements IClientFactory
 {
-  MockOrderClient mockOrderClient;
+  MockOrdersClient mockOrderClient;
 
   public MockClientFactory()
   {
   }
 
-  public MockOrderClient getOrdersClient()
+  public MockOrdersClient getOrdersClient()
   {
     if (mockOrderClient == null)
     {
-      mockOrderClient = new MockOrderClient();
+      mockOrderClient = new MockOrdersClient();
     }
 
     return mockOrderClient;

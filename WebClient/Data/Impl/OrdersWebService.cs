@@ -9,13 +9,13 @@ using WebClient.Models;
 
 namespace WebClient.Data.Impl
 {
-    public class OrderWebService : IOrderService
+    public class OrdersWebService : IOrdersService
     {
         private readonly HttpClient client;
         private JsonSerializerOptions options;
         private string uri = "http://localhost:8080";
 
-        public OrderWebService()
+        public OrdersWebService()
         {
             client = new HttpClient();
             options = new JsonSerializerOptions()
