@@ -88,16 +88,16 @@ namespace DataServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tables",
+                name: "Restaurants",
                 columns: table => new
                 {
-                    TableId = table.Column<int>(type: "integer", nullable: false)
+                    RestaurantId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Capacity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tables", x => x.TableId);
+                    table.PrimaryKey("PK_Restaurants", x => x.RestaurantId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,31 +158,22 @@ namespace DataServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TableBookings",
+                name: "Tables",
                 columns: table => new
                 {
-                    TableBookingId = table.Column<long>(type: "bigint", nullable: false)
+                    TableId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    People = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    TableId = table.Column<int>(type: "integer", nullable: true),
-                    CustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    BookingDateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Capacity = table.Column<int>(type: "integer", nullable: false),
+                    RestaurantId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TableBookings", x => x.TableBookingId);
+                    table.PrimaryKey("PK_Tables", x => x.TableId);
                     table.ForeignKey(
-                        name: "FK_TableBookings_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TableBookings_Tables_TableId",
-                        column: x => x.TableId,
-                        principalTable: "Tables",
-                        principalColumn: "TableId",
+                        name: "FK_Tables_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "RestaurantId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -210,6 +201,35 @@ namespace DataServer.Migrations
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TableBookings",
+                columns: table => new
+                {
+                    TableBookingId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    People = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    TableId = table.Column<int>(type: "integer", nullable: true),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: true),
+                    BookingDateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TableBookings", x => x.TableBookingId);
+                    table.ForeignKey(
+                        name: "FK_TableBookings_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TableBookings_Tables_TableId",
+                        column: x => x.TableId,
+                        principalTable: "Tables",
+                        principalColumn: "TableId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -241,6 +261,11 @@ namespace DataServer.Migrations
                 name: "IX_TableBookings_TableId",
                 table: "TableBookings",
                 column: "TableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tables_RestaurantId",
+                table: "Tables",
+                column: "RestaurantId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -274,6 +299,9 @@ namespace DataServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Restaurants");
         }
     }
 }

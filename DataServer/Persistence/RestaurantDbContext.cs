@@ -15,13 +15,14 @@ namespace DataServer.Persistence
         public DbSet<Table> Tables { get; set; }
         public DbSet<TableBooking> TableBookings { get; set; }
         public DbSet<MenuItemsSelection> MenuItemsSelections { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Change this to the path in your system
             optionsBuilder
                 .UseNpgsql(
-                    "Host=abul.db.elephantsql.com;Port=5432;Database=zibbswpw;Username=zibbswpw;Password=fjYWRAYhEi83jiawPWrhu8WB3u7S-xVr;Pooling=false;Timeout=300;CommandTimeout=300;;"
+                    "Host=abul.db.elephantsql.com;Port=5432;Database=mojjwboj;Username=mojjwboj;Password=SDS9G58kODF5ksqKCemIKSKkQNS9gSw6;Pooling=false;Timeout=300;CommandTimeout=300;;"
                 );
 
         }

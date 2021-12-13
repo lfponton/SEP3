@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataServer.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20211212095702_InitialCreate")]
+    [Migration("20211213134324_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,6 +217,21 @@ namespace DataServer.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("DataServer.Models.Restaurant", b =>
+                {
+                    b.Property<long>("RestaurantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RestaurantId");
+
+                    b.ToTable("Restaurants");
+                });
+
             modelBuilder.Entity("DataServer.Models.Table", b =>
                 {
                     b.Property<int>("TableId")
@@ -227,7 +242,12 @@ namespace DataServer.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
 
+                    b.Property<long?>("RestaurantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("TableId");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Tables");
                 });
@@ -316,6 +336,13 @@ namespace DataServer.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("DataServer.Models.Table", b =>
+                {
+                    b.HasOne("DataServer.Models.Restaurant", null)
+                        .WithMany("Tables")
+                        .HasForeignKey("RestaurantId");
+                });
+
             modelBuilder.Entity("DataServer.Models.TableBooking", b =>
                 {
                     b.HasOne("DataServer.Models.Customer", "Customer")
@@ -346,6 +373,11 @@ namespace DataServer.Migrations
             modelBuilder.Entity("DataServer.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("DataServer.Models.Restaurant", b =>
+                {
+                    b.Navigation("Tables");
                 });
 
             modelBuilder.Entity("DataServer.Models.Table", b =>
