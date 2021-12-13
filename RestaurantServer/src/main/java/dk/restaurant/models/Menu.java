@@ -1,11 +1,9 @@
 package dk.restaurant.models;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Menu implements Serializable
+public class Menu
 {
   private int menuId;
   private String name;

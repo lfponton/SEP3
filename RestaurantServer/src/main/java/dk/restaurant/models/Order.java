@@ -1,11 +1,9 @@
 package dk.restaurant.models;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
-import java.time.LocalDateTime;
 
-public class Order implements Serializable
+public class Order
 {
   private long orderId;
   private Date orderDateTime;

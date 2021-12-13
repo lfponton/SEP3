@@ -1,6 +1,5 @@
 package dk.restaurant.models;
 
-
 public class User
 {
   private long id;

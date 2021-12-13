@@ -1,9 +1,6 @@
 package dk.restaurant.models;
 
-import java.io.Serializable;
-
-
-public class Employee extends User implements Serializable
+public class Employee extends User
 {
   public Employee()
   {
