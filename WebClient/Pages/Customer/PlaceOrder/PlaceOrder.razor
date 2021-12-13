@@ -36,7 +36,7 @@
             }
             else
             {
-                if (numberOfOrders % 10 == 0)
+                if (numberOfOrders != 0 && numberOfOrders % 10 == 0)
                 {
                     <p>You have accummulated 10 orders! You will get a 50% discount on this order.</p>
                 }
@@ -117,7 +117,7 @@
                 {
                     <p>You will receive a 10% discount for this order.</p>
                 }
-                if (numberOfOrders % 10 == 0)
+                if (numberOfOrders != 0 && numberOfOrders % 10 == 0)
                 {
                     <p>You have accummulated 10 orders! You will get a 50% discount on this order.</p>
                 }
