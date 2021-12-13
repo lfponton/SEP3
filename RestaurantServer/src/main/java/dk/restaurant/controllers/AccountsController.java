@@ -33,16 +33,20 @@ import org.springframework.web.bind.annotation.*;
     return new ResponseEntity<Customer>(customer, HttpStatus.OK);
   }
 
-  @PostMapping("/accounts/employees") @ResponseStatus(HttpStatus.CREATED) public Employee createEmployeeAccount(
+  @PostMapping("/accounts/employees") @ResponseStatus(HttpStatus.CREATED)
+  public  ResponseEntity<Employee> createEmployeeAccount(
       @RequestBody Employee employee)
   {
-    return service.createEmployeeAccount(employee);
+    Employee newEmployee =  service.createEmployeeAccount(employee);
+    return new ResponseEntity<Employee>(newEmployee, HttpStatus.OK);
   }
 
-  @PostMapping("/accounts/customers") @ResponseStatus(HttpStatus.CREATED) public Customer createEmployeeAccount(
+  @PostMapping("/accounts/customers") @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<Customer> createEmployeeAccount(
       @RequestBody Customer customer)
   {
-    return service.createCustomerAccount(customer);
+    Customer newCustomer = service.createCustomerAccount(customer);
+    return new ResponseEntity<Customer>(newCustomer, HttpStatus.OK);
   }
 
 }

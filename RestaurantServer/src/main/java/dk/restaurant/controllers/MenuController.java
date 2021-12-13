@@ -1,11 +1,7 @@
 
 package dk.restaurant.controllers;
 
-import dk.restaurant.models.Customer;
 import dk.restaurant.models.Menu;
-import dk.restaurant.models.Order;
-import dk.restaurant.network.IClientFactory;
-import dk.restaurant.network.IMenusClient;
 import dk.restaurant.services.IMenusService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
@@ -27,9 +23,10 @@ public class MenuController {
     }
 
     @GetMapping(value = "/{menuId}")
-    public Menu getMenu(@PathVariable("menuId") int menuId)
+    public ResponseEntity<Menu> getMenu(@PathVariable("menuId") int menuId)
     {
-        return (Menu) service.getMenus(menuId);
+        Menu menu = (Menu) service.getMenus(menuId);
+        return new ResponseEntity<Menu>(menu, HttpStatus.OK);
     }
 
     @GetMapping
@@ -40,19 +37,11 @@ public class MenuController {
         return new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
     }
 
-
-
-   /* @GetMapping(value="/{menuId}")
-    public List<Menu> getMenus() throws IOException
-    {
-
-        return service.getMenus(getMenu(menuId));
-    }*/
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Menu createMenu(@RequestBody Menu menu)
+    public ResponseEntity<Menu> createMenu(@RequestBody Menu menu)
     {
-        return service.createMenu(menu);
+        Menu newMenu =  service.createMenu(menu);
+        return new ResponseEntity<Menu>(newMenu, HttpStatus.OK);
     }
 }

@@ -6,6 +6,7 @@ import dk.restaurant.network.IMenuItemsSelectionsClient;
 import dk.restaurant.services.IMenuItemsSelectionsService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,16 +23,18 @@ public class MenuItemsSelectionsController
   }
 
   @GetMapping("/menuItemsSelections/{menuId}")
-  public List<MenuItemsSelection> GetMenuItemsSelections(
+  public ResponseEntity<List<MenuItemsSelection>> GetMenuItemsSelections(
       @PathVariable int menuId) throws IOException
   {
-    return service.getMenuItemsSelections(menuId);
+    List<MenuItemsSelection> selections = service.getMenuItemsSelections(menuId);
+    return new ResponseEntity<List<MenuItemsSelection>>(selections, HttpStatus.OK);
   }
 
   @PostMapping("/menuItemsSelections")
   @ResponseStatus(HttpStatus.CREATED)
-  public MenuItemsSelection createMenuItemsSelection(@RequestBody MenuItemsSelection menuItemsSelection)
+  public ResponseEntity<MenuItemsSelection> createMenuItemsSelection(@RequestBody MenuItemsSelection menuItemsSelection)
   {
-    return service.createMenuItemsSelection(menuItemsSelection);
+    MenuItemsSelection newSelection = service.createMenuItemsSelection(menuItemsSelection);
+    return new ResponseEntity<MenuItemsSelection>(newSelection, HttpStatus.OK);
   }
 }

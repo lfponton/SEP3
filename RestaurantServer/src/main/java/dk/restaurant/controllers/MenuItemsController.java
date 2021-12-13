@@ -1,16 +1,14 @@
 
 package dk.restaurant.controllers;
 
+import dk.restaurant.models.Menu;
 import dk.restaurant.models.MenuItem;
-import dk.restaurant.models.OrderItem;
-import dk.restaurant.network.IClientFactory;
-import dk.restaurant.network.IMenuItemsClient;
 import dk.restaurant.services.IMenuItemsService;
 import dk.restaurant.services.IServiceFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,16 +24,16 @@ public class MenuItemsController {
 
   @GetMapping("/{menuItemId}")
   @ResponseBody
-  public List<MenuItem> getMenuItems(@PathVariable("menuItemId") int menuItemId)
+  public ResponseEntity<List<MenuItem>> getMenuItems(@PathVariable("menuItemId") int menuItemId)
   {
-
-    return service.getMenuItems(menuItemId);
+    List<MenuItem> menus = service.getMenuItems(menuItemId);
+    return new ResponseEntity<List<MenuItem>>(menus, HttpStatus.OK);
   }
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public MenuItem createMenuItem(@RequestBody MenuItem menuItem)
+  public ResponseEntity<MenuItem> createMenuItem(@RequestBody MenuItem menuItem)
   {
-    System.out.println(menuItem.getName() + menuItem.getMenuItemId() + menuItem.getPrice());
-    return service.createMenuItem(menuItem);
+    MenuItem newMenuItem = service.createMenuItem(menuItem);
+    return new ResponseEntity<MenuItem>(newMenuItem, HttpStatus.OK);
   }
 }
