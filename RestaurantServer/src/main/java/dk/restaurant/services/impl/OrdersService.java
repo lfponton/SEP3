@@ -32,8 +32,8 @@ public class OrdersService implements IOrdersService
     checkForOrderPriceDiscount(order);
     checkCustomerNumberOfOrders(order.getCustomer().getEmail(), order);
     try {
+      checkMenusAmount(order);
       newOrder = client.createOrder(order);
-      checkMenusAmount(newOrder);
     }
     catch (Exception e) {
       throw e;
