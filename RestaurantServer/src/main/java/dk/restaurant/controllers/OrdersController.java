@@ -44,7 +44,8 @@ public class OrdersController
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<Order> createOrder(@RequestBody Order order) throws Exception
+  public ResponseEntity<Order> createOrder(@RequestBody Order order)
+      throws Exception
   {
     Order newOrder = service.createOrder(order);
     return new ResponseEntity<Order>(newOrder, HttpStatus.OK);

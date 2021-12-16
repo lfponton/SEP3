@@ -78,7 +78,9 @@ public class OrdersService implements IOrdersService
 
       if (menusAmount > 20)
       {
-        throw new IllegalArgumentException("The number of menus exceeds 20. Unfortunately, we cannot fulfill your request. Please, contact us for more information");
+        throw new IllegalArgumentException("The number of menus exceeds 20. "
+            + "Unfortunately, we cannot fulfill your request. "
+            + "Please, contact us for more information");
       }
     } catch (Exception e) {throw e;}
   }

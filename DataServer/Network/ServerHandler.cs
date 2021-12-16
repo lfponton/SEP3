@@ -28,7 +28,6 @@ namespace DataServer.Network
         public async Task Start()
         {
             clientConnected = true;
-            Console.WriteLine("Server Handler started");
             do
             {
                 try
@@ -41,7 +40,6 @@ namespace DataServer.Network
                     var requestType = await reader.ReadLineAsync();
                     
                     // Any additional arguments?
-
                     var args = await reader.ReadLineAsync();
                     
                     // Process request

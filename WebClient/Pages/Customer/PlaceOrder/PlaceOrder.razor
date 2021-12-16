@@ -222,7 +222,10 @@
         }
         else
         {
-            NotificationService.Notify(new NotificationMessage {Severity = NotificationSeverity.Error, Summary = "No Menus Selected", Duration = 4000});
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error, Summary = "No Menus Selected", Duration = 4000
+            });
         }
     }
 
