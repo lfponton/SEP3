@@ -1,5 +1,6 @@
 # SEP3
-Semester Project 3
+Semester Project 3\
+\
 This project is an attempt at building a distributed system, with server to server communication, using REST and sockets.\
 \
 The system includes a GUI for two types of clients built in C# using .NET.\
